@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.yinya.crosswarr"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.yinya.crosswarr"
@@ -39,8 +39,16 @@ android {
 
 dependencies {
 //Firebase
-    implementation(platform("com.google.firebase:firebase-bom:34.7.0"))
+    implementation(platform("com.google.firebase:firebase-bom:34.9.0"))
     implementation("com.google.firebase:firebase-analytics")
+
+    implementation("com.google.firebase:firebase-auth")
+
+    implementation("com.firebaseui:firebase-ui-auth:9.0.0")
+
+    implementation("androidx.credentials:credentials:1.3.0")
+    implementation("androidx.credentials:credentials-play-services-auth:1.3.0")
+    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
 
 
     implementation(libs.appcompat)
