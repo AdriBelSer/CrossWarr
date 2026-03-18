@@ -40,15 +40,15 @@ public class LoginActivity extends AppCompatActivity {
         // Choose authentication providers
         List<AuthUI.IdpConfig> providers = Arrays.asList(
                 new AuthUI.IdpConfig.EmailBuilder().build()
-               /* ,
-                new AuthUI.IdpConfig.GoogleBuilder().build()*/
+               ,
+                new AuthUI.IdpConfig.GoogleBuilder().build()
         );
 
         Intent signInIntent = AuthUI.getInstance()
                 .createSignInIntentBuilder()
                 .setAvailableProviders(providers)
                 .setLogo(R.drawable.logo)
-                .setTheme(R.style.BaseAppTheme)      // Set theme
+                .setTheme(R.style.Base_Theme_Crosswarr)      // Set theme
                 .build();
         signInLauncher.launch(signInIntent);
     }
