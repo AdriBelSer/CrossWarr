@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "108124526482",
+    "project_id": "crosswarr-f9ea1",
+    "storage_bucket": "crosswarr-f9ea1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:108124526482:android:f20d0f292ac5c71b47d34b",
+        "android_client_info": {
+          "package_name": "com.yinya.crosswarr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "108124526482-bfao4cprsobnuhg4o3n1c00bt0222fpk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yinya.crosswarr",
+            "certificate_hash": "b6b240a5760ae43f7305b74946aa2453380c3d3a"
+          }
+        },
+        {
+          "client_id": "108124526482-t1f0ns10e98c47sa4r4kco4ef2upde9m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOE4DjkAmnDtacu06BuUok1LG3eEAExYM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "108124526482-t1f0ns10e98c47sa4r4kco4ef2upde9m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
