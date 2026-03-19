@@ -33,24 +33,33 @@ android {
 
     buildFeatures{
         viewBinding = true
+        dataBinding = true
 
     }
 }
 
 dependencies {
 //Firebase
-    implementation(platform("com.google.firebase:firebase-bom:34.9.0"))
-    implementation("com.google.firebase:firebase-analytics")
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.ui.auth)
+    implementation(libs.firebase.firestore)
 
-    implementation("com.google.firebase:firebase-auth")
+//Recyclerview
+    implementation(libs.recyclerview)
+    implementation(libs.androidx.cardview)
 
-    implementation("com.firebaseui:firebase-ui-auth:9.0.0")
+//Navigation fragment
+    implementation (libs.androidx.navigation.fragment.ktx)
+    implementation (libs.androidx.navigation.ui.ktx)
 
-    implementation("androidx.credentials:credentials:1.3.0")
-    implementation("androidx.credentials:credentials-play-services-auth:1.3.0")
-    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
+//Para pintar la imagen de google con imageview
+    implementation(libs.picasso)
 
-
+    implementation(libs.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.googleid)
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)

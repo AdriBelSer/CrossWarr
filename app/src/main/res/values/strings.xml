@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">crosswarr</string>
+    <string name="link_video">¿Cómo lo hago?</string>
+    <string name="description">Descripción del ejercicio</string>
+    <string name="exercise_name">Nombre del ejercicio</string>
+    <string name="materials">Materiales</string>
+    <string name="type">Tipo de tren</string>
 </resources>
