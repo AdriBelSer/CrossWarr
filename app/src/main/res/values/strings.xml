@@ -5,4 +5,11 @@
     <string name="exercise_name">Nombre del ejercicio</string>
     <string name="materials">Materiales</string>
     <string name="type">Tipo de tren</string>
+    <string name="bottom_nav_menu_challenge">Reto</string>
+    <string name="bottom_nav_menu_exercises">Ejercicios</string>
+    <string name="bottom_nav_menu_challenges">Historial</string>
+    <string name="menu_selectable_spanish">Español</string>
+    <string name="menu_selectable_english">English</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

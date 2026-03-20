@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_challenge_detail"
+        android:enabled="true"
+        android:icon="@drawable/ic_target"
+        android:title="@string/bottom_nav_menu_challenge"/>
+    <item
+        android:id="@+id/nav_exercises"
+        android:enabled="true"
+        android:icon="@drawable/ic_exercise_edition"
+        android:title="@string/bottom_nav_menu_exercises"/>
+    <item
+        android:id="@+id/nav_challenges"
+        android:enabled="true"
+        android:icon="@drawable/ic_trophy"
+        android:title="@string/bottom_nav_menu_challenges"/>
+</menu>
