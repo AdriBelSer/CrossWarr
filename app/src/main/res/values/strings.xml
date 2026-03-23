@@ -12,4 +12,10 @@
     <string name="menu_selectable_english">English</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tv_title_fragment_challenge_detail">Reto del día</string>
+    <string name="tv_subtitle_fragment_challenge_detail">¡LISTO PARA EL DESAFÍO!</string>
+    <string name="btn_start_fragment_challenge_detail">Iniciar reto</string>
+    <string name="tv_exercise_name_card_list_exercise_item">Exercise name</string>
+    <string name="tv_challenge_name_card_list_challenges_item">Challenge name</string>
+    <string name="tv_challenge_date_card_list_challenges_item">Challenge date</string>
 </resources>
