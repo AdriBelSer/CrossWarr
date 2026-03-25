@@ -18,4 +18,13 @@
     <string name="tv_exercise_name_card_list_exercise_item">Exercise name</string>
     <string name="tv_challenge_name_card_list_challenges_item">Challenge name</string>
     <string name="tv_challenge_date_card_list_challenges_item">Challenge date</string>
+    <string name="appbar_nav_menu_challenge_edit">Editar retos</string>
+    <string name="appbar_nav_menu_exercises_edit">Editar ejercicios</string>
+    <string name="appbar_nav_menu_users_edit">Editar usuarios</string>
+    <string name="tv_head_title_menu_settings">Ajustes</string>
+    <string name="switch_materiales_menu_settings">Mostrar retos con materiales</string>
+    <string name="switch_lenguage_menu_settings">Cambiar idioma a inglés</string>
+    <string name="appbar_nav_menu_admin_options">Opciones de administrador</string>
+    <string name="appbar_nav_menu_logout">Log out</string>
+    <string name="appbar_nav_menu_settings">Ajustes</string>
 </resources>
