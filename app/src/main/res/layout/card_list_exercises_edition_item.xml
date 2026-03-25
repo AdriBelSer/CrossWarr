@@ -2,8 +2,8 @@
 
     <data>
         <variable
-            name="challenge"
-            type="com.yinya.crosswarr.ChallengesData" />
+            name="exercise"
+            type="com.yinya.crosswarr.ExercisesData" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -17,6 +17,12 @@
             android:orientation="horizontal"
             android:padding="10dp">
 
+            <ImageView
+                android:id="@+id/iv_exercise_card_list_exercise_edition_item"
+                android:layout_width="50dp"
+                android:layout_height="100dp"
+                android:layout_margin="10dp"
+                android:src="@drawable/ic_launcher_background" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -25,17 +31,10 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tv_challenge_name_card_list_challenges_item"
+                    android:id="@+id/tv_exercise_name_card_list_exercise_edition_item"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/tv_challenge_name_card_list_challenges_item"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/tv_challenge_date_card_list_challenges_item"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tv_challenge_date_card_list_challenges_item"
+                    android:text="@string/tv_exercise_name_card_list_exercise_item"
                     android:textSize="20sp" />
 
 
