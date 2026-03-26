@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-        <item
-            android:id="@+id/nav_settings"
-            android:enabled="true"
-            android:icon="@drawable/ic_settings"
-            android:title="@string/appbar_nav_menu_settings"/>
-        <item
-            android:id="@+id/nav_logout"
-            android:enabled="true"
-            android:icon="@drawable/ic_logout"
-            android:title="@string/appbar_nav_menu_logout"/>
-        <item
-            android:id="@+id/nav_admin_options"
-            android:enabled="true"
-            android:icon="@drawable/ic_challenges_edition"
-            android:title="@string/appbar_nav_menu_admin_options"/>
+    <item
+        android:id="@+id/nav_settings"
+        android:enabled="true"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/appbar_nav_menu_settings" />
+
+    <item
+        android:id="@+id/nav_admin_options"
+        android:enabled="true"
+        android:icon="@drawable/ic_challenges_edition"
+        android:title="@string/appbar_nav_menu_admin_options"
+        android:visible="true" />
+
+    <item
+        android:id="@+id/nav_logout"
+        android:enabled="true"
+        android:icon="@drawable/ic_logout"
+        android:title="@string/appbar_nav_menu_logout" />
+
 </menu>
