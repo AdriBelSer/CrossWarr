@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/nav_settings"
         android:enabled="true"
@@ -11,7 +12,22 @@
         android:enabled="true"
         android:icon="@drawable/ic_challenges_edition"
         android:title="@string/appbar_nav_menu_admin_options"
-        android:visible="true" />
+        android:visible="true">
+        <menu>
+            <item
+            android:id="@+id/nav_exercices_edition"
+            android:title="@string/appbar_nav_menu_exercises_edit"
+                android:icon="@drawable/ic_exercises_edition"/>
+            <item
+            android:id="@+id/nav_challenges_edition"
+            android:title="@string/appbar_nav_menu_challenge_edit"
+                android:icon="@drawable/ic_challenges_edition"/>
+            <item
+                android:id="@+id/nav_users_edition"
+                android:title="@string/appbar_nav_menu_users_edit"
+                android:icon="@drawable/ic_user_edition"/>
+        </menu>
+    </item>
 
     <item
         android:id="@+id/nav_logout"
