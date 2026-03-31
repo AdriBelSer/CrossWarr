@@ -1,22 +1,25 @@
-package com.yinya.crosswarr;
+package com.yinya.crosswarr.models;
+
+import java.util.ArrayList;
 
 public class ExercisesData {
-
     private String name;
     private String description;
     private String type;
     private String image;
-    private boolean state;
+    private String video;
+    private ArrayList<String> materials;
 
     public ExercisesData() {
     }
 
-    public ExercisesData(String description, String name, String type, String image, boolean state) {
-        this.description = description;
+    public ExercisesData(String name, String description, String type, String image, String video, ArrayList<String> materials) {
         this.name = name;
+        this.description = description;
         this.type = type;
         this.image = image;
-        this.state = state;
+        this.video = video;
+        this.materials = materials;
     }
 
     public String getName() {
@@ -51,11 +54,21 @@ public class ExercisesData {
         this.image = image;
     }
 
-    public boolean isState() {
-        return state;
+    public String getVideo() {
+        return video;
     }
 
-    public void setState(boolean state) {
-        this.state = state;
+    public void setVideo(String video) {
+        this.video = video;
     }
+
+    public ArrayList<String> getMaterials() {
+        return materials;
+    }
+
+    public void setMaterials(ArrayList<String> materials) {
+        this.materials = materials;
+    }
+
+
 }

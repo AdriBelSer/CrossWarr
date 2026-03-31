@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
@@ -19,6 +20,7 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.yinya.crosswarr.databinding.ActivityMainBinding;
+import com.yinya.crosswarr.models.ExercisesData;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,9 +37,35 @@ public class MainActivity extends AppCompatActivity {
 
         setupNavigation();
 
-        binding.logoutBtn.setOnClickListener(this::logoutSession);
+        // Escuchar los clics del menú superior de los 3 puntitos
+        binding.mainAppbar.setOnMenuItemClickListener(item -> {
+            int id = item.getItemId();
+
+            if (id == R.id.nav_logout) {
+                // Llama a tu méto-do de cerrar sesión
+                logoutSession(binding.getRoot());
+                return true;
+            }
+            // TODO: añadir más 'if' para nav_settings y nav_admin_options.
+
+            return false;
+        });
     }
 
+    public void exerciseUserClicked(ExercisesData exercise, View view) {
+        Bundle bundle = new Bundle();
+        bundle.putString("name", exercise.getName()); // Pasa el nombre
+        bundle.putString("description", exercise.getDescription()); // Pasa la descripción
+        bundle.putString("type", exercise.getType()); // Pasa el tipo
+        bundle.putString("image", exercise.getImage()); // Pasa la imagen
+        bundle.putString("video", exercise.getVideo());
+        bundle.putStringArrayList("materials", exercise.getMaterials());
+
+        // Navegar al ExerciseDetailFragment con el Bundle
+        Navigation.findNavController(view).navigate(R.id.exerciseDetail, bundle);
+    }
+
+    // Méto do para navegar en el menú
     // Para que se vean los iconos en el menu desplegable de los 3 puntitos primero hay que
     //"suprimir" el aviso de error de API restringida
     @SuppressLint("RestrictedApi")

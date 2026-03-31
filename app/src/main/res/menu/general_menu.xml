@@ -6,7 +6,7 @@
         android:enabled="true"
         android:icon="@drawable/ic_settings"
         android:title="@string/appbar_nav_menu_settings" />
-
+<!-- TODO: Poner como predeterminado visible a false para que no lo vean los usuarios se vea si hubiera algun problema-->
     <item
         android:id="@+id/nav_admin_options"
         android:enabled="true"

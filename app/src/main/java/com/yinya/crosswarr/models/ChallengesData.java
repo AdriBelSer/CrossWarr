@@ -1,4 +1,4 @@
-package com.yinya.crosswarr;
+package com.yinya.crosswarr.models;
 
 import com.google.firebase.Timestamp;
 
@@ -12,16 +12,18 @@ public class ChallengesData {
     private Timestamp activationDate;
     private int challenteTime;
     private List<Map<String, Object>> exercises;
+    private boolean state;
 
     public ChallengesData() {
     }
 
-    public ChallengesData(String title, Timestamp creationDate, Timestamp activationDate, int challenteTime, List<Map<String, Object>> exercises) {
+    public ChallengesData(String title, Timestamp creationDate, Timestamp activationDate, int challenteTime, List<Map<String, Object>> exercises, boolean state) {
         this.title = title;
         this.creationDate = creationDate;
         this.activationDate = activationDate;
         this.challenteTime = challenteTime;
         this.exercises = exercises;
+        this.state = state;
     }
 
 
@@ -63,5 +65,13 @@ public class ChallengesData {
 
     public void setExercises(List<Map<String, Object>> exercises) {
         this.exercises = exercises;
+    }
+
+    public boolean isState() {
+        return state;
+    }
+
+    public void setState(boolean state) {
+        this.state = state;
     }
 }

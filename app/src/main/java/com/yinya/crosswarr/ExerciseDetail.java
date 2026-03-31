@@ -1,64 +1,96 @@
 package com.yinya.crosswarr;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ExerciseDetail#newInstance} factory method to
- * create an instance of this fragment.
- */
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import com.squareup.picasso.Picasso;
+import com.yinya.crosswarr.databinding.FragmentExerciseDetailBinding;
+
+import java.util.ArrayList;
+
 public class ExerciseDetail extends Fragment {
+    private FragmentExerciseDetailBinding binding;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public ExerciseDetail() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ExerciseDetail.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ExerciseDetail newInstance(String param1, String param2) {
-        ExerciseDetail fragment = new ExerciseDetail();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        // Inflar el layout para este fragmento
+        binding = FragmentExerciseDetailBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // Obtener datos del argumento que inicia este fragmento
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            String image = getArguments().getString("image");
+            String name = getArguments().getString("name");
+            String description = getArguments().getString("description");
+            String type = getArguments().getString("type");
+            String video = getArguments().getString("video");
+            ArrayList<String> materials = getArguments().getStringArrayList("materials");
+
+            // Asignar los datos
+            if (binding.tvExerciseDetailName != null) {
+                binding.tvExerciseDetailName.setText(name);
+            }
+            if (binding.tvExerciseDetailDescription != null) {
+                binding.tvExerciseDetailDescription.setText(description);
+            }
+            if (binding.tvExerciseDetailTypes != null) {
+                binding.tvExerciseDetailTypes.setText(type);
+            }
+            // Cargar los materiales con TextUtils para añadirlos uno tras otro
+            if (binding.tvExerciseDetailMaterials != null && materials != null) {
+                String txtMaterials = TextUtils.join(", ", materials);
+                binding.tvExerciseDetailMaterials.setText("Materiales: " + txtMaterials);
+            }
+
+            // Cargar la imagen con Picasso
+            if (image != null && !image.isEmpty()) {
+                Picasso.get()
+                        .load(image)
+                        .into(binding.ivExerciseDetail);
+            }
+            // =================================================================================
+            // 3. TODO CONFIGURAR EL BOTÓN DEL VÍDEO (btn_exercise_detail_video)
+            // =================================================================================
+            if (binding.btnExerciseDetailVideo != null) {
+
+                // Primero, una buena práctica: si no hay vídeo, ocultamos el botón
+                if (video == null || video.isEmpty()) {
+                    binding.btnExerciseDetailVideo.setVisibility(View.GONE);
+                } else {
+                    binding.btnExerciseDetailVideo.setVisibility(View.VISIBLE);
+
+                    // Ponemos el Listener para cuando pulsen
+                    binding.btnExerciseDetailVideo.setOnClickListener(v -> {
+                        // Creamos la acción para "ver" el link
+                        Intent playVideoIntent = new Intent(Intent.ACTION_VIEW);
+                        playVideoIntent.setData(Uri.parse(video)); // Convertimos el String a Uri
+
+                        startActivity(playVideoIntent);
+
+                    });
+                }
+            }
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_exercise_detail, container, false);
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

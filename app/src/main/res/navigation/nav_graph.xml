@@ -9,8 +9,7 @@
         android:id="@+id/nav_daily_challenge"
         android:name="com.yinya.crosswarr.DailyChallenge"
         android:label="Reto del dia"
-        tools:layout="@layout/fragment_daily_challenge"
-        />
+        tools:layout="@layout/fragment_daily_challenge" />
 
     <fragment
         android:id="@+id/nav_exercises"
@@ -23,4 +22,10 @@
         android:name="com.yinya.crosswarr.ChallengesList"
         android:label="Historial"
         tools:layout="@layout/fragment_challenges_list" />
+
+    <fragment
+        android:id="@+id/exerciseDetail"
+        android:name="com.yinya.crosswarr.ExerciseDetail"
+        android:label="ExerciseDetail"
+        tools:layout="@layout/fragment_exercise_detail" />
 </navigation>

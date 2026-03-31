@@ -3,7 +3,7 @@
     <data>
         <variable
             name="challenge"
-            type="com.yinya.crosswarr.ChallengesData" />
+            type="com.yinya.crosswarr.models.ChallengesData" />
     </data>
 
     <androidx.cardview.widget.CardView

@@ -1,64 +1,90 @@
 package com.yinya.crosswarr;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ExercisesList#newInstance} factory method to
- * create an instance of this fragment.
- */
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import com.yinya.crosswarr.adapters.ExercisesUserViewAdapter;
+import com.yinya.crosswarr.databinding.FragmentExercisesListBinding;
+import com.yinya.crosswarr.models.ExercisesData;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class ExercisesList extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private FragmentExercisesListBinding binding; //Binding para el layout
+    private ArrayList<ExercisesData> exercises; //Lista de ejercicios
+    private ExercisesUserViewAdapter adapter;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public ExercisesList() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ExercisesList.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ExercisesList newInstance(String param1, String param2) {
-        ExercisesList fragment = new ExercisesList();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_exercises_list, container, false);
+        // Inflar el layout
+        binding = FragmentExercisesListBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        exercises = new ArrayList<>();
+
+        // Configurar el RecyclerView
+        adapter = new ExercisesUserViewAdapter(exercises, getActivity());
+        binding.exercisesRecyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.exercisesRecyclerview.setAdapter(adapter);
+
+        // Inicializa la lista de ejercicios
+        loadExercise(); // Cargar los ejercicios
+
+    }
+
+    // TODO Obtener los ejercicios de firebase (Estos son datos de prueba temporal)
+    private void loadExercise() {
+        // Ejercicio 1: Tren superior
+        exercises.add(new ExercisesData(
+                "Flexiones",
+                "Flexiones de pecho clásicas para trabajar pectorales, hombros y tríceps.",
+                "Tren superior",
+                "https://drive.google.com/uc?export=view&id=13VdPaDWcVhwn8yBxzN5eqxxTjT4qCu3j",
+                "https://www.youtube.com/shorts/cWrJFIdTje0",
+                new ArrayList<>(Arrays.asList("Esterilla", "Tu propio peso")) // Lista de materiales
+        ));
+
+        // Ejercicio 2: Tren inferior
+        exercises.add(new ExercisesData(
+                "Sentadillas.",
+                "Sentadillas profundas manteniendo la espalda recta para piernas y glúteos",
+                "Tren inferior",
+                "https://drive.google.com/uc?export=view&id=1QeaHGIKegtECayfTSpAsPQ3GQOX9hSlO",
+                "https://www.youtube.com/shorts/UbIClfnHOuw",
+                new ArrayList<>(Arrays.asList("Tu propio peso")) // Lista de materiales
+        ));
+
+
+        // Ejercicio 3: Core (Marcado como no disponible para probar el boolean)
+        exercises.add(new ExercisesData(
+                "Plancha abdominal.",
+                "Plancha isométrica apoyando los antebrazos para fortalecer el abdomen",
+                "Core",
+                "https://drive.google.com/uc?export=view&id=13gaDrzBfGscCT6tqO5xbo5XRTT_yqPIu",
+                "https://www.youtube.com/shorts/odo0h50hfwY",
+                new ArrayList<>(Arrays.asList("Tu propio peso")) // Lista de materiales
+        ));
+
+        // Avisar al adaptador de que la lista ha cambiado para que dibuje los nuevos elementos
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+
 }
