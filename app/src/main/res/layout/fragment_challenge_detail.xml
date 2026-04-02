@@ -9,7 +9,7 @@
         android:id="@+id/tv_title_fragment_challenge_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="65dp"
+        android:layout_marginTop="30dp"
         android:text="@string/tv_title_fragment_challenge_detail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

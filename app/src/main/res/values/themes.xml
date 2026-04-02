@@ -1,12 +1,12 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-<!-- Base application theme. -->
-<style name="Base.Theme.Crosswarr" parent="Theme.Material3.DayNight.NoActionBar">
-    <!-- El color primario (usado para los botones de Firebase) -->
-    <item name="colorPrimary">@color/black</item>
+<resources>
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Crosswarr" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- El color primario (usado para los botones de Firebase) -->
+        <item name="colorPrimary">@color/black</item>
 
-    <!-- El color de fondo de la pantalla (evita que se vea transparente o negro) -->
-    <item name="android:windowBackground">@color/white</item>
-</style>
+        <!-- El color de fondo de la pantalla (evita que se vea transparente o negro) -->
+        <item name="android:windowBackground">@color/white</item>
+    </style>
 
-<style name="Theme.Crosswarr" parent="Base.Theme.Crosswarr" />
+    <style name="Theme.Crosswarr" parent="Base.Theme.Crosswarr" />
 </resources>

@@ -34,4 +34,6 @@
     <string name="tv_challenge_description_fragment_daily_challenge">Descripción del desafío</string>
     <string name="tv_challenge_duration_fragment_daily_challenge">Duración del desafío</string>
     <string name="btn_start_challenge_fragment_daily_challenge">Iniciar el reto</string>
+    <string name="tv_user_email_card_list_user_item">Email del usuario</string>
+    <string name="tv_user_role_card_list_user_item">Rol del usuario</string>
 </resources>

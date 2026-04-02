@@ -31,6 +31,7 @@
                     android:layout_margin="40dp"
                     android:text="@string/tv_exercise_name_card_list_exercise_item"
                     android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 

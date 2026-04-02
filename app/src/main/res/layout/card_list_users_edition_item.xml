@@ -28,11 +28,22 @@
                     android:id="@+id/tv_user_name_card_list_users_edition_item"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="40dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="15dp"
                     android:text="@string/tv_user_id_card_list_user_item"
                     android:textSize="20sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_user_email_card_list_users_edition_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:text="@string/tv_user_email_card_list_user_item"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_user_name_card_list_users_edition_item" />
 
                 <ImageButton
                     android:id="@+id/btn_edit_user"
@@ -41,9 +52,18 @@
                     android:layout_margin="30dp"
                     android:scaleType="centerInside"
                     app:layout_constraintEnd_toStartOf="@+id/btn_delete_user"
-                    app:layout_constraintStart_toEndOf="@+id/tv_user_name_card_list_users_edition_item"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_pencil" />
+
+                <TextView
+                    android:id="@+id/tv_user_role_card_list_users_edition_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:text="@string/tv_user_role_card_list_user_item"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_user_email_card_list_users_edition_item" />
 
                 <ImageButton
                     android:id="@+id/btn_delete_user"
