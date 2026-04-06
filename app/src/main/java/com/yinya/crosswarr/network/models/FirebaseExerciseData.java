@@ -1,8 +1,8 @@
-package com.yinya.crosswarr.models;
+package com.yinya.crosswarr.network.models;
 
 import java.util.ArrayList;
 
-public class ExercisesData {
+public class FirebaseExerciseData {
     private String id;
     private String name;
     private String description;
@@ -13,10 +13,10 @@ public class ExercisesData {
     // Si el ejercicio se ha usado en un challenge isUsed se cambia a true, si no permanece en false para que no puedan verlo los usuarios PERO SI EL ADMIN
     private boolean isUsed;
 
-    public ExercisesData() {
+    public FirebaseExerciseData() {
     }
 
-    public ExercisesData(String id, String name, String description, String type, String image, String video, boolean isUsed) {
+    public FirebaseExerciseData(String id, String name, String description, String type, String image, String video, boolean isUsed) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -26,7 +26,7 @@ public class ExercisesData {
         this.isUsed = isUsed;
     }
 
-    public ExercisesData(String id, String name, String description, String type, String image, String video, ArrayList<String> materials, boolean isUsed) {
+    public FirebaseExerciseData(String id, String name, String description, String type, String image, String video, ArrayList<String> materials, boolean isUsed) {
         this.id = id;
         this.name = name;
         this.description = description;

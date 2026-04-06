@@ -1,12 +1,15 @@
 package com.yinya.crosswarr.models;
 
 import com.google.firebase.Timestamp;
+import com.yinya.crosswarr.network.models.FirebaseUserData;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class UsersData {
+public class UserData {
+    private String uid;
     private String email;
     private String name;
     private String photo;
@@ -16,27 +19,32 @@ public class UsersData {
     private Map<String, Object> settings;
     private List<Map<String, Object>> challenges;
 
-    public UsersData() {
+    public UserData() {
     }
 
-    public UsersData(String email, String name, Timestamp accountCreationDate) {
+    public UserData(String uid, String email, String name, String role, Timestamp accountCreationDate, String notificationPushToken) {
+        this.uid = uid;
         this.email = email;
         this.name = name;
-        this.accountCreationDate = accountCreationDate;
-        this.notificationPushToken = notificationPushToken;
-    }
-
-    public UsersData(String email, String name, String photo, String role, Timestamp accountCreationDate, String notificationPushToken, Map<String, Object> settings, List<Map<String, Object>> challenges) {
-        this.email = email;
-        this.name = name;
-        this.photo = photo;
         this.role = role;
         this.accountCreationDate = accountCreationDate;
         this.notificationPushToken = notificationPushToken;
+    }
+
+    public UserData(String uid, String email, String name, String photo, String role, Timestamp accountCreationDate, String notificationPushToken, Map<String, Object> settings, List<Map<String, Object>> challenges) {
+        this(uid, email, name, role, accountCreationDate, notificationPushToken);
+        this.photo = photo;
         this.settings = new HashMap<>();
         this.challenges = new ArrayList<>();
     }
 
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
 
     public String getEmail() {
         return email;
@@ -100,5 +108,11 @@ public class UsersData {
 
     public void setChallenges(List<Map<String, Object>> challenges) {
         this.challenges = challenges;
+    }
+
+    public FirebaseUserData asFirebaseUserData() {
+        FirebaseUserData firebaseUserData = new FirebaseUserData(
+                this.uid, this.email,this.name, this.photo, this.role, this.accountCreationDate, this.notificationPushToken, this.settings, this.challenges);
+        return firebaseUserData;
     }
 }

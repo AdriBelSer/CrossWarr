@@ -5,7 +5,7 @@
 
         <variable
             name="user"
-            type="com.yinya.crosswarr.models.UsersData" />
+            type="com.yinya.crosswarr.models.UserData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

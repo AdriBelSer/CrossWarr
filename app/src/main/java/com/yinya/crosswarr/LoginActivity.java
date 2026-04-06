@@ -13,8 +13,10 @@ import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
 import com.firebase.ui.auth.IdpResponse;
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.yinya.crosswarr.models.UserData;
 import com.yinya.crosswarr.repository.Repository;
 
 import java.util.Arrays;
@@ -70,10 +72,12 @@ public class LoginActivity extends AppCompatActivity {
         if (result.getResultCode() == RESULT_OK) {
             Log.d("TEST_LOGIN", "USER OK onSignInResult");
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            UserData userData = new UserData(user.getUid(),user.getEmail(),"", "USER", Timestamp.now(), "");
+
 
             if (response != null && response.isNewUser()) {
                 Log.d("TEST_LOGIN", "CREATE USER onSignInResult");
-                rp.createUser(user.getUid());
+                rp.createUser(userData);
             }
             goToMainActivity();
 

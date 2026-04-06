@@ -20,7 +20,7 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.yinya.crosswarr.databinding.ActivityMainBinding;
-import com.yinya.crosswarr.models.ExercisesData;
+import com.yinya.crosswarr.models.ExerciseData;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void exerciseUserClicked(ExercisesData exercise, View view) {
+    public void exerciseUserClicked(ExerciseData exercise, View view) {
         Bundle bundle = new Bundle();
         bundle.putString("name", exercise.getName()); // Pasa el nombre
         bundle.putString("description", exercise.getDescription()); // Pasa la descripción
@@ -102,8 +102,6 @@ public class MainActivity extends AppCompatActivity {
                         goToLogin();
                     }
                 });
-
-
     }
 
     private void goToLogin() {

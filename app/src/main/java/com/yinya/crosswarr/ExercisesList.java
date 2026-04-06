@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.yinya.crosswarr.adapters.ExercisesUserViewAdapter;
 import com.yinya.crosswarr.databinding.FragmentExercisesListBinding;
-import com.yinya.crosswarr.models.ExercisesData;
+import com.yinya.crosswarr.models.ExerciseData;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,7 +20,7 @@ import java.util.Arrays;
 public class ExercisesList extends Fragment {
 
     private FragmentExercisesListBinding binding; //Binding para el layout
-    private ArrayList<ExercisesData> exercises; //Lista de ejercicios
+    private ArrayList<ExerciseData> exercises; //Lista de ejercicios
     private ExercisesUserViewAdapter adapter;
 
 
@@ -51,7 +51,7 @@ public class ExercisesList extends Fragment {
     // TODO: Poner para que solo le salga al usuario si está isUsed a true (que eso quiere decir que se ha usado en un challenge)
     private void loadExercise() {
         // Ejercicio 1: Tren superior
-        exercises.add(new ExercisesData(
+        exercises.add(new ExerciseData(
                 "Ex_001",
                 "Flexiones",
                 "Flexiones de pecho clásicas para trabajar pectorales, hombros y tríceps.",
@@ -64,7 +64,7 @@ public class ExercisesList extends Fragment {
         ));
 
         // Ejercicio 2: Tren inferior
-        exercises.add(new ExercisesData(
+        exercises.add(new ExerciseData(
                 "Ex_002",
                 "Sentadillas.",
                 "Sentadillas profundas manteniendo la espalda recta para piernas y glúteos",
@@ -77,7 +77,7 @@ public class ExercisesList extends Fragment {
 
 
         // Ejercicio 3: Core (Marcado como no disponible para probar el boolean)
-        exercises.add(new ExercisesData(
+        exercises.add(new ExerciseData(
                 "Ex_003",
                 "Plancha abdominal.",
                 "Plancha isométrica apoyando los antebrazos para fortalecer el abdomen",

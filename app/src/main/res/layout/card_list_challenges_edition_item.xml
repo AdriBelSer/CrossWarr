@@ -5,7 +5,7 @@
 
         <variable
             name="challenge"
-            type="com.yinya.crosswarr.models.ChallengesData" />
+            type="com.yinya.crosswarr.models.ChallengeData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

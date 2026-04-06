@@ -1,31 +1,28 @@
 package com.yinya.crosswarr.adapters;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 
 import com.squareup.picasso.Picasso;
 import com.yinya.crosswarr.MainActivity;
 import com.yinya.crosswarr.R;
 import com.yinya.crosswarr.databinding.CardListExerciseItemBinding;
-import com.yinya.crosswarr.models.ExercisesData;
+import com.yinya.crosswarr.models.ExerciseData;
 
 import java.util.ArrayList;
 
 public class ExercisesUserViewAdapter extends RecyclerView.Adapter<ExercisesUserViewAdapter.ExercisesViewHolder>{
 
-    private final ArrayList<ExercisesData> exercise;
+    private final ArrayList<ExerciseData> exercise;
     private final Context context;
 
-    public ExercisesUserViewAdapter(ArrayList<ExercisesData> exercise, Context context) {
+    public ExercisesUserViewAdapter(ArrayList<ExerciseData> exercise, Context context) {
         this.exercise = exercise;
         this.context = context;
     }
@@ -39,7 +36,7 @@ public class ExercisesUserViewAdapter extends RecyclerView.Adapter<ExercisesUser
 
     @Override
     public void onBindViewHolder(@NonNull ExercisesViewHolder holder, int position) {
-        ExercisesData currentExercise = this.exercise.get(position);
+        ExerciseData currentExercise = this.exercise.get(position);
         holder.bind(currentExercise);
         //Manejar el evento de clic
         holder.itemView.setOnClickListener(view -> {
@@ -63,7 +60,7 @@ public class ExercisesUserViewAdapter extends RecyclerView.Adapter<ExercisesUser
             this.binding = binding;
         }
 
-        public void bind(ExercisesData exercise) {
+        public void bind(ExerciseData exercise) {
 
             // Binding del nombre del ejercicio
             binding.tvExerciseNameCardListExerciseItem.setText(exercise.getName());

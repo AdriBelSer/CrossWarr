@@ -5,7 +5,7 @@ import com.google.firebase.Timestamp;
 import java.util.List;
 import java.util.Map;
 
-public class ChallengesData {
+public class ChallengeData {
 
     private String title;
     private Timestamp creationDate;
@@ -14,10 +14,10 @@ public class ChallengesData {
     private List<Map<String, Object>> exercises;
     private boolean state;
 
-    public ChallengesData() {
+    public ChallengeData() {
     }
 
-    public ChallengesData(String title, Timestamp creationDate, Timestamp activationDate, int challenteTime, List<Map<String, Object>> exercises, boolean state) {
+    public ChallengeData(String title, Timestamp creationDate, Timestamp activationDate, int challenteTime, List<Map<String, Object>> exercises, boolean state) {
         this.title = title;
         this.creationDate = creationDate;
         this.activationDate = activationDate;
