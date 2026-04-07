@@ -1,6 +1,11 @@
 package com.yinya.crosswarr.network.models;
 
+import com.yinya.crosswarr.models.ExerciseData;
+import com.yinya.crosswarr.models.UserData;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FirebaseExerciseData {
     private String id;
@@ -99,5 +104,33 @@ public class FirebaseExerciseData {
 
     public void setUsed(boolean used) {
         isUsed = used;
+    }
+
+    public ExerciseData asExerciseData() {
+        ExerciseData exerciseData = new ExerciseData(
+                this.id, this.name, this.description, this.type, this.image, this.video, this.materials, this.isUsed);
+        return exerciseData;
+    }
+
+    public HashMap<String, Object> asHashMap() {
+        HashMap<String, Object> hashMap = new HashMap<String, Object>();
+        hashMap.put("id", this.id);
+        hashMap.put("name", this.name);
+        hashMap.put("description", this.description);
+        hashMap.put("type", this.type);
+        if (this.image != null) {
+            hashMap.put("image", this.image);
+        } else {
+            hashMap.put("image", "");
+        }
+        if (this.video != null) {
+            hashMap.put("video", this.video);
+        } else {
+            hashMap.put("video", "");
+        }
+        hashMap.put("materials", this.materials);
+        hashMap.put("isUsed", this.isUsed);
+
+        return hashMap;
     }
 }

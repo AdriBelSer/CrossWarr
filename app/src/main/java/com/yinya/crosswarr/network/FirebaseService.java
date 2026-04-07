@@ -18,11 +18,6 @@ import java.util.Map;
 
 public class FirebaseService{
 
-    // llamo al metodo fectch de unaidjalsdk generico
-    // Métodos CRUD challenges
-    // Métodos genéricos para hacer esos CRUDs en firebase
-    // Metodo fetch de un documento(defuera) GENERICO
-
     private static FirebaseService instance;
     FirebaseFirestore db;
 

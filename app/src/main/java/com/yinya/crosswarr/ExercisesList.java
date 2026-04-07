@@ -13,9 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.yinya.crosswarr.adapters.ExercisesUserViewAdapter;
 import com.yinya.crosswarr.databinding.FragmentExercisesListBinding;
 import com.yinya.crosswarr.models.ExerciseData;
+import com.yinya.crosswarr.repository.Repository;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class ExercisesList extends Fragment {
 
@@ -42,57 +42,49 @@ public class ExercisesList extends Fragment {
         binding.exercisesRecyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.exercisesRecyclerview.setAdapter(adapter);
 
+        // 1- Observer
+        setupObservers();
+
+        // 2- Traer datos
+
+
         // Inicializa la lista de ejercicios
         loadExercise(); // Cargar los ejercicios
 
     }
 
-    // TODO: Obtener los ejercicios de firebase (Estos son datos de prueba temporal)
     // TODO: Poner para que solo le salga al usuario si está isUsed a true (que eso quiere decir que se ha usado en un challenge)
-    private void loadExercise() {
-        // Ejercicio 1: Tren superior
-        exercises.add(new ExerciseData(
-                "Ex_001",
-                "Flexiones",
-                "Flexiones de pecho clásicas para trabajar pectorales, hombros y tríceps.",
-                "Tren superior",
-                "https://drive.google.com/uc?export=view&id=13VdPaDWcVhwn8yBxzN5eqxxTjT4qCu3j",
-                "https://www.youtube.com/shorts/cWrJFIdTje0",
-                // Lista de materiales
-                new ArrayList<>(Arrays.asList("Esterilla", "Tu propio peso")),
-                true
-        ));
 
-        // Ejercicio 2: Tren inferior
-        exercises.add(new ExerciseData(
-                "Ex_002",
-                "Sentadillas.",
-                "Sentadillas profundas manteniendo la espalda recta para piernas y glúteos",
-                "Tren inferior",
-                "https://drive.google.com/uc?export=view&id=1QeaHGIKegtECayfTSpAsPQ3GQOX9hSlO",
-                "https://www.youtube.com/shorts/UbIClfnHOuw",
-                new ArrayList<>(Arrays.asList("Tu propio peso")),
-                true
-        ));
+    private void setupObservers() {
+        // Observamos la Pizarra (LiveData) de nuestro Repositorio
+        // getViewLifecycleOwner() asegura que si la pantalla se cierra, dejamos de mirar la pizarra
+        Repository.getInstance().getExercisesLiveData().observe(getViewLifecycleOwner(), listFromFirebase -> {
 
+            // Si la lista que llega de la pizarra no es nula...
+            if (listFromFirebase != null) {
+                // Borramos lo que hubiera antes en la pantalla
+                exercises.clear();
 
-        // Ejercicio 3: Core (Marcado como no disponible para probar el boolean)
-        exercises.add(new ExerciseData(
-                "Ex_003",
-                "Plancha abdominal.",
-                "Plancha isométrica apoyando los antebrazos para fortalecer el abdomen",
-                "Core",
-                "https://drive.google.com/uc?export=view&id=13gaDrzBfGscCT6tqO5xbo5XRTT_yqPIu",
-                "https://www.youtube.com/shorts/odo0h50hfwY",
-                new ArrayList<>(Arrays.asList("Tu propio peso")),
-                true
-        ));
+                //TODO: Borrar esto y descomentar lo de abajo para filtrar según se ha usado o no el ejercicio en un challenge
+                exercises.addAll(listFromFirebase);
+                /*//Filtramos para que solo salgan los que tienen isUsed a true
+                for (ExerciseData ex : listFromFirebase) {
+                    if (ex.isUsed()) {
+                        exercises.add(ex);
+                    }
+                }*/
 
-        // Avisar al adaptador de que la lista ha cambiado para que dibuje los nuevos elementos
-        if (adapter != null) {
-            adapter.notifyDataSetChanged();
-        }
+                // Le avisamos al adapter que ya tenemos los datos reales filtrados
+                if (adapter != null) {
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
 
+
+    private void loadExercise() {
+        Repository.getInstance().fetchExercisesFromFirebase();
+    }
 
 }

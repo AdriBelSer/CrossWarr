@@ -1,5 +1,8 @@
 package com.yinya.crosswarr.models;
 
+import com.yinya.crosswarr.network.models.FirebaseExerciseData;
+import com.yinya.crosswarr.network.models.FirebaseUserData;
+
 import java.util.ArrayList;
 
 public class ExerciseData {
@@ -99,5 +102,11 @@ public class ExerciseData {
 
     public void setUsed(boolean used) {
         isUsed = used;
+    }
+
+    public FirebaseExerciseData asFirebaseExerciseData() {
+        FirebaseExerciseData firebaseExerciseData = new FirebaseExerciseData(
+                this.id, this.name, this.description, this.type, this.image, this.video, this.materials, this.isUsed);
+        return firebaseExerciseData;
     }
 }

@@ -1,12 +1,14 @@
 package com.yinya.crosswarr.models;
 
 import com.google.firebase.Timestamp;
+import com.yinya.crosswarr.network.models.FirebaseChallengeData;
+import com.yinya.crosswarr.network.models.FirebaseUserData;
 
 import java.util.List;
 import java.util.Map;
 
 public class ChallengeData {
-
+    private String id;
     private String title;
     private Timestamp creationDate;
     private Timestamp activationDate;
@@ -17,7 +19,8 @@ public class ChallengeData {
     public ChallengeData() {
     }
 
-    public ChallengeData(String title, Timestamp creationDate, Timestamp activationDate, int challenteTime, List<Map<String, Object>> exercises, boolean state) {
+    public ChallengeData(String id,String title, Timestamp creationDate, Timestamp activationDate, int challenteTime, List<Map<String, Object>> exercises, boolean state) {
+        this.id = id;
         this.title = title;
         this.creationDate = creationDate;
         this.activationDate = activationDate;
@@ -26,6 +29,13 @@ public class ChallengeData {
         this.state = state;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
@@ -73,5 +83,11 @@ public class ChallengeData {
 
     public void setState(boolean state) {
         this.state = state;
+    }
+
+    public FirebaseChallengeData asFirebaseChallengeData() {
+        FirebaseChallengeData firebaseChallengeData = new FirebaseChallengeData(
+                this.id, this.title, this.creationDate, this.activationDate, this.challenteTime, this.exercises, this.state);
+        return firebaseChallengeData;
     }
 }
