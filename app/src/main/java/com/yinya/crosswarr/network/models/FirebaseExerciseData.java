@@ -15,7 +15,7 @@ public class FirebaseExerciseData {
     private String image;
     private String video;
     private ArrayList<String> materials;
-    // Si el ejercicio se ha usado en un challenge isUsed se cambia a true, si no permanece en false para que no puedan verlo los usuarios PERO SI EL ADMIN
+    // TODO: Si el ejercicio se ha usado en un challenge isUsed se cambia a true, si no permanece en false para que no puedan verlo los usuarios PERO SI EL ADMIN
     private boolean isUsed;
 
     public FirebaseExerciseData() {

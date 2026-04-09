@@ -15,11 +15,16 @@ public class ChallengeData {
     private int challenteTime;
     private List<Map<String, Object>> exercises;
     private boolean state;
+    //TODO: cambiar el estado a activo cuando el usuario lo realice
+    private int repetitionSup;
+    private int repetitionInf;
+    private int repetitionCore;
+    private String type;
 
     public ChallengeData() {
     }
 
-    public ChallengeData(String id,String title, Timestamp creationDate, Timestamp activationDate, int challenteTime, List<Map<String, Object>> exercises, boolean state) {
+    public ChallengeData(String id,String title, Timestamp creationDate, Timestamp activationDate, int challenteTime, List<Map<String, Object>> exercises, boolean state, String type) {
         this.id = id;
         this.title = title;
         this.creationDate = creationDate;
@@ -27,6 +32,21 @@ public class ChallengeData {
         this.challenteTime = challenteTime;
         this.exercises = exercises;
         this.state = state;
+        this.type = type;
+    }
+
+    public ChallengeData(String id, String title, Timestamp creationDate, Timestamp activationDate, int challenteTime, List<Map<String, Object>> exercises, boolean state, int repetitionSup, int repetitionInf, int repetitionCore, String type) {
+        this.id = id;
+        this.title = title;
+        this.creationDate = creationDate;
+        this.activationDate = activationDate;
+        this.challenteTime = challenteTime;
+        this.exercises = exercises;
+        this.state = state;
+        this.repetitionSup = repetitionSup;
+        this.repetitionInf = repetitionInf;
+        this.repetitionCore = repetitionCore;
+        this.type = type;
     }
 
     public String getId() {
@@ -83,6 +103,38 @@ public class ChallengeData {
 
     public void setState(boolean state) {
         this.state = state;
+    }
+
+    public int getRepetitionSup() {
+        return repetitionSup;
+    }
+
+    public void setRepetitionSup(int repetitionSup) {
+        this.repetitionSup = repetitionSup;
+    }
+
+    public int getRepetitionInf() {
+        return repetitionInf;
+    }
+
+    public void setRepetitionInf(int repetitionInf) {
+        this.repetitionInf = repetitionInf;
+    }
+
+    public int getRepetitionCore() {
+        return repetitionCore;
+    }
+
+    public void setRepetitionCore(int repetitionCore) {
+        this.repetitionCore = repetitionCore;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public FirebaseChallengeData asFirebaseChallengeData() {

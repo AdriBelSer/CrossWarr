@@ -5,6 +5,7 @@ import android.util.Log;
 import com.yinya.crosswarr.models.ExerciseData;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +13,6 @@ public class FirebaseExerciseService {
 
     private static FirebaseExerciseService instance;
     FirebaseService firebaseService;
-    ExerciseData exerciseData;
 
     public FirebaseExerciseService(FirebaseService firebaseService) {
         this.firebaseService = firebaseService;
@@ -27,64 +27,69 @@ public class FirebaseExerciseService {
     // Métodos CRUD ejercicios
 
     public void createExercise(ExerciseData exerciseData) {
+        HashMap<String, Object> exerciseMap = exerciseData.asFirebaseExerciseData().asHashMap();
+        String targetArrayName =  exerciseData.getType();
+
         firebaseService = FirebaseService.getInstance();
-        firebaseService.createDocumentWithId("crosswarr",
-                exerciseData.getId(), exerciseData.asFirebaseExerciseData().asHashMap());
+        firebaseService.addElementToArray(
+                "crosswarr",
+                "exercises",
+                targetArrayName,
+                exerciseMap,
+                aVoid -> {
+                    // Éxito
+                    Log.d("FirebaseExerciseService", "Ejercicio añadido correctamente al array: " + targetArrayName);
+                },
+                e -> {
+                    // Fallo
+                    Log.e("FirebaseExerciseService", "Error al añadir el ejercicio", e);
+                }
+        );
 
     }
 
     public void fetchExercises(IExercisesCallback callback) {
         firebaseService.getDocument("crosswarr", "exercises", new IFirebaseCallback() {
 
-                @Override
-                public void onSuccess(Map<String, Object> dataFromFirebase) {
-                    // El cocinero recibe el Map crudo y lo "cocina"
-                    ArrayList<ExerciseData> allExercises = new ArrayList<>();
-                    // 1. Definimos los nombres de los 6 arrays que tienes en tu base de datos
-                    String[] arrayNames = {
-                            "upper_body_with_equipment", "upper_body_without_equipment",
-                            "lower_body_with_equipment", "lower_body_without_equipment",
-                            "core_with_equipment", "core_without_equipment"
-                    };
+            @Override
+            public void onSuccess(Map<String, Object> dataFromFirebase) {
 
-                    // 2. Hacemos un bucle para revisar cada uno de los 6 arrays
-                    for (String arrayName : arrayNames) {
+                ArrayList<ExerciseData> allExercises = new ArrayList<>();
 
-                        // Sacamos la lista de ejercicios crudos (Mapas) de este array
-                        List<Map<String, Object>> firebaseList = (List<Map<String, Object>>) dataFromFirebase.get(arrayName);
+                String[] arrayNames = {
+                        "upper_body_with_equipment", "upper_body_without_equipment",
+                        "lower_body_with_equipment", "lower_body_without_equipment",
+                        "core_with_equipment", "core_without_equipment"
+                };
 
-                        if (firebaseList != null) {
-                            // Recorremos cada ejercicio individual dentro del array
-                            for (Map<String, Object> map : firebaseList) {
+                for (String arrayName : arrayNames) {
+                    List<Map<String, Object>> firebaseList = (List<Map<String, Object>>) dataFromFirebase.get(arrayName);
 
-                                // Fabricamos un objeto limpio y le metemos los datos
-                                ExerciseData ex = new ExerciseData();
-                                ex.setId((String) map.get("id"));
-                                ex.setName((String) map.get("name"));
-                                ex.setDescription((String) map.get("description"));
-                                ex.setType((String) map.get("type"));
-                                ex.setImage((String) map.get("image"));
-                                ex.setVideo((String) map.get("video"));
-                                ex.setMaterials((ArrayList<String>) map.get("materials"));
+                    if (firebaseList != null) {
+                        for (Map<String, Object> map : firebaseList) {
+                            ExerciseData ex = new ExerciseData();
+                            ex.setId((String) map.get("id"));
+                            ex.setName((String) map.get("name"));
+                            ex.setDescription((String) map.get("description"));
+                            ex.setType((String) map.get("type"));
+                            ex.setImage((String) map.get("image"));
+                            ex.setVideo((String) map.get("video"));
+                            ex.setMaterials((ArrayList<String>) map.get("materials"));
+                            Boolean isUsed = (Boolean) map.get("isUsed");
+                            ex.setUsed(isUsed != null ? isUsed : false);
 
-                                // Boolean requiere un cuidado especial porque a veces Firebase lo devuelve null
-                                Boolean isUsed = (Boolean) map.get("isUsed");
-                                ex.setUsed(isUsed != null ? isUsed : false);
-
-                                // Metemos el ejercicio ya cocinado en nuestra lista final
-                                allExercises.add(ex);
-                            }
+                            allExercises.add(ex);
                         }
                     }
-
-                    // ¡Plato listo! Llama al buscapersonas del Camarero y le da la lista
-                    callback.onSuccess(allExercises);
                 }
 
-                @Override
-                public void onFailure(Exception e) {
-                    callback.onFailure(e);
-                }
-            });
-        }
+                callback.onSuccess(allExercises);
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                callback.onFailure(e);
+            }
+        });
+    }
 }

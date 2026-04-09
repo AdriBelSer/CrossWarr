@@ -26,6 +26,51 @@
     <fragment
         android:id="@+id/exerciseDetail"
         android:name="com.yinya.crosswarr.ExerciseDetail"
-        android:label="ExerciseDetail"
-        tools:layout="@layout/fragment_exercise_detail" />
+        android:label="{name}"
+        tools:layout="@layout/fragment_exercise_detail">
+        <argument
+            android:name="name"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/challengeDetail"
+        android:name="com.yinya.crosswarr.ChallengeDetail"
+        android:label="ChallengeDetail" />
+    <fragment
+        android:id="@+id/challengesEdition"
+        android:name="com.yinya.crosswarr.ChallengesEdition"
+        android:label="ChallengesEdition" />
+    <fragment
+        android:id="@+id/challengesEditionList"
+        android:name="com.yinya.crosswarr.ChallengesEditionList"
+        android:label="ChallengesEditionList" />
+    <fragment
+        android:id="@+id/exercisesEdition"
+        android:name="com.yinya.crosswarr.ExercisesEdition"
+        android:label="ExercisesEdition" />
+    <fragment
+        android:id="@+id/exercisesEditionList"
+        android:name="com.yinya.crosswarr.ExercisesEditionList"
+        android:label="ExercisesEditionList" />
+    <fragment
+        android:id="@+id/usersEdition"
+        android:name="com.yinya.crosswarr.UsersEdition"
+        android:label="UsersEdition" />
+    <fragment
+        android:id="@+id/usersEditionList"
+        android:name="com.yinya.crosswarr.UsersEditionList"
+        android:label="UsersEditionList" />
+    <fragment
+        android:id="@+id/settings"
+        android:name="com.yinya.crosswarr.Settings"
+        android:label="Settings" />
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="com.yinya.crosswarr.LoginActivity"
+        android:label="LoginActivity" />
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.yinya.crosswarr.MainActivity"
+        android:label="MainActivity" />
 </navigation>

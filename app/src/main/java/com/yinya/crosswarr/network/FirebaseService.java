@@ -10,6 +10,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 
@@ -53,6 +54,7 @@ public class FirebaseService{
 
     }
 
+
     public void getDocument(String collectionName, String documentName, IFirebaseCallback callback) {
         DocumentReference documentReference = db.collection(collectionName).document(documentName);
 
@@ -74,6 +76,17 @@ public class FirebaseService{
                 }
             }
         });
+    }
+
+    public void addElementToArray(String collectionName, String documentName, String arrayName, Object newElement, OnSuccessListener<Void> successListener, OnFailureListener failureListener) {
+        Map<String, Object> updateData = new HashMap<>();
+        updateData.put(arrayName, FieldValue.arrayUnion(newElement));
+
+        db.collection(collectionName)
+                .document(documentName)
+                .update(updateData)
+                .addOnSuccessListener(successListener)
+                .addOnFailureListener(failureListener);
     }
 
 }

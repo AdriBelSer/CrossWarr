@@ -45,8 +45,27 @@ public class MainActivity extends AppCompatActivity {
                 // Llama a tu méto-do de cerrar sesión
                 logoutSession(binding.getRoot());
                 return true;
+
+            } else if (id == R.id.nav_exercices_edition) {
+                // Viajamos al fragmento de edición de ejercicios
+                navController.navigate(R.id.exercisesEdition);
+                return true;
+
+            } else if (id == R.id.nav_challenges_edition) {
+                // Viajamos al fragmento de edición de challenges
+                navController.navigate(R.id.challengesEdition);
+                return true;
+
+            } else if (id == R.id.nav_users_edition) {
+                // Viajamos al fragmento de edición de usuarios
+                navController.navigate(R.id.usersEdition);
+                return true;
+
+            } else if (id == R.id.nav_settings) {
+                // TODO: Navegación de nav_setings
+                navController.navigate(R.id.settings);
+                return true;
             }
-            // TODO: añadir más 'if' para nav_settings y nav_admin_options.
 
             return false;
         });
@@ -91,6 +110,18 @@ public class MainActivity extends AppCompatActivity {
         if (menu instanceof MenuBuilder) {
             ((MenuBuilder) menu).setOptionalIconsVisible(true);
         }
+        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+            // Buscamos el AppBarLayout contenedor (el padre de tu mainAppbar)
+            // NOTA: Revisa tu activity_main.xml. Si tu AppBarLayout no tiene ID, ponle uno
+            // como android:id="@+id/appBarLayout" y úsalo aquí abajo:
+
+            com.google.android.material.appbar.AppBarLayout appBarLayout = findViewById(R.id.main_appbar_layout);
+
+            if (appBarLayout != null) {
+                // El primer 'true' significa "expándete", el segundo 'true' significa "hazlo con animación suave"
+                appBarLayout.setExpanded(true, true);
+            }
+        });
     }
 
     private void logoutSession(View view) {

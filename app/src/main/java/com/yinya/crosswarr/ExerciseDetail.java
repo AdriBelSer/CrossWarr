@@ -55,6 +55,8 @@ public class ExerciseDetail extends Fragment {
             if (binding.tvExerciseDetailMaterials != null && materials != null) {
                 String txtMaterials = TextUtils.join(", ", materials);
                 binding.tvExerciseDetailMaterials.setText("Materiales: " + txtMaterials);
+            } else if (binding.tvExerciseDetailMaterials == null || materials == null) {
+                binding.tvExerciseDetailMaterials.setText("Sin material");
             }
 
             // Cargar la imagen con Picasso
@@ -63,9 +65,8 @@ public class ExerciseDetail extends Fragment {
                         .load(image)
                         .into(binding.ivExerciseDetail);
             }
-            // =================================================================================
-            // 3. TODO CONFIGURAR EL BOTÓN DEL VÍDEO (btn_exercise_detail_video)
-            // =================================================================================
+
+            // Configurar botón video
             if (binding.btnExerciseDetailVideo != null) {
 
                 // Primero, una buena práctica: si no hay vídeo, ocultamos el botón
