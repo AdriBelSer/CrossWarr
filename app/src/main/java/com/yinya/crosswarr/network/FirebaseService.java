@@ -12,6 +12,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 
 import java.util.HashMap;
@@ -85,6 +86,18 @@ public class FirebaseService{
         db.collection(collectionName)
                 .document(documentName)
                 .update(updateData)
+                .addOnSuccessListener(successListener)
+                .addOnFailureListener(failureListener);
+    }
+//TODO: usar addMapToDocument para updates
+    public void addMapToDocument(String collectionName, String documentName, String mapKey, Object mapValue, OnSuccessListener<Void> successListener, OnFailureListener failureListener) {
+
+        Map<String, Object> data = new HashMap<>();
+        data.put(mapKey, mapValue);
+
+        db.collection(collectionName)
+                .document(documentName)
+                .set(data, com.google.firebase.firestore.SetOptions.merge())
                 .addOnSuccessListener(successListener)
                 .addOnFailureListener(failureListener);
     }

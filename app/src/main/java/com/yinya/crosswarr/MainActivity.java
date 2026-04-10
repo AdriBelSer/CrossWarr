@@ -20,12 +20,15 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.yinya.crosswarr.databinding.ActivityMainBinding;
+import com.yinya.crosswarr.models.ChallengeData;
 import com.yinya.crosswarr.models.ExerciseData;
+import com.yinya.crosswarr.repository.Repository;
 
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
     private NavController navController;
+    private boolean hasNavigatedToChallenge = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setupNavigation();
+
+        loadAndGoToTodaysChallengeAutomatically();
 
         // Escuchar los clics del menú superior de los 3 puntitos
         binding.mainAppbar.setOnMenuItemClickListener(item -> {
@@ -71,18 +76,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void exerciseUserClicked(ExerciseData exercise, View view) {
-        Bundle bundle = new Bundle();
-        bundle.putString("name", exercise.getName()); // Pasa el nombre
-        bundle.putString("description", exercise.getDescription()); // Pasa la descripción
-        bundle.putString("type", exercise.getType()); // Pasa el tipo
-        bundle.putString("image", exercise.getImage()); // Pasa la imagen
-        bundle.putString("video", exercise.getVideo());
-        bundle.putStringArrayList("materials", exercise.getMaterials());
 
-        // Navegar al ExerciseDetailFragment con el Bundle
-        Navigation.findNavController(view).navigate(R.id.exerciseDetail, bundle);
-    }
 
     // Méto do para navegar en el menú
     // Para que se vean los iconos en el menu desplegable de los 3 puntitos primero hay que
@@ -111,10 +105,6 @@ public class MainActivity extends AppCompatActivity {
             ((MenuBuilder) menu).setOptionalIconsVisible(true);
         }
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
-            // Buscamos el AppBarLayout contenedor (el padre de tu mainAppbar)
-            // NOTA: Revisa tu activity_main.xml. Si tu AppBarLayout no tiene ID, ponle uno
-            // como android:id="@+id/appBarLayout" y úsalo aquí abajo:
-
             com.google.android.material.appbar.AppBarLayout appBarLayout = findViewById(R.id.main_appbar_layout);
 
             if (appBarLayout != null) {
@@ -140,6 +130,59 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
         finish();
 
+    }
+    //TODO: VOY POR AQUI!!!!! PONER SKELETON EN LA VISTA PARA CUANDO ESTÁ CARGANDO EL CHALLENGE DEL DIA QUE NO SE VEA FEO
+
+    private void loadAndGoToTodaysChallengeAutomatically() {
+        // 1. Pedimos los desafíos al repositorio
+        Repository.getInstance().fetchChallengesFromFirebase();
+
+        // 2. Observamos la lista
+        Repository.getInstance().getChallengesLiveData().observe(this, challenges -> {
+            // Si ya navegamos una vez en esta sesión o la lista está vacía, no hacemos nada
+            if (hasNavigatedToChallenge || challenges == null || challenges.isEmpty()) return;
+
+            // 3. Obtenemos la fecha de hoy
+            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM-yyyy", java.util.Locale.getDefault());
+            String todayString = sdf.format(new java.util.Date());
+
+            ChallengeData todayChallenge = null;
+
+            // 4. Buscamos el reto que coincida con la fecha de activación
+            for (ChallengeData ch : challenges) {
+                if (ch.getActivationDate() != null) {
+                    String chDate = sdf.format(ch.getActivationDate().toDate());
+                    if (todayString.equals(chDate)) {
+                        todayChallenge = ch;
+                        break;
+                    }
+                }
+            }
+
+            // 5. Si lo encontramos, navegamos
+            if (todayChallenge != null) {
+                hasNavigatedToChallenge = true; // Marcamos que ya cumplimos la misión
+                navigateToChallengeDetail(todayChallenge);
+            }
+        });
+    }
+
+    private void navigateToChallengeDetail(ChallengeData challenge) {
+        Bundle bundle = new Bundle();
+        bundle.putString("id", challenge.getId());
+        bundle.putString("title", challenge.getTitle());
+        bundle.putString("time", String.valueOf(challenge.getChallenteTime()));
+        bundle.putString("exerciseSup", challenge.getExerciseSup());
+        bundle.putString("exerciseInf", challenge.getExerciseInf());
+        bundle.putString("exerciseCore", challenge.getExerciseCore());
+        bundle.putString("state", String.valueOf(challenge.isState()));
+        bundle.putString("repetitionSup", String.valueOf(challenge.getRepetitionSup()));
+        bundle.putString("repetitionInf", String.valueOf(challenge.getRepetitionInf()));
+        bundle.putString("repetitionCore", String.valueOf(challenge.getRepetitionCore()));
+        bundle.putString("type", challenge.getType());
+
+        // Navegación automática al fragmento reutilizado
+        navController.navigate(R.id.challengeDetail, bundle);
     }
 
 }

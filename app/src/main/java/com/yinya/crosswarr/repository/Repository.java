@@ -11,6 +11,7 @@ import com.yinya.crosswarr.models.UserData;
 import com.yinya.crosswarr.network.FirebaseChallengeService;
 import com.yinya.crosswarr.network.FirebaseExerciseService;
 import com.yinya.crosswarr.network.FirebaseService;
+import com.yinya.crosswarr.network.IChallengesCallback;
 import com.yinya.crosswarr.network.IExercisesCallback;
 import com.yinya.crosswarr.network.models.FirebaseUserService;
 
@@ -18,12 +19,13 @@ import java.util.ArrayList;
 
 public class Repository {
     private static Repository instance;
+    // 1. LA PIZARRA PRIVADA (Mutable: el camarero puede escribir en ella)
+    private final MutableLiveData<ArrayList<ExerciseData>> _exercises;
+    private final MutableLiveData<ArrayList<ChallengeData>> _challenges;
     private FirebaseService firebaseSvc;
     private FirebaseUserService firebaseUserService;
     private FirebaseExerciseService firebaseExerciseService;
     private FirebaseChallengeService firebaseChallengeService;
-    // 1. LA PIZARRA PRIVADA (Mutable: el camarero puede escribir en ella)
-    private final MutableLiveData<ArrayList<ExerciseData>> _exercises;
 
 
     private Repository() {
@@ -33,6 +35,7 @@ public class Repository {
         firebaseChallengeService = FirebaseChallengeService.getInstance(firebaseSvc);
         // 1.1. Inicializo la pizarra con un array vacio
         _exercises = new MutableLiveData<>(new ArrayList<>());
+        _challenges = new MutableLiveData<>(new ArrayList<>());
     }
 
     public static Repository getInstance() {
@@ -45,6 +48,9 @@ public class Repository {
     // 2. LA PIZARRA PÚBLICA (Solo lectura: la pantalla solo puede mirar, no escribir)
     public LiveData<ArrayList<ExerciseData>> getExercisesLiveData() {
         return _exercises;
+    }
+    public LiveData<ArrayList<ChallengeData>> getChallengesLiveData() {
+        return _challenges;
     }
 
     // Create
@@ -77,6 +83,22 @@ public class Repository {
             public void onFailure(Exception e) {
                 // Si hay error, podríamos tener otra pizarra para errores
                 Log.e("Repository", "Error descargando ejercicios", e);
+            }
+        });
+    }
+
+    public void fetchChallengesFromFirebase() {
+
+        firebaseChallengeService.fetchChallenges(new IChallengesCallback() {
+            @Override
+            public void onSuccess(ArrayList<ChallengeData> listFromFirebase) {
+                _challenges.postValue(listFromFirebase);
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                // Si hay error, podríamos tener otra pizarra para errores
+                Log.e("Repository", "Error descargando desafíos", e);
             }
         });
     }

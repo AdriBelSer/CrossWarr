@@ -1,30 +1,29 @@
 package com.yinya.crosswarr.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
-
-
 import com.squareup.picasso.Picasso;
-import com.yinya.crosswarr.MainActivity;
 import com.yinya.crosswarr.R;
 import com.yinya.crosswarr.databinding.CardListExerciseItemBinding;
 import com.yinya.crosswarr.models.ExerciseData;
 
 import java.util.ArrayList;
 
-public class ExercisesUserViewAdapter extends RecyclerView.Adapter<ExercisesUserViewAdapter.ExercisesViewHolder>{
+public class ExercisesUserViewAdapter extends RecyclerView.Adapter<ExercisesUserViewAdapter.ExercisesViewHolder> {
 
     private final ArrayList<ExerciseData> exercise;
     private final Context context;
+    private final OnExerciseClickListener listener;
 
-    public ExercisesUserViewAdapter(ArrayList<ExerciseData> exercise, Context context) {
+    public ExercisesUserViewAdapter(ArrayList<ExerciseData> exercise, Context context, OnExerciseClickListener listener) {
         this.exercise = exercise;
         this.context = context;
+        this.listener = listener;
     }
 
     @NonNull
@@ -40,9 +39,11 @@ public class ExercisesUserViewAdapter extends RecyclerView.Adapter<ExercisesUser
         holder.bind(currentExercise);
         //Manejar el evento de clic
         holder.itemView.setOnClickListener(view -> {
-            if (context instanceof MainActivity) {
-                ((MainActivity) context).exerciseUserClicked(currentExercise, view);
+            if (listener != null) {
+                // Llamamos al mét-odo de la interfaz externa
+                listener.onExerciseClick(currentExercise, view);
             }
+
         });
     }
 

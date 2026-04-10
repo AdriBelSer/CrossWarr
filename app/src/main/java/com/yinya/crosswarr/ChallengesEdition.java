@@ -26,6 +26,7 @@ public class ChallengesEdition extends Fragment {
     /* TODO: EL SIGUIENTE CÓDIGO ES PARA QUE EL ADMINISTRADOR PUEDA ELEGIR LA IMAGEN DE LA CHALLENGE ENTRE LAS 3 QUE HAY EN LA CARPETA DRAWABLE FALTA REVISARLO
     //TODO: Poner el isUsed del exercise a true cuando se utiliza en un challenge
 
+
     public class ChallengesEdition extends Fragment {
     private FragmentChallengesEditionBinding binding;
 
