@@ -8,9 +8,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.yinya.crosswarr.adapters.ExercisesUserViewAdapter;
+import com.yinya.crosswarr.adapters.OnExerciseClickListener;
 import com.yinya.crosswarr.databinding.FragmentExercisesListBinding;
 import com.yinya.crosswarr.models.ExerciseData;
 import com.yinya.crosswarr.repository.Repository;
@@ -38,15 +40,18 @@ public class ExercisesList extends Fragment {
         exercises = new ArrayList<>();
 
         // Configurar el RecyclerView
-        adapter = new ExercisesUserViewAdapter(exercises, getActivity());
+        adapter = new ExercisesUserViewAdapter(exercises, getContext(), new OnExerciseClickListener() {
+            @Override
+            public void onExerciseClick(ExerciseData exercise, View view) {
+                exerciseUserClicked(exercise, view);
+            }
+        });
         binding.exercisesRecyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.exercisesRecyclerview.setAdapter(adapter);
 
-        // 1- Observer
+
+        // Configurar los observer
         setupObservers();
-
-        // 2- Traer datos
-
 
         // Inicializa la lista de ejercicios
         loadExercise(); // Cargar los ejercicios
@@ -85,6 +90,19 @@ public class ExercisesList extends Fragment {
 
     private void loadExercise() {
         Repository.getInstance().fetchExercisesFromFirebase();
+    }
+
+    public void exerciseUserClicked(ExerciseData exercise, View view) {
+        Bundle bundle = new Bundle();
+        bundle.putString("name", exercise.getName()); // Pasa el nombre
+        bundle.putString("description", exercise.getDescription()); // Pasa la descripción
+        bundle.putString("type", exercise.getType()); // Pasa el tipo
+        bundle.putString("image", exercise.getImage()); // Pasa la imagen
+        bundle.putString("video", exercise.getVideo()); // Pasa el video
+        bundle.putStringArrayList("materials", exercise.getMaterials()); // Pasa los materiales
+
+        // Navegar al ExerciseDetailFragment con el Bundle
+        Navigation.findNavController(view).navigate(R.id.exerciseDetail, bundle);
     }
 
 }

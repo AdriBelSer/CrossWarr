@@ -4,8 +4,6 @@ import com.google.firebase.Timestamp;
 import com.yinya.crosswarr.models.ChallengeData;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class FirebaseChallengeData {
 
@@ -14,7 +12,9 @@ public class FirebaseChallengeData {
     private Timestamp creationDate;
     private Timestamp activationDate;
     private int challengeTime;
-    private List<Map<String, Object>> exercises;
+    private String exerciseSup;
+    private String exerciseInf;
+    private String exerciseCore;
     private boolean state;
     private int repetitionSup;
     private int repetitionInf;
@@ -24,23 +24,27 @@ public class FirebaseChallengeData {
     public FirebaseChallengeData() {
     }
 
-    public FirebaseChallengeData(String id, String title, Timestamp creationDate, Timestamp activationDate, int challenteTime, List<Map<String, Object>> exercises, boolean state) {
+    public FirebaseChallengeData(String id, String title, Timestamp creationDate, Timestamp activationDate, int challengeTime, String exerciseSup, String exerciseInf, String exerciseCore, boolean state) {
         this.id = id;
         this.title = title;
         this.creationDate = creationDate;
         this.activationDate = activationDate;
         this.challengeTime = challengeTime;
-        this.exercises = exercises;
+        this.exerciseSup = exerciseSup;
+        this.exerciseInf = exerciseInf;
+        this.exerciseCore = exerciseCore;
         this.state = state;
     }
 
-    public FirebaseChallengeData(String id, String title, Timestamp creationDate, Timestamp activationDate, int challengeTime, List<Map<String, Object>> exercises, boolean state, int repetitionSup, int repetitionInf, int repetitionCore, String type) {
+    public FirebaseChallengeData(String id, String title, Timestamp creationDate, Timestamp activationDate, int challengeTime, String exerciseSup, String exerciseInf, String exerciseCore, boolean state, int repetitionSup, int repetitionInf, int repetitionCore, String type) {
         this.id = id;
         this.title = title;
         this.creationDate = creationDate;
         this.activationDate = activationDate;
         this.challengeTime = challengeTime;
-        this.exercises = exercises;
+        this.exerciseSup = exerciseSup;
+        this.exerciseInf = exerciseInf;
+        this.exerciseCore = exerciseCore;
         this.state = state;
         this.repetitionSup = repetitionSup;
         this.repetitionInf = repetitionInf;
@@ -88,12 +92,28 @@ public class FirebaseChallengeData {
         this.challengeTime = challenteTime;
     }
 
-    public List<Map<String, Object>> getExercises() {
-        return exercises;
+    public String getExerciseSup() {
+        return exerciseSup;
     }
 
-    public void setExercises(List<Map<String, Object>> exercises) {
-        this.exercises = exercises;
+    public void setExerciseSup(String exerciseSup) {
+        this.exerciseSup = exerciseSup;
+    }
+
+    public String getExerciseInf() {
+        return exerciseInf;
+    }
+
+    public void setExerciseInf(String exerciseInf) {
+        this.exerciseInf = exerciseInf;
+    }
+
+    public String getExerciseCore() {
+        return exerciseCore;
+    }
+
+    public void setExerciseCore(String exerciseCore) {
+        this.exerciseCore = exerciseCore;
     }
 
     public boolean isState() {
@@ -146,7 +166,8 @@ public class FirebaseChallengeData {
 
     public ChallengeData asChallengeData() {
         ChallengeData challengeData = new ChallengeData(
-                this.id, this.title, this.creationDate, this.activationDate, this.challengeTime, this.exercises, this.state, this.repetitionSup, this.repetitionInf, this.repetitionCore, this.type);
+                this.id, this.title, this.creationDate, this.activationDate, this.challengeTime, this.exerciseSup, this.exerciseInf,
+                this.exerciseCore, this.state, this.repetitionSup, this.repetitionInf, this.repetitionCore, this.type);
         return challengeData;
     }
 
@@ -155,8 +176,11 @@ public class FirebaseChallengeData {
         hashMap.put("id", this.id);
         hashMap.put("title", this.title);
         hashMap.put("creationDate", this.creationDate);
+        hashMap.put("activationDate", this.activationDate);
         hashMap.put("challengeTime", this.challengeTime);
-        hashMap.put("exercises", this.exercises);
+        hashMap.put("exercisesSup", this.exerciseSup);
+        hashMap.put("exercisesInf", this.exerciseInf);
+        hashMap.put("exercisesCore", this.exerciseCore);
         hashMap.put("state", this.state);
         hashMap.put("repetitionSup", this.repetitionSup);
         hashMap.put("repetitionInf", this.repetitionInf);

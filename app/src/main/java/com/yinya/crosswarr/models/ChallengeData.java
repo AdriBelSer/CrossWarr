@@ -13,8 +13,10 @@ public class ChallengeData {
     private Timestamp creationDate;
     private Timestamp activationDate;
     private int challenteTime;
-    private List<Map<String, Object>> exercises;
-    private boolean state;
+    private String exerciseSup;
+    private String exerciseInf;
+    private String exerciseCore;
+        private boolean state;
     //TODO: cambiar el estado a activo cuando el usuario lo realice
     private int repetitionSup;
     private int repetitionInf;
@@ -24,25 +26,29 @@ public class ChallengeData {
     public ChallengeData() {
     }
 
-    public ChallengeData(String id,String title, Timestamp creationDate, Timestamp activationDate, int challenteTime, List<Map<String, Object>> exercises, boolean state, String type) {
+    public ChallengeData(String id,String title, Timestamp creationDate, Timestamp activationDate, int challenteTime, String exerciseSup, String exerciseInf, String exerciseCore, boolean state, String type) {
         this.id = id;
         this.title = title;
         this.creationDate = creationDate;
         this.activationDate = activationDate;
         this.challenteTime = challenteTime;
-        this.exercises = exercises;
+        this.exerciseSup = exerciseSup;
+        this.exerciseInf = exerciseInf;
+        this.exerciseCore = exerciseCore;
         this.state = state;
         this.type = type;
     }
 
-    public ChallengeData(String id, String title, Timestamp creationDate, Timestamp activationDate, int challenteTime, List<Map<String, Object>> exercises, boolean state, int repetitionSup, int repetitionInf, int repetitionCore, String type) {
+    public ChallengeData(String id, String title, Timestamp creationDate, Timestamp activationDate, int challenteTime, String exerciseSup, String exerciseInf, String exerciseCore, boolean state, int repetitionSup, int repetitionInf, int repetitionCore, String type) {
         this.id = id;
         this.title = title;
         this.creationDate = creationDate;
         this.activationDate = activationDate;
         this.challenteTime = challenteTime;
-        this.exercises = exercises;
         this.state = state;
+        this.exerciseSup = exerciseSup;
+        this.exerciseInf = exerciseInf;
+        this.exerciseCore = exerciseCore;
         this.repetitionSup = repetitionSup;
         this.repetitionInf = repetitionInf;
         this.repetitionCore = repetitionCore;
@@ -89,12 +95,28 @@ public class ChallengeData {
         this.challenteTime = challenteTime;
     }
 
-    public List<Map<String, Object>> getExercises() {
-        return exercises;
+    public String getExerciseSup() {
+        return exerciseSup;
     }
 
-    public void setExercises(List<Map<String, Object>> exercises) {
-        this.exercises = exercises;
+    public void setExerciseSup(String exerciseSup) {
+        this.exerciseSup = exerciseSup;
+    }
+
+    public String getExerciseInf() {
+        return exerciseInf;
+    }
+
+    public void setExerciseInf(String exerciseInf) {
+        this.exerciseInf = exerciseInf;
+    }
+
+    public String getExerciseCore() {
+        return exerciseCore;
+    }
+
+    public void setExerciseCore(String exerciseCore) {
+        this.exerciseCore = exerciseCore;
     }
 
     public boolean isState() {
@@ -139,7 +161,7 @@ public class ChallengeData {
 
     public FirebaseChallengeData asFirebaseChallengeData() {
         FirebaseChallengeData firebaseChallengeData = new FirebaseChallengeData(
-                this.id, this.title, this.creationDate, this.activationDate, this.challenteTime, this.exercises, this.state);
+                this.id, this.title, this.creationDate, this.activationDate, this.challenteTime, this.exerciseSup, this.exerciseInf, this.exerciseCore, this.state);
         return firebaseChallengeData;
     }
 }
