@@ -92,4 +92,53 @@ public class FirebaseExerciseService {
             }
         });
     }
+
+    public void updateExerciseUsage(ExerciseData oldExercise) {
+        // 1. Guardamos una foto de cómo era el ejercicio VIEJO para que Firebase sepa cuál borrar
+        HashMap<String, Object> oldMap = oldExercise.asFirebaseExerciseData().asHashMap();
+        String targetArray = oldExercise.getType();
+
+        // 2. Le cambiamos el estado a TRUE y sacamos una foto del ejercicio NUEVO
+        oldExercise.setUsed(true);
+        HashMap<String, Object> newMap = oldExercise.asFirebaseExerciseData().asHashMap();
+
+        // 3. Magia: Borramos el viejo, y si sale bien, metemos el nuevo
+        firebaseService.removeElementFromArray(
+                "crosswarr",
+                "exercises",
+                targetArray,
+                oldMap,
+                aVoid -> {
+                    // ¡Se borró el viejo! Ahora metemos el actualizado
+                    firebaseService.addElementToArray(
+                            "crosswarr",
+                            "exercises",
+                            targetArray,
+                            newMap,
+                            aVoid2 -> android.util.Log.d("FirebaseExercise", "Ejercicio actualizado a isUsed=true"),
+                            e2 -> android.util.Log.e("FirebaseExercise", "Error añadiendo el nuevo", e2)
+                    );
+                },
+                e -> android.util.Log.e("FirebaseExercise", "Error borrando el viejo", e)
+        );
+    }
+
+    public void deleteExercise(ExerciseData exerciseData) {
+        // Convertimos el ejercicio de vuelta a mapa para que Firebase lo reconozca
+        HashMap<String, Object> exerciseMap = exerciseData.asFirebaseExerciseData().asHashMap();
+        String targetArrayName = exerciseData.getType(); // "inf", "sup" o "core"
+
+        firebaseService.removeElementFromArray(
+                "crosswarr",
+                "exercises",
+                targetArrayName,
+                exerciseMap,
+                aVoid -> {
+                    android.util.Log.d("FirebaseExerciseService", "Ejercicio borrado de Firebase: " + exerciseData.getName());
+                },
+                e -> {
+                    android.util.Log.e("FirebaseExerciseService", "Error al borrar el ejercicio", e);
+                }
+        );
+    }
 }

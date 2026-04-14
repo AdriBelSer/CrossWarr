@@ -12,13 +12,11 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.SetOptions;
-
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class FirebaseService{
+public class FirebaseService {
 
     private static FirebaseService instance;
     FirebaseFirestore db;
@@ -89,7 +87,8 @@ public class FirebaseService{
                 .addOnSuccessListener(successListener)
                 .addOnFailureListener(failureListener);
     }
-//TODO: usar addMapToDocument para updates
+
+    //TODO: usar addMapToDocument para updates o no, ¿voy a hacer updates de algo?
     public void addMapToDocument(String collectionName, String documentName, String mapKey, Object mapValue, OnSuccessListener<Void> successListener, OnFailureListener failureListener) {
 
         Map<String, Object> data = new HashMap<>();
@@ -98,6 +97,31 @@ public class FirebaseService{
         db.collection(collectionName)
                 .document(documentName)
                 .set(data, com.google.firebase.firestore.SetOptions.merge())
+                .addOnSuccessListener(successListener)
+                .addOnFailureListener(failureListener);
+    }
+
+    public void removeElementFromArray(String collectionName, String documentName, String arrayName, Object elementToRemove, OnSuccessListener<Void> successListener, OnFailureListener failureListener) {
+        Map<String, Object> updateData = new HashMap<>();
+        // arrayRemove busca el objeto exacto y lo elimina del array
+        updateData.put(arrayName, FieldValue.arrayRemove(elementToRemove));
+
+        db.collection(collectionName)
+                .document(documentName)
+                .update(updateData)
+                .addOnSuccessListener(successListener)
+                .addOnFailureListener(failureListener);
+    }
+
+    public void removeMapFromDocument(String collectionName, String documentName, String mapKey, OnSuccessListener<Void> successListener, OnFailureListener failureListener) {
+        Map<String, Object> updateData = new HashMap<>();
+
+        // FieldValue.delete() es para borrar un campo entero
+        updateData.put(mapKey, FieldValue.delete());
+
+        db.collection(collectionName)
+                .document(documentName)
+                .update(updateData)
                 .addOnSuccessListener(successListener)
                 .addOnFailureListener(failureListener);
     }

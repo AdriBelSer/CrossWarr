@@ -11,15 +11,14 @@ import com.yinya.crosswarr.models.UserData;
 import com.yinya.crosswarr.network.FirebaseChallengeService;
 import com.yinya.crosswarr.network.FirebaseExerciseService;
 import com.yinya.crosswarr.network.FirebaseService;
+import com.yinya.crosswarr.network.FirebaseUserService;
 import com.yinya.crosswarr.network.IChallengesCallback;
 import com.yinya.crosswarr.network.IExercisesCallback;
-import com.yinya.crosswarr.network.models.FirebaseUserService;
 
 import java.util.ArrayList;
 
 public class Repository {
     private static Repository instance;
-    // 1. LA PIZARRA PRIVADA (Mutable: el camarero puede escribir en ella)
     private final MutableLiveData<ArrayList<ExerciseData>> _exercises;
     private final MutableLiveData<ArrayList<ChallengeData>> _challenges;
     private FirebaseService firebaseSvc;
@@ -33,7 +32,6 @@ public class Repository {
         firebaseUserService = FirebaseUserService.getInstance(firebaseSvc);
         firebaseExerciseService = FirebaseExerciseService.getInstance(firebaseSvc);
         firebaseChallengeService = FirebaseChallengeService.getInstance(firebaseSvc);
-        // 1.1. Inicializo la pizarra con un array vacio
         _exercises = new MutableLiveData<>(new ArrayList<>());
         _challenges = new MutableLiveData<>(new ArrayList<>());
     }
@@ -45,10 +43,10 @@ public class Repository {
         return instance;
     }
 
-    // 2. LA PIZARRA PÚBLICA (Solo lectura: la pantalla solo puede mirar, no escribir)
     public LiveData<ArrayList<ExerciseData>> getExercisesLiveData() {
         return _exercises;
     }
+
     public LiveData<ArrayList<ChallengeData>> getChallengesLiveData() {
         return _challenges;
     }
@@ -68,14 +66,17 @@ public class Repository {
 
     // Read
 
+    //TODO: Hacer el fetchUsers
+    public void fetchUsersFromFirebase() {
+
+    }
+
     public void fetchExercisesFromFirebase() {
 
-        // El camarero le pide los datos al cocinero (tu FirebaseExerciseService)
         firebaseExerciseService.fetchExercises(new IExercisesCallback() {
             @Override
             public void onSuccess(ArrayList<ExerciseData> listFromFirebase) {
-                // ¡Llegó la comida! La apuntamos en la pizarra.
-                // Automáticamente, cualquiera que esté mirando la pizarra se enterará.
+
                 _exercises.postValue(listFromFirebase);
             }
 
@@ -101,6 +102,25 @@ public class Repository {
                 Log.e("Repository", "Error descargando desafíos", e);
             }
         });
+    }
+
+    // Update
+    public void updateExerciseUsage(ExerciseData exerciseData) {
+        firebaseExerciseService.updateExerciseUsage(exerciseData);
+    }
+
+    //Delete
+/* //TODO: Hacer el deleteUsers
+    public void deleteUser(UserData userData) {
+        firebaseUserService.deleteUser(userData);
+    }*/
+
+    public void deleteExercise(ExerciseData exerciseData) {
+        firebaseExerciseService.deleteExercise(exerciseData);
+    }
+
+    public void deleteChallenge(ChallengeData challengeData) {
+        firebaseChallengeService.deleteChallenge(challengeData);
     }
 
 }

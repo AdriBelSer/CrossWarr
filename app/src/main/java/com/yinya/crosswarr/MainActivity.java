@@ -52,18 +52,15 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             } else if (id == R.id.nav_exercices_edition) {
-                // Viajamos al fragmento de edición de ejercicios
-                navController.navigate(R.id.exercisesEdition);
+                navController.navigate(R.id.exercisesEditionList);
                 return true;
 
             } else if (id == R.id.nav_challenges_edition) {
-                // Viajamos al fragmento de edición de challenges
-                navController.navigate(R.id.challengesEdition);
+                navController.navigate(R.id.challengesEditionList);
                 return true;
 
             } else if (id == R.id.nav_users_edition) {
-                // Viajamos al fragmento de edición de usuarios
-                navController.navigate(R.id.usersEdition);
+                navController.navigate(R.id.usersEditionList);
                 return true;
 
             } else if (id == R.id.nav_settings) {
@@ -131,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
         finish();
 
     }
-    //TODO: VOY POR AQUI!!!!! PONER SKELETON EN LA VISTA PARA CUANDO ESTÁ CARGANDO EL CHALLENGE DEL DIA QUE NO SE VEA FEO
+    //TODO: PONER SKELETON EN LA VISTA PARA CUANDO ESTÁ CARGANDO EL CHALLENGE DEL DIA QUE NO SE VEA FEO
 
     private void loadAndGoToTodaysChallengeAutomatically() {
         // 1. Pedimos los desafíos al repositorio

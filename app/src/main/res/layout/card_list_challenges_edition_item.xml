@@ -10,7 +10,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="120dp">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -38,22 +38,13 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageButton
-                    android:id="@+id/btn_edit_challenge"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_margin="30dp"
-                    android:scaleType="centerInside"
-                    app:layout_constraintEnd_toStartOf="@+id/btn_delete_challenge"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_pencil" />
-
-                <ImageButton
                     android:id="@+id/btn_delete_challenge"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_margin="30dp"
                     android:scaleType="centerInside"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/tv_challenge_date_card_list_challenges_edition_item"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_bin" />
 

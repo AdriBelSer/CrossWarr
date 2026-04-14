@@ -1,7 +1,6 @@
-package com.yinya.crosswarr.network.models;
+package com.yinya.crosswarr.network;
 
 import com.yinya.crosswarr.models.UserData;
-import com.yinya.crosswarr.network.FirebaseService;
 
 public class FirebaseUserService {
     private static FirebaseUserService instance;

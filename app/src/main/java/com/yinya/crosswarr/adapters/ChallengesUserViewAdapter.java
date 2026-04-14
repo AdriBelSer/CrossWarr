@@ -56,7 +56,7 @@ public class ChallengesUserViewAdapter extends RecyclerView.Adapter<ChallengesUs
 
         public void bind(ChallengeData challenge) {
             binding.tvChallengeDateCardListChallengesItem.setText(challenge.getActivationDate().toString());
-
+//TODO: Convertir esto en un método para usarlo en el challengesEditionViewAdapter???? (ya está alli repitiendo código)
             //Comprobar que la fecha no venga nula desde Firebase
             if (challenge.getActivationDate() != null) {
 

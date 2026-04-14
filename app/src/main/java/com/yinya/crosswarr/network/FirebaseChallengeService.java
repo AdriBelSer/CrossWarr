@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.google.firebase.Timestamp;
 import com.yinya.crosswarr.models.ChallengeData;
+import com.yinya.crosswarr.models.ExerciseData;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,12 +53,11 @@ public class FirebaseChallengeService {
                 ArrayList<ChallengeData> allChallenges = new ArrayList<>();
 
                 if (dataFromFirebase != null) {
-                    // entry.getKey() será "challenge_2026..." y entry.getValue() será el Mapa con los datos
+                    // entry.getKey() será "challenge_2026..." y entry.getValue() será el Map con los datos
                     for (Map.Entry<String, Object> entry : dataFromFirebase.entrySet()) {
-
                         Object value = entry.getValue();
 
-                        // Nos aseguramos de que el valor sea realmente un Mapa de datos
+                        // Nos aseguramos de que el valor sea realmente un Map de datos
                         if (value instanceof Map) {
                             Map<String, Object> map = (Map<String, Object>) value;
                             ChallengeData ch = new ChallengeData();
@@ -74,6 +74,23 @@ public class FirebaseChallengeService {
                             ch.setCreationDate((Timestamp) map.get("creationDate"));
                             ch.setActivationDate((Timestamp) map.get("activationDate"));
 
+                            //Para "activar" o "desactivar" los desafíos, comparamos la fecha de activación con la fecha actual
+
+                            if (ch.getActivationDate() != null) {
+                                java.util.Date activationDate = ch.getActivationDate().toDate();
+                                java.util.Date currentDate = new java.util.Date();
+
+                                // Si la fecha de activación ya quedó en el pasado, está activo (true)
+                                if (activationDate.before(currentDate)) {
+                                    ch.setState(true);
+                                } else {
+                                    ch.setState(false); // Es un reto futuro
+                                }
+                            } else {
+                                // Por si algún reto antiguo no tiene fecha
+                                ch.setState(false);
+                            }
+
                             // Números (Protección contra Long)
                             if (map.get("challengeTime") != null) {
                                 ch.setChallenteTime(((Long) map.get("challengeTime")).intValue());
@@ -88,9 +105,6 @@ public class FirebaseChallengeService {
                                 ch.setRepetitionCore(((Long) map.get("repetitionCore")).intValue());
                             }
 
-                            // Boolean
-                            Boolean state = (Boolean) map.get("state");
-                            ch.setState(state != null ? state : false);
 
                             allChallenges.add(ch);
                         }
@@ -105,5 +119,19 @@ public class FirebaseChallengeService {
                 callback.onFailure(e);
             }
         });
+    }
+    public void deleteChallenge(ChallengeData challengeData) {
+        String targetMapKey = challengeData.getId();
+        firebaseService.removeMapFromDocument(
+                "crosswarr",
+                "challenges",
+                targetMapKey,
+                aVoid -> {
+                    android.util.Log.d("FirebaseChallengeService", "Desafío borrado de Firebase: " + targetMapKey);
+                },
+                e -> {
+                    android.util.Log.e("FirebaseChallengeService", "Error al borrar el desafío", e);
+                }
+        );
     }
 }

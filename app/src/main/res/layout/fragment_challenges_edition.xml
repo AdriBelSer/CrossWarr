@@ -27,35 +27,6 @@
                 android:textAppearance="?attr/textAppearanceHeadline5"
                 android:textStyle="bold" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/photo_container_challenge_fragment_challenges_edition"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="24dp">
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/iv_challenge_avatar_fragment_challenges_edition"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:scaleType="centerCrop"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:srcCompat="@tools:sample/avatars" />
-
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fab_edit_photo_challenge_fragment_challenges_edition"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="-8dp"
-                    android:layout_marginBottom="-8dp"
-                    app:fabSize="mini"
-                    app:layout_constraintBottom_toBottomOf="@+id/iv_challenge_avatar_fragment_challenges_edition"
-                    app:layout_constraintEnd_toEndOf="@+id/iv_challenge_avatar_fragment_challenges_edition"
-                    app:srcCompat="@android:drawable/ic_menu_camera" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_challenge_name_fragment_challenges_edition"
@@ -153,14 +124,6 @@
                     android:text="@string/type_ft_fragment_challenges_edition" />
             </com.google.android.material.button.MaterialButtonToggleGroup>
 
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                android:id="@+id/switch_materials_fragment_challenges_edition"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:padding="8dp"
-                android:text="@string/switch_materials_fragment_challenges_edition"
-                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
