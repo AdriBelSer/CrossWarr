@@ -106,19 +106,20 @@ public class ChallengesEditionList extends Fragment {
     }
     public void challengeAdminClicked(ChallengeData challenge, View view) {
         Bundle bundle = new Bundle();
+        bundle.putString("id", challenge.getId());
         bundle.putString("title", challenge.getTitle());
-        bundle.putString("creationDate", challenge.getCreationDate().toString());
-        bundle.putString("activationDate", challenge.getActivationDate().toString());
-        bundle.putInt("challenteTime", challenge.getChallenteTime());
+        // Convertimos los números a String para evitar NullPointerExceptions en el destino
+        bundle.putString("time", String.valueOf(challenge.getChallenteTime()));
         bundle.putString("exerciseSup", challenge.getExerciseSup());
         bundle.putString("exerciseInf", challenge.getExerciseInf());
         bundle.putString("exerciseCore", challenge.getExerciseCore());
-        bundle.putInt("repetitionSup", challenge.getRepetitionSup());
-        bundle.putInt("repetitionInf", challenge.getRepetitionInf());
-        bundle.putInt("repetitionCore", challenge.getRepetitionCore());
+        bundle.putString("state", String.valueOf(challenge.isState()));
+        bundle.putString("repetitionSup", String.valueOf(challenge.getRepetitionSup()));
+        bundle.putString("repetitionInf", String.valueOf(challenge.getRepetitionInf()));
+        bundle.putString("repetitionCore", String.valueOf(challenge.getRepetitionCore()));
         bundle.putString("type", challenge.getType());
 
-        // Navegar al ExerciseDetailFragment con el Bundle
-        Navigation.findNavController(view).navigate(R.id.exerciseDetail, bundle);
+        // Navegar al ChallengeDetailFragment con el Bundle
+        Navigation.findNavController(view).navigate(R.id.challengeDetail, bundle);
     }
 }

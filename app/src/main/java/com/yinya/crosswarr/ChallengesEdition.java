@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-//TODO: REPASAR ESTO VOY POR AQUI!!
+
 public class ChallengesEdition extends Fragment {
     private FragmentChallengesEditionBinding binding;
     private ArrayList<ExerciseData> allExercisesList = new ArrayList<>();
@@ -75,30 +75,30 @@ public class ChallengesEdition extends Fragment {
                 allExercisesList.clear();
                 allExercisesList.addAll(exercises);
 
-                // 1. Creamos tres listas separadas
                 ArrayList<String> upperExercises = new ArrayList<>();
                 ArrayList<String> lowerExercises = new ArrayList<>();
                 ArrayList<String> coreExercises = new ArrayList<>();
 
-                // 2. Clasificamos cada ejercicio según su tipo
+                // Clasificamos cada ejercicio según su tipo
                 for (ExerciseData ex : exercises) {
-                    // Asegúrate de que los textos "sup", "inf" y "core" coinciden
-                    // exactamente con cómo los guardas en Firebase
-                    if ("sup".equalsIgnoreCase(ex.getType())) {
-                        upperExercises.add(ex.getName());
-                    } else if ("inf".equalsIgnoreCase(ex.getType())) {
-                        lowerExercises.add(ex.getName());
-                    } else if ("core".equalsIgnoreCase(ex.getType())) {
-                        coreExercises.add(ex.getName());
+                    if (ex.getType() != null) {
+                        String type = ex.getType().toLowerCase();
+                        if (type.contains("upper_body")) {
+                            upperExercises.add(ex.getName());
+                        } else if (type.contains("lower_body")) {
+                            lowerExercises.add(ex.getName());
+                        } else if (type.contains("core")) {
+                            coreExercises.add(ex.getName());
+                        }
                     }
                 }
 
-                // 3. Creamos tres adaptadores distintos, uno para cada lista
+                // Creamos tres adapters distintos, uno para cada lista
                 ArrayAdapter<String> upperAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, upperExercises);
                 ArrayAdapter<String> lowerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, lowerExercises);
                 ArrayAdapter<String> coreAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, coreExercises);
 
-                // 4. Asignamos cada adaptador a su desplegable correspondiente
+                // Asignamos cada adapter a su desplegable correspondiente
                 binding.acUpperBodyFragmentChallengesEdition.setAdapter(upperAdapter);
                 binding.acLowerBodyFragmentChallengesEdition.setAdapter(lowerAdapter);
                 binding.acCoreFragmentChallengesEdition.setAdapter(coreAdapter);
@@ -200,18 +200,20 @@ public class ChallengesEdition extends Fragment {
         }
     }
 
-    //TODO: Hacer el clear form
     private void cleanForm() {
-        binding.etImageUrlFragmentExercisesEdition.setText("");
-        binding.etVideoUrlFragmentExercisesEdition.setText("");
-        binding.etNameFragmentExercisesEdition.setText("");
-        binding.etDescriptionFragmentExercisesEdition.setText("");
-        binding.etMaterialsListFragmentExercisesEdition.setText("");
-        binding.rgTypeFragmentExercisesEdition.clearCheck();
-        binding.switchMaterialsFragmentExercisesEdition.setChecked(false);
-    }
+        binding.etChallengeNameFragmentChallengesEdition.setText("");
+        binding.etChallengeTimeFragmentChallengesEdition.setText("");
+        binding.etChallengeDateFragmentChallengesEdition.setText("");
 
-    //TODO: Investigar por qué crashea cuando me meto a ver el desafio que he creado
+        binding.acUpperBodyFragmentChallengesEdition.setText("");
+        binding.etRepsUpperFragmentChallengesEdition.setText("");
+
+        binding.acLowerBodyFragmentChallengesEdition.setText("");
+        binding.etRepsLowerFragmentChallengesEdition.setText("");
+
+        binding.acCoreFragmentChallengesEdition.setText("");
+        binding.etRepsCoreFragmentChallengesEdition.setText("");
+    }
 
     @Override
     public void onDestroyView() {

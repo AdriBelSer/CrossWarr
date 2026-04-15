@@ -178,9 +178,9 @@ public class FirebaseChallengeData {
         hashMap.put("creationDate", this.creationDate);
         hashMap.put("activationDate", this.activationDate);
         hashMap.put("challengeTime", this.challengeTime);
-        hashMap.put("exercisesSup", this.exerciseSup);
-        hashMap.put("exercisesInf", this.exerciseInf);
-        hashMap.put("exercisesCore", this.exerciseCore);
+        hashMap.put("exerciseSup", this.exerciseSup);
+        hashMap.put("exerciseInf", this.exerciseInf);
+        hashMap.put("exerciseCore", this.exerciseCore);
         hashMap.put("state", this.state);
         hashMap.put("repetitionSup", this.repetitionSup);
         hashMap.put("repetitionInf", this.repetitionInf);

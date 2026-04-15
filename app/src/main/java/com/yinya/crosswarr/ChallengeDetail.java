@@ -64,30 +64,38 @@ public class ChallengeDetail extends Fragment {
             if (binding.tvChallengeDescriptionFragmentChallengeDetail != null && type != null) {
                 String description = "";
 
-                if ("amrap".equalsIgnoreCase(type)) {
+                String safeType = type.trim().toLowerCase();
+
+                if ("amrap".equals(safeType)) {
                     description = String.format("Descripción del desafío: Este desafío consistirá en un %s *,\n" +
                                     "- Tren superior: %s. %s repeticiones. \n" +
                                     "- Tren inferior: %s. %s repeticiones. \n" +
                                     "- Core: %s. %s repeticiones. \n" +
-                                    "El tiempo para superar el desafío es de : %s minutos \n\n" +
+                                    "El tiempo para superar el desafío es de: %s minutos \n\n" +
                                     "* As Many Rounds As possible: Haz tantas rondas de este bloque de ejercicios como puedas.",
-                            type.toUpperCase(), exerciseSup, repetitionSup, exerciseInf, repetitionInf, exerciseCore, repetitionCore, time);
-                } else if ("ft".equalsIgnoreCase(type)) {
+                            safeType.toUpperCase(), exerciseSup, repetitionSup, exerciseInf, repetitionInf, exerciseCore, repetitionCore, time);
+
+                } else if ("ft".equals(safeType)) {
                     description = String.format("Descripción del desafío: Este desafío consistirá en un %s *,\n" +
                                     "- Tren superior: %s. %s repeticiones. \n" +
                                     "- Tren inferior: %s. %s repeticiones. \n" +
                                     "- Core: %s. %s repeticiones. \n" +
-                                    "El tiempo para superar el desafío es de : %s minutos \n\n" +
-                                    "* For time: Tu tiempo máximo para completar estos ejercicios es: %s.",
-                            type.toUpperCase(), exerciseSup, repetitionSup, exerciseInf, repetitionInf, exerciseCore, repetitionCore, time, time);
-                } else if ("emom".equalsIgnoreCase(type)) {
+                                    "El tiempo para superar el desafío es de: %s minutos \n\n" +
+                                    "* For time: Tu tiempo máximo para completar estos ejercicios es de %s minutos.",
+                            safeType.toUpperCase(), exerciseSup, repetitionSup, exerciseInf, repetitionInf, exerciseCore, repetitionCore, time, time);
+
+                } else if ("emom".equals(safeType)) {
                     description = String.format("Descripción del desafío: Este desafío consistirá en un %s *,\n" +
                                     "- Tren superior: %s. %s repeticiones. \n" +
                                     "- Tren inferior: %s. %s repeticiones. \n" +
                                     "- Core: %s. %s repeticiones. \n" +
-                                    "El tiempo para superar el desafío es de : %s minutos \n\n" +
+                                    "El tiempo para superar el desafío es de: %s minutos \n\n" +
                                     "* Every minute on the minute: Tienes un minuto para hacer las repeticiones y descansar, ¡Mientras antes las hagas más tiempo descansas!",
-                            type.toUpperCase(), exerciseSup, repetitionSup, exerciseInf, repetitionInf, exerciseCore, repetitionCore, time);
+                            safeType.toUpperCase(), exerciseSup, repetitionSup, exerciseInf, repetitionInf, exerciseCore, repetitionCore, time);
+
+                } else {
+                    // 2. CHIVATO: Si no es ninguno de los 3, que nos lo diga por pantalla
+                    description = "Error: El tipo de desafío guardado en la base de datos no es válido. Tipo recibido: '" + type + "'";
                 }
 
                 binding.tvChallengeDescriptionFragmentChallengeDetail.setText(description);

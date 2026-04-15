@@ -17,7 +17,7 @@ public class ChallengeData {
     private String exerciseInf;
     private String exerciseCore;
         private boolean state;
-    //TODO: cambiar el estado a activo cuando el usuario lo realice
+    //TODO: cambiar el estado a activo cuando cumpla la fecha
     private int repetitionSup;
     private int repetitionInf;
     private int repetitionCore;
@@ -161,7 +161,7 @@ public class ChallengeData {
 
     public FirebaseChallengeData asFirebaseChallengeData() {
         FirebaseChallengeData firebaseChallengeData = new FirebaseChallengeData(
-                this.id, this.title, this.creationDate, this.activationDate, this.challenteTime, this.exerciseSup, this.exerciseInf, this.exerciseCore, this.state);
+                this.id, this.title, this.creationDate, this.activationDate,this.challenteTime, this.exerciseSup, this.exerciseInf, this.exerciseCore, this.state, this.repetitionSup, this.repetitionInf, this.repetitionCore, this.type);
         return firebaseChallengeData;
     }
 }
