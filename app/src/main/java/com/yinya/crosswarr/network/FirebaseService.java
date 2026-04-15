@@ -12,6 +12,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,7 +54,6 @@ public class FirebaseService {
 
     }
 
-
     public void getDocument(String collectionName, String documentName, IFirebaseCallback callback) {
         DocumentReference documentReference = db.collection(collectionName).document(documentName);
 
@@ -77,6 +77,27 @@ public class FirebaseService {
         });
     }
 
+    public void getUsersFromMixedCollection(String collectionName, IFirebaseCallback callback) {
+        db.collection(collectionName).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Map<String, Object> allUsers = new HashMap<>();
+
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    String documentId = document.getId();
+
+                    // Si el documento NO se llama "exercises" y NO se llama "challenges", entonces asumimos que es el documento de un usuario.
+                    if (!documentId.equals("exercises") && !documentId.equals("challenges") && !documentId.equals("users")) {
+                        allUsers.put(documentId, document.getData());
+                    }
+                }
+                callback.onSuccess(allUsers);
+            } else {
+                Log.d("Get Collection failure", "get failed with ", task.getException());
+                callback.onFailure(task.getException());
+            }
+        });
+    }
+
     public void addElementToArray(String collectionName, String documentName, String arrayName, Object newElement, OnSuccessListener<Void> successListener, OnFailureListener failureListener) {
         Map<String, Object> updateData = new HashMap<>();
         updateData.put(arrayName, FieldValue.arrayUnion(newElement));
@@ -88,7 +109,6 @@ public class FirebaseService {
                 .addOnFailureListener(failureListener);
     }
 
-    //TODO: usar addMapToDocument para updates o no, ¿voy a hacer updates de algo?
     public void addMapToDocument(String collectionName, String documentName, String mapKey, Object mapValue, OnSuccessListener<Void> successListener, OnFailureListener failureListener) {
 
         Map<String, Object> data = new HashMap<>();

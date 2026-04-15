@@ -127,8 +127,8 @@ public class ChallengeDetail extends Fragment {
                                 if (timeRemaining <= 0) {
                                     chronometer.stop();
                                     chronometer.setText("00:00");
-                                    //TODO: Que al llegar a 0 aparezca un toast de desafío completado,
-                                    // se guarde el desafío en el historial de challenges del usuario y la vista se vaya al historial de challenges
+                                    // TODO: Que al llegar a 0 aparezca un toast de desafío completado
+                                    // TODO: que se guarde el desafío en el historial de challenges del usuario y la vista se vaya al historial de challenges
                                 }
                             });
 

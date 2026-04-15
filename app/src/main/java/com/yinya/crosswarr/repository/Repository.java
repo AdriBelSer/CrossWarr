@@ -14,6 +14,7 @@ import com.yinya.crosswarr.network.FirebaseService;
 import com.yinya.crosswarr.network.FirebaseUserService;
 import com.yinya.crosswarr.network.IChallengesCallback;
 import com.yinya.crosswarr.network.IExercisesCallback;
+import com.yinya.crosswarr.network.IUsersCallback;
 
 import java.util.ArrayList;
 
@@ -21,6 +22,7 @@ public class Repository {
     private static Repository instance;
     private final MutableLiveData<ArrayList<ExerciseData>> _exercises;
     private final MutableLiveData<ArrayList<ChallengeData>> _challenges;
+    private final MutableLiveData<ArrayList<UserData>> _users;
     private FirebaseService firebaseSvc;
     private FirebaseUserService firebaseUserService;
     private FirebaseExerciseService firebaseExerciseService;
@@ -34,6 +36,7 @@ public class Repository {
         firebaseChallengeService = FirebaseChallengeService.getInstance(firebaseSvc);
         _exercises = new MutableLiveData<>(new ArrayList<>());
         _challenges = new MutableLiveData<>(new ArrayList<>());
+        _users = new MutableLiveData<>(new ArrayList<>());
     }
 
     public static Repository getInstance() {
@@ -41,6 +44,10 @@ public class Repository {
             instance = new Repository();
         }
         return instance;
+    }
+
+    public LiveData<ArrayList<UserData>> getUsersLiveData() {
+        return _users;
     }
 
     public LiveData<ArrayList<ExerciseData>> getExercisesLiveData() {
@@ -65,10 +72,19 @@ public class Repository {
     }
 
     // Read
-
-    //TODO: Hacer el fetchUsers
     public void fetchUsersFromFirebase() {
+        firebaseUserService.fetchUsers(new IUsersCallback() {
+            @Override
+            public void onSuccess(ArrayList<UserData> listFromFirebase) {
+                _users.postValue(listFromFirebase);
+            }
 
+            @Override
+            public void onFailure(Exception e) {
+                // Si hay error, podríamos tener otra pizarra para errores
+                Log.e("Repository", "Error descargando usuarios", e);
+            }
+        });
     }
 
     public void fetchExercisesFromFirebase() {
@@ -110,10 +126,9 @@ public class Repository {
     }
 
     //Delete
-/* //TODO: Hacer el deleteUsers
     public void deleteUser(UserData userData) {
         firebaseUserService.deleteUser(userData);
-    }*/
+    }
 
     public void deleteExercise(ExerciseData exerciseData) {
         firebaseExerciseService.deleteExercise(exerciseData);

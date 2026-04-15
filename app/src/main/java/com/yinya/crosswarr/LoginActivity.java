@@ -72,11 +72,26 @@ public class LoginActivity extends AppCompatActivity {
         if (result.getResultCode() == RESULT_OK) {
             Log.d("TEST_LOGIN", "USER OK onSignInResult");
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            UserData userData = new UserData(user.getUid(),user.getEmail(),"", "USER", Timestamp.now(), "");
-
-
             if (response != null && response.isNewUser()) {
                 Log.d("TEST_LOGIN", "CREATE USER onSignInResult");
+
+                // Extraemos el nombre y la foto (con protección por si son nulos)
+                String name = user.getDisplayName() != null ? user.getDisplayName() : "";
+                String photoUrl = user.getPhotoUrl() != null ? user.getPhotoUrl().toString() : "";
+
+                // Usamos el constructor completo de UserData para inicializar los Mapas vacíos
+                UserData userData = new UserData(
+                        user.getUid(),
+                        user.getEmail(),
+                        name,
+                        photoUrl,
+                        "user", // Rol por defecto
+                        com.google.firebase.Timestamp.now(),
+                        "", // Aquí irá el token de notificaciones en el futuro
+                        new java.util.HashMap<>(), // Settings vacío
+                        new java.util.ArrayList<>() // Historial de challenges vacío
+                );
+
                 rp.createUser(userData);
             }
             goToMainActivity();

@@ -73,4 +73,8 @@
         android:id="@+id/mainActivity"
         android:name="com.yinya.crosswarr.MainActivity"
         android:label="MainActivity" />
+    <fragment
+        android:id="@+id/userProfile"
+        android:name="com.yinya.crosswarr.UserProfile"
+        android:label="UserProfile" />
 </navigation>

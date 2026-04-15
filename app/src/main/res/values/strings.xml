@@ -39,7 +39,7 @@
     <string name="btn_new_fragment_users_edition_list">Crear nuevo usuario</string>
     <string name="btn_new_fragment_challenges_edition_list">Crear nuevo desafío</string>
     <string name="btn_new_fragment_exercises_edition_list">Crear nuevo ejercicio</string>
-    <string name="title_fragment_users_edition">Crear usuario</string>
+    <string name="title_fragment_users_edition">Actualizar usuario</string>
     <string name="name_fragment_users_edition">Nombre completo</string>
     <string name="email_fragment_users_edition">Correo electrónico</string>
     <string name="role_fragment_users_edition">Rol: Administrador</string>

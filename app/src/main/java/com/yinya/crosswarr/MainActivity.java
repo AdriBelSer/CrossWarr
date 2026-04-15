@@ -64,8 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             } else if (id == R.id.nav_settings) {
-                // TODO: Navegación de nav_setings
-                navController.navigate(R.id.settings);
+                navController.navigate(R.id.userProfile);
                 return true;
             }
 
