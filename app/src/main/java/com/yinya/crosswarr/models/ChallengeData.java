@@ -16,12 +16,12 @@ public class ChallengeData {
     private String exerciseSup;
     private String exerciseInf;
     private String exerciseCore;
-        private boolean state;
-    //TODO: cambiar el estado a activo cuando cumpla la fecha
+    private boolean state;
     private int repetitionSup;
     private int repetitionInf;
     private int repetitionCore;
     private String type;
+    private boolean requiresEquipment;
 
     public ChallengeData() {
     }
@@ -39,7 +39,7 @@ public class ChallengeData {
         this.type = type;
     }
 
-    public ChallengeData(String id, String title, Timestamp creationDate, Timestamp activationDate, int challenteTime, String exerciseSup, String exerciseInf, String exerciseCore, boolean state, int repetitionSup, int repetitionInf, int repetitionCore, String type) {
+    public ChallengeData(String id, String title, Timestamp creationDate, Timestamp activationDate, int challenteTime, String exerciseSup, String exerciseInf, String exerciseCore, boolean state, int repetitionSup, int repetitionInf, int repetitionCore, String type, boolean requiresEquipment) {
         this.id = id;
         this.title = title;
         this.creationDate = creationDate;
@@ -53,6 +53,7 @@ public class ChallengeData {
         this.repetitionInf = repetitionInf;
         this.repetitionCore = repetitionCore;
         this.type = type;
+        this.requiresEquipment = requiresEquipment;
     }
 
     public String getId() {
@@ -159,9 +160,17 @@ public class ChallengeData {
         this.type = type;
     }
 
+    public boolean isRequiresEquipment() {
+        return requiresEquipment;
+    }
+
+    public void setRequiresEquipment(boolean requiresEquipment) {
+        this.requiresEquipment = requiresEquipment;
+    }
+
     public FirebaseChallengeData asFirebaseChallengeData() {
         FirebaseChallengeData firebaseChallengeData = new FirebaseChallengeData(
-                this.id, this.title, this.creationDate, this.activationDate,this.challenteTime, this.exerciseSup, this.exerciseInf, this.exerciseCore, this.state, this.repetitionSup, this.repetitionInf, this.repetitionCore, this.type);
+                this.id, this.title, this.creationDate, this.activationDate,this.challenteTime, this.exerciseSup, this.exerciseInf, this.exerciseCore, this.state, this.repetitionSup, this.repetitionInf, this.repetitionCore, this.type, this.requiresEquipment);
         return firebaseChallengeData;
     }
 }

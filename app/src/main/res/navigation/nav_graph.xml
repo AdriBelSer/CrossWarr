@@ -8,20 +8,49 @@
     <fragment
         android:id="@+id/nav_daily_challenge"
         android:name="com.yinya.crosswarr.DailyChallenge"
-        android:label="Reto del dia"
-        tools:layout="@layout/fragment_daily_challenge" />
+        tools:layout="@layout/fragment_daily_challenge">
+        <action
+            android:id="@+id/action_nav_daily_challenge_to_nav_exercises"
+            app:destination="@id/nav_exercises" />
+        <action
+            android:id="@+id/action_nav_daily_challenge_to_settings"
+            app:destination="@id/settings" />
+        <action
+            android:id="@+id/action_nav_daily_challenge_to_nav_challenges"
+            app:destination="@id/nav_challenges" />
+        <action
+            android:id="@+id/action_nav_daily_challenge_to_userProfile"
+            app:destination="@id/userProfile" />
+        <action
+            android:id="@+id/action_nav_daily_challenge_to_usersEditionList"
+            app:destination="@id/usersEditionList" />
+        <action
+            android:id="@+id/action_nav_daily_challenge_to_challengesEditionList"
+            app:destination="@id/challengesEditionList" />
+        <action
+            android:id="@+id/action_nav_daily_challenge_to_exercisesEdition"
+            app:destination="@id/exercisesEdition" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_exercises"
         android:name="com.yinya.crosswarr.ExercisesList"
-        android:label="Ejercicios"
-        tools:layout="@layout/fragment_exercises_list" />
+        android:label="@string/nav_graph_exercises"
+        tools:layout="@layout/fragment_exercises_list">
+        <action
+            android:id="@+id/action_nav_exercises_to_exerciseDetail"
+            app:destination="@id/exerciseDetail" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_challenges"
         android:name="com.yinya.crosswarr.ChallengesList"
-        android:label="Historial"
-        tools:layout="@layout/fragment_challenges_list" />
+        android:label="@string/nav_graph_records"
+        tools:layout="@layout/fragment_challenges_list">
+        <action
+            android:id="@+id/action_nav_challenges_to_challengeDetail"
+            app:destination="@id/challengeDetail" />
+    </fragment>
 
     <fragment
         android:id="@+id/exerciseDetail"
@@ -36,35 +65,49 @@
     <fragment
         android:id="@+id/challengeDetail"
         android:name="com.yinya.crosswarr.ChallengeDetail"
-        android:label="ChallengeDetail" />
+        android:label="@string/nav_graph_daily_challenge">
+    </fragment>
+
     <fragment
         android:id="@+id/challengesEdition"
         android:name="com.yinya.crosswarr.ChallengesEdition"
-        android:label="ChallengesEdition" />
+        android:label="@string/nav_graph_challenges_edition" />
     <fragment
         android:id="@+id/challengesEditionList"
         android:name="com.yinya.crosswarr.ChallengesEditionList"
-        android:label="ChallengesEditionList" />
+        android:label="@string/nav_graph_challenges_list">
+        <action
+            android:id="@+id/action_challengesEditionList_to_challengesEdition"
+            app:destination="@id/challengesEdition" />
+    </fragment>
     <fragment
         android:id="@+id/exercisesEdition"
         android:name="com.yinya.crosswarr.ExercisesEdition"
-        android:label="ExercisesEdition" />
+        android:label="@string/nav_graph_exercises_edition">
+        <action
+            android:id="@+id/action_exercisesEdition_to_exercisesEditionList"
+            app:destination="@id/exercisesEditionList" />
+    </fragment>
     <fragment
         android:id="@+id/exercisesEditionList"
         android:name="com.yinya.crosswarr.ExercisesEditionList"
-        android:label="ExercisesEditionList" />
+        android:label="@string/nav_graph_exercises" />
     <fragment
         android:id="@+id/usersEdition"
         android:name="com.yinya.crosswarr.UsersEdition"
-        android:label="UsersEdition" />
+        android:label="@string/nav_graph_users_edition" />
     <fragment
         android:id="@+id/usersEditionList"
         android:name="com.yinya.crosswarr.UsersEditionList"
-        android:label="UsersEditionList" />
+        android:label="@string/nav_graph_users_list">
+        <action
+            android:id="@+id/action_usersEditionList_to_usersEdition"
+            app:destination="@id/usersEdition" />
+    </fragment>
     <fragment
         android:id="@+id/settings"
         android:name="com.yinya.crosswarr.Settings"
-        android:label="Settings" />
+        android:label="@string/nav_graph_settings" />
     <activity
         android:id="@+id/loginActivity"
         android:name="com.yinya.crosswarr.LoginActivity"

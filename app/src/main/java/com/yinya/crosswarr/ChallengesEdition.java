@@ -110,6 +110,7 @@ public class ChallengesEdition extends Fragment {
         String title = binding.etChallengeNameFragmentChallengesEdition.getText().toString().trim();
         String timeStr = binding.etChallengeTimeFragmentChallengesEdition.getText().toString().trim();
         String dateStr = binding.etChallengeDateFragmentChallengesEdition.getText().toString().trim();
+        boolean requiresEquipment = binding.switchRequiresEquipmentChallenge.isChecked();
 
         String exerciseSup = binding.acUpperBodyFragmentChallengesEdition.getText().toString().trim();
         String repsSupStr = binding.etRepsUpperFragmentChallengesEdition.getText().toString().trim();
@@ -150,7 +151,15 @@ public class ChallengesEdition extends Fragment {
 
             // Generar un ID único (usando la fecha actual sin guiones para que sea limpio)
             SimpleDateFormat sdfId = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
-            String generatedId = "challenge_" + sdfId.format(javaDate);
+            String dateForId = sdfId.format(javaDate);
+            String generatedId;
+
+            // Asignamos el ID directamente dependiendo de si requiere material o no
+            if (requiresEquipment) {
+                generatedId = "eq_challenge_" + dateForId; // Ej: eq_challenge_20260416
+            } else {
+                generatedId = "challenge_" + dateForId;    // Ej: challenge_20260416
+            }
 
             ChallengeData newChallenge = new ChallengeData(
                     generatedId,
@@ -165,7 +174,8 @@ public class ChallengesEdition extends Fragment {
                     repsSup,
                     repsInf,
                     repsCore,
-                    type
+                    type,
+                    requiresEquipment
             );
 
             // Guardar en Firebase usando el Repositorio

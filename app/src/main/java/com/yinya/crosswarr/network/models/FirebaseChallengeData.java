@@ -20,6 +20,7 @@ public class FirebaseChallengeData {
     private int repetitionInf;
     private int repetitionCore;
     private String type;
+    private boolean requiresEquipment;
 
     public FirebaseChallengeData() {
     }
@@ -36,7 +37,7 @@ public class FirebaseChallengeData {
         this.state = state;
     }
 
-    public FirebaseChallengeData(String id, String title, Timestamp creationDate, Timestamp activationDate, int challengeTime, String exerciseSup, String exerciseInf, String exerciseCore, boolean state, int repetitionSup, int repetitionInf, int repetitionCore, String type) {
+    public FirebaseChallengeData(String id, String title, Timestamp creationDate, Timestamp activationDate, int challengeTime, String exerciseSup, String exerciseInf, String exerciseCore, boolean state, int repetitionSup, int repetitionInf, int repetitionCore, String type, boolean requiresEquipment) {
         this.id = id;
         this.title = title;
         this.creationDate = creationDate;
@@ -50,6 +51,7 @@ public class FirebaseChallengeData {
         this.repetitionInf = repetitionInf;
         this.repetitionCore = repetitionCore;
         this.type = type;
+        this.requiresEquipment = requiresEquipment;
     }
 
     public String getId() {
@@ -164,10 +166,18 @@ public class FirebaseChallengeData {
         this.type = type;
     }
 
+    public boolean isRequiresEquipment() {
+        return requiresEquipment;
+    }
+
+    public void setRequiresEquipment(boolean requiresEquipment) {
+        this.requiresEquipment = requiresEquipment;
+    }
+
     public ChallengeData asChallengeData() {
         ChallengeData challengeData = new ChallengeData(
                 this.id, this.title, this.creationDate, this.activationDate, this.challengeTime, this.exerciseSup, this.exerciseInf,
-                this.exerciseCore, this.state, this.repetitionSup, this.repetitionInf, this.repetitionCore, this.type);
+                this.exerciseCore, this.state, this.repetitionSup, this.repetitionInf, this.repetitionCore, this.type, this.requiresEquipment);
         return challengeData;
     }
 
@@ -186,6 +196,7 @@ public class FirebaseChallengeData {
         hashMap.put("repetitionInf", this.repetitionInf);
         hashMap.put("repetitionCore", this.repetitionCore);
         hashMap.put("type", this.type);
+        hashMap.put("requiresEquipment", this.requiresEquipment);
         return hashMap;
     }
 }

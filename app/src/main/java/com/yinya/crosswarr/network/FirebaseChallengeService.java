@@ -70,6 +70,14 @@ public class FirebaseChallengeService {
                             ch.setExerciseCore((String) map.get("exerciseCore"));
                             ch.setType((String) map.get("type"));
 
+                            //Boolean
+                            if (map.get("requiresEquipment") != null) {
+                                ch.setRequiresEquipment((Boolean) map.get("requiresEquipment"));
+                            } else {
+                                // Si no está especificado, asumimos que no.
+                                ch.setRequiresEquipment(false);
+                            }
+
                             // Fechas (Timestamps)
                             ch.setCreationDate((Timestamp) map.get("creationDate"));
                             ch.setActivationDate((Timestamp) map.get("activationDate"));

@@ -34,8 +34,8 @@ public class FirebaseUserData {
     public FirebaseUserData(String uid, String email, String name, String photo, String role, Timestamp accountCreationDate, String notificationPushToken, Map<String, Object> settings, List<Map<String, Object>> challenges) {
         this(uid, email, name, role, accountCreationDate, notificationPushToken);
         this.photo = photo;
-        this.settings = new HashMap<>();
-        this.challenges = new ArrayList<>();
+        this.settings = settings;
+        this.challenges = challenges;
     }
 
     public String getUid() {

@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.yinya.crosswarr.adapters.ExercisesUserViewAdapter;
 import com.yinya.crosswarr.adapters.OnExerciseClickListener;
 import com.yinya.crosswarr.databinding.FragmentExercisesListBinding;
@@ -60,28 +62,60 @@ public class ExercisesList extends Fragment {
 
     // TODO: Poner para que solo le salga al usuario si está isUsed a true (que eso quiere decir que se ha usado en un challenge)
 
+
     private void setupObservers() {
-        // Observamos la Pizarra (LiveData) de nuestro Repositorio
-        // getViewLifecycleOwner() asegura que si la pantalla se cierra, dejamos de mirar la pizarra
         Repository.getInstance().getExercisesLiveData().observe(getViewLifecycleOwner(), listFromFirebase -> {
-
-            // Si la lista que llega de la pizarra no es nula...
             if (listFromFirebase != null) {
-                // Borramos lo que hubiera antes en la pantalla
-                exercises.clear();
 
-                //TODO: Borrar esto y descomentar lo de abajo para filtrar según se ha usado o no el ejercicio en un challenge
-                exercises.addAll(listFromFirebase);
-                /*//Filtramos para que solo salgan los que tienen isUsed a true
-                for (ExerciseData ex : listFromFirebase) {
-                    if (ex.isUsed()) {
-                        exercises.add(ex);
-                    }
-                }*/
+                FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
+                if (fUser != null) {
+                    com.yinya.crosswarr.network.FirebaseService.getInstance()
+                            .getDocument("crosswarr", fUser.getUid(), new com.yinya.crosswarr.network.IFirebaseCallback() {
 
-                // Le avisamos al adapter que ya tenemos los datos reales filtrados
-                if (adapter != null) {
-                    adapter.notifyDataSetChanged();
+                                @Override
+                                public void onSuccess(java.util.Map<String, Object> dataFromFirebase) {
+                                    boolean userHasEquipment = false;
+
+                                    // Extraemos el ajuste useMaterials del usuario
+                                    if (dataFromFirebase != null && dataFromFirebase.get("settings") != null) {
+                                        java.util.Map<String, Object> settings = (java.util.Map<String, Object>) dataFromFirebase.get("settings");
+                                        Boolean useMat = (Boolean) settings.get("useMaterials");
+                                        if (useMat != null) userHasEquipment = useMat;
+                                    }
+
+                                    exercises.clear();
+
+                                    for (ExerciseData ex : listFromFirebase) {
+                                        // FILTRO 1: ¿Está activo (isUsed)? Si no lo está, lo saltamos y pasamos al siguiente.
+                                        if (!ex.isUsed()) {
+                                            continue;
+                                        }
+
+                                        // FILTRO 2: Materiales
+                                        boolean exerciseRequiresEquipment = false;
+                                        if (ex.getType() != null) {
+                                            String type = ex.getType().toLowerCase();
+                                            // Truco: Asegurarnos de que contenga "with_equipment" pero NO "without_equipment"
+                                            exerciseRequiresEquipment = type.contains("with_equipment") && !type.contains("without_equipment");
+                                        }
+
+                                        // Si el ejercicio NO requiere material, entra.
+                                        // Si SÍ requiere material, solo entra si el usuario marcó "useMaterials" en su perfil.
+                                        if (!exerciseRequiresEquipment || userHasEquipment) {
+                                            exercises.add(ex);
+                                        }
+                                    }
+
+                                    if (adapter != null) {
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Exception e) {
+                                    android.util.Log.e("ExercisesList", "Error al traer datos del usuario", e);
+                                }
+                            });
                 }
             }
         });

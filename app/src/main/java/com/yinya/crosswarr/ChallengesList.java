@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.yinya.crosswarr.adapters.ChallengesUserViewAdapter;
 import com.yinya.crosswarr.adapters.OnChallengeClickListener;
 import com.yinya.crosswarr.databinding.FragmentChallengesListBinding;
@@ -55,16 +57,52 @@ public class ChallengesList extends Fragment {
 
     private void setupObservers() {
         Repository.getInstance().getChallengesLiveData().observe(getViewLifecycleOwner(), listFromFirebase -> {
-
             if (listFromFirebase != null) {
-                challenges.clear();
 
-                //TODO: Aquí en el futuro se pueden filtrar los challenges (ej: si state es true/false)
-                //TODO: Borrar esto y descomentar lo de abajo para filtrar según se ha usado o no el ejercicio en un challenge
-                challenges.addAll(listFromFirebase);
+                FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
+                if (fUser != null) {
+                    // Descargamos el perfil del usuario actual para ver sus settings
+                    com.yinya.crosswarr.network.FirebaseService.getInstance()
+                            .getDocument("crosswarr", fUser.getUid(), new com.yinya.crosswarr.network.IFirebaseCallback() {
 
-                if (adapter != null) {
-                    adapter.notifyDataSetChanged();
+                                @Override
+                                public void onSuccess(java.util.Map<String, Object> dataFromFirebase) {
+                                    boolean userHasEquipment = false; // Asumimos que no tiene por defecto
+
+                                    // Extraemos el ajuste useMaterials
+                                    if (dataFromFirebase != null && dataFromFirebase.get("settings") != null) {
+                                        java.util.Map<String, Object> settings = (java.util.Map<String, Object>) dataFromFirebase.get("settings");
+                                        Boolean useMat = (Boolean) settings.get("useMaterials");
+                                        if (useMat != null) userHasEquipment = useMat;
+                                    }
+
+                                    challenges.clear();
+
+                                    // Filtro
+                                    for (ChallengeData challenge : listFromFirebase) {
+                                        //FILTRO 1: ¿La fecha de activación ya ha pasado?
+                                        if (!challenge.isState()) {
+                                            continue;
+                                        }
+                                        //FILTRO 2: Materiales
+                                        // Si no pide material (!requiresEquipment) -> Entra siempre.
+                                        // Si pide material -> Solo entra si userHasEquipment es true.
+                                        if (!challenge.isRequiresEquipment() || userHasEquipment) {
+                                            challenges.add(challenge);
+                                        }
+
+                                    }
+
+                                    if (adapter != null) {
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Exception e) {
+                                    android.util.Log.e("ChallengesList", "Error al traer datos del usuario", e);
+                                }
+                            });
                 }
             }
         });
@@ -79,11 +117,6 @@ public class ChallengesList extends Fragment {
         Bundle bundle = new Bundle();
         bundle.putString("id", challenge.getId());
         bundle.putString("title", challenge.getTitle());
-
-        // Las fechas Timestamp normalmente no se pasan enteras,
-        // pero si las necesitas en la otra vista, las pasamos como String o milisegundos.
-        // bundle.putString("creationDate", challenge.getCreationDate().toDate().toString());
-
         bundle.putString("time", String.valueOf(challenge.getChallenteTime()));
         bundle.putString("exerciseSup", challenge.getExerciseSup());
         bundle.putString("exerciseInf", challenge.getExerciseInf());

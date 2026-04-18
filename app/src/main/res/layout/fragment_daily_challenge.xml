@@ -47,6 +47,19 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_challenge_title_fragment_daily_challenge"
         tools:srcCompat="@drawable/photo_10" />
 
+    <Chronometer
+        android:id="@+id/chronometer_fragment_daily_challenge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="56sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_challenge_title_fragment_daily_challenge" />
+
     <TextView
         android:id="@+id/tv_challenge_description_fragment_daily_challenge"
         android:layout_width="wrap_content"

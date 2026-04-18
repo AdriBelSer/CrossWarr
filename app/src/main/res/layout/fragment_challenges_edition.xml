@@ -123,7 +123,13 @@
                     android:layout_weight="1"
                     android:text="@string/type_ft_fragment_challenges_edition" />
             </com.google.android.material.button.MaterialButtonToggleGroup>
-
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switch_requires_equipment_challenge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/switch_materials_fragment_challenges_edition"
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"

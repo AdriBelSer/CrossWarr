@@ -69,4 +69,13 @@
     <string name="image_url_fragment_exercises_edition">URL de la imagen</string>
     <string name="video_url_fragment_exercises_edition">URL del vídeo</string>
     <string name="materials_list_fragment_exercises_edition">Materiales (separados por comas)</string>
+    <string name="nav_graph_daily_challenge">Reto del dia</string>
+    <string name="nav_graph_exercises">Lista de ejercicios</string>
+    <string name="nav_graph_settings">Ajustes</string>
+    <string name="nav_graph_records">Historial</string>
+    <string name="nav_graph_challenges_edition">Edición del desafío</string>
+    <string name="nav_graph_challenges_list">Lista de desafíos</string>
+    <string name="nav_graph_exercises_edition">Edición de ejercicios</string>
+    <string name="nav_graph_users_edition">Edición de usuarios</string>
+    <string name="nav_graph_users_list">Lista de usuarios</string>
 </resources>

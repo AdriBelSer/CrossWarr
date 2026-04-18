@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -12,7 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
+import androidx.navigation.NavDirections;
+import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
@@ -21,14 +23,16 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.yinya.crosswarr.databinding.ActivityMainBinding;
 import com.yinya.crosswarr.models.ChallengeData;
-import com.yinya.crosswarr.models.ExerciseData;
 import com.yinya.crosswarr.repository.Repository;
+
+//TODO: VOY POR AQUI!!!!!!! VER LAS DOS ULTIMAS RESPUESTAS DE GEMINI PARA LA PANTALLA DE CARGA Y PARA QUE NO SE VAYA AL MAIN ACTIVITY AL DARLE AL BOTÓN ATRÁS DESDE EL DESAFIO DIARIO
 
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
     private NavController navController;
     private boolean hasNavigatedToChallenge = false;
+    private ChallengeData todayChallenge = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +42,9 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        setupNavigation();
+        loadTodaysChallenge();
 
-        loadAndGoToTodaysChallengeAutomatically();
+        setupNavigation();
 
         // Escuchar los clics del menú superior de los 3 puntitos
         binding.mainAppbar.setOnMenuItemClickListener(item -> {
@@ -67,11 +71,42 @@ public class MainActivity extends AppCompatActivity {
                 navController.navigate(R.id.userProfile);
                 return true;
             }
-
             return false;
         });
     }
 
+    private boolean onBottomNavItemClick(MenuItem item) {
+        int id = item.getItemId();
+        return handleBottomNavClick(id);
+    }
+
+    private boolean handleBottomNavClick(int itemId) {
+        // Configuramos las opciones de navegación
+        NavOptions options = new NavOptions.Builder()
+                .setLaunchSingleTop(true)
+                .setRestoreState(false) // <--- ESTO evita que vuelva al fragmento de detalle
+                .setPopUpTo(navController.getGraph().getStartDestinationId(), false, true)
+                .build();
+
+        if (itemId == R.id.nav_daily_challenge) {
+            // 5. Si lo encontramos, navegamos
+            if (todayChallenge != null) {
+                hasNavigatedToChallenge = true; // Marcamos que ya cumplimos la misión
+                navigateToDailyChallenge(todayChallenge, options);
+            } //else{
+            // TODO: (Esto es un fallback) Ir a fragment en el que aparezca un mensaje de que no hay retos disponibles
+            // }
+            return true;
+        } else if (itemId == R.id.nav_exercises) {
+            navController.navigate(R.id.nav_exercises, null, options);
+            return true;
+        } else if (itemId == R.id.nav_challenges) {
+            navController.navigate(R.id.nav_challenges, null, options);
+            return true;
+        }
+
+        return false;
+    }
 
 
     // Méto do para navegar en el menú
@@ -93,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.mainAppbar, navController);
 
         // Configurar el menú inferior (BottomNavigationView) para que cambie de pantalla
-        NavigationUI.setupWithNavController(binding.navView, navController);
+        binding.navView.setOnItemSelectedListener(this::onBottomNavItemClick);
 
         // Mostrar iconos en los 3 puntitos -> Requiere @SuppressLint
         Menu menu = binding.mainAppbar.getMenu();
@@ -129,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
     }
     //TODO: PONER SKELETON EN LA VISTA PARA CUANDO ESTÁ CARGANDO EL CHALLENGE DEL DIA QUE NO SE VEA FEO
 
-    private void loadAndGoToTodaysChallengeAutomatically() {
+    private void loadTodaysChallenge() {
         // 1. Pedimos los desafíos al repositorio
         Repository.getInstance().fetchChallengesFromFirebase();
 
@@ -142,28 +177,22 @@ public class MainActivity extends AppCompatActivity {
             java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM-yyyy", java.util.Locale.getDefault());
             String todayString = sdf.format(new java.util.Date());
 
-            ChallengeData todayChallenge = null;
-
             // 4. Buscamos el reto que coincida con la fecha de activación
             for (ChallengeData ch : challenges) {
                 if (ch.getActivationDate() != null) {
                     String chDate = sdf.format(ch.getActivationDate().toDate());
                     if (todayString.equals(chDate)) {
                         todayChallenge = ch;
+                        handleBottomNavClick(R.id.nav_daily_challenge);
                         break;
                     }
                 }
             }
 
-            // 5. Si lo encontramos, navegamos
-            if (todayChallenge != null) {
-                hasNavigatedToChallenge = true; // Marcamos que ya cumplimos la misión
-                navigateToChallengeDetail(todayChallenge);
-            }
         });
     }
 
-    private void navigateToChallengeDetail(ChallengeData challenge) {
+    private void navigateToDailyChallenge(ChallengeData challenge, NavOptions options) {
         Bundle bundle = new Bundle();
         bundle.putString("id", challenge.getId());
         bundle.putString("title", challenge.getTitle());
@@ -178,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
         bundle.putString("type", challenge.getType());
 
         // Navegación automática al fragmento reutilizado
-        navController.navigate(R.id.challengeDetail, bundle);
+        navController.navigate(R.id.nav_daily_challenge, bundle, options);
     }
 
 }
