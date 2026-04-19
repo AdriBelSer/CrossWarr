@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FirebaseService {
+    public final String COLLECTION_NAME = "crosswarr";
 
     private static FirebaseService instance;
     FirebaseFirestore db;
@@ -117,6 +118,21 @@ public class FirebaseService {
         db.collection(collectionName)
                 .document(documentName)
                 .set(data, com.google.firebase.firestore.SetOptions.merge())
+                .addOnSuccessListener(successListener)
+                .addOnFailureListener(failureListener);
+    }
+
+    public void addItemToMap(String collectionName, String documentName, String mapFieldName, String itemKey, Object itemValue, OnSuccessListener<Void> successListener, OnFailureListener failureListener) {
+
+        Map<String, Object> innerMap = new HashMap<>();
+        innerMap.put(itemKey, itemValue);
+
+        Map<String, Object> outerData = new HashMap<>();
+        outerData.put(mapFieldName, innerMap);
+
+        db.collection(collectionName)
+                .document(documentName)
+                .set(outerData, com.google.firebase.firestore.SetOptions.merge())
                 .addOnSuccessListener(successListener)
                 .addOnFailureListener(failureListener);
     }

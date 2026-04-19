@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FirebaseChallengeService {
+    // TODO: refactorizar utilizando firebaseService.COLLECTION_NAME
     private static FirebaseChallengeService instance;
     FirebaseService firebaseService;
 

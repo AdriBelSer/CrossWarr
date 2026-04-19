@@ -5,16 +5,27 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.yinya.crosswarr.databinding.FragmentChallengeDetailBinding;
+import com.yinya.crosswarr.network.FirebaseService;
+import com.yinya.crosswarr.network.FirebaseUserService;
+import com.yinya.crosswarr.network.IFirebaseCallback;
+
+import java.util.Map;
 
 //TODO: Hacer que cuando termine el desafío/le de al botón de parar vuelva a la página de inicio
 public class ChallengeDetail extends Fragment {
+    long totalTimeInMillis;
     private FragmentChallengeDetailBinding binding;
+    private FirebaseService firebaseService;
+    private FirebaseUserService firebaseUserService;
     private boolean isChronometerRunning = false;
     private long timeSpentInMillis = 0; // Aquí guardaremos el tiempo real que ha entrenado
     private MediaPlayer mpMinute;
@@ -117,62 +128,21 @@ public class ChallengeDetail extends Fragment {
             if (binding.btnStartFragmentChallengeDetail != null && time != null) {
                 binding.btnStartFragmentChallengeDetail.setOnClickListener(v -> {
 
-                    long totalTimeInMillis = Long.parseLong(time) * 60 * 1000;
-
                     if (!isChronometerRunning) {
                         // INICIAR EL DESAFÍO
 
-                        if (binding.ivFragmentChallengeDetail != null) {
-                            binding.ivFragmentChallengeDetail.setVisibility(android.view.View.GONE);
-                        }
+                        totalTimeInMillis = Long.parseLong(time) * 60 * 1000;
 
                         if (binding.chronometerFragmentChallengeDetail != null) {
                             binding.chronometerFragmentChallengeDetail.setVisibility(android.view.View.VISIBLE);
 
-                            try {
-                                binding.chronometerFragmentChallengeDetail.setCountDown(true);
-                                // La base es el momento actual + el tiempo total del desafío
-                                binding.chronometerFragmentChallengeDetail.setBase(android.os.SystemClock.elapsedRealtime() + totalTimeInMillis);
+                            initChronometer(id, type);
 
-                                binding.chronometerFragmentChallengeDetail.setOnChronometerTickListener(chronometer -> {
-                                    long timeRemaining = chronometer.getBase() - android.os.SystemClock.elapsedRealtime();
-
-                                    // Calculamos el tiempo que ya ha pasado
-                                    long timeElapsedMillis = totalTimeInMillis - timeRemaining;
-                                    long secondsElapsed = timeElapsedMillis / 1000;
-
-                                    // Lógica EMOM: Sonar cada minuto (60, 120, 180 segundos...)
-                                    if ("emom".equals(type) && secondsElapsed > 0 && secondsElapsed % 60 == 0) {
-                                        if (mpMinute != null) {
-                                            mpMinute.start();
-                                        }
-                                    }
-
-                                    // Lógica de Fin de Desafío
-                                    if (timeRemaining <= 0) {
-                                        chronometer.stop();
-                                        chronometer.setText("00:00");
-                                        isChronometerRunning = false;
-
-                                        if (mpFinish != null) {
-                                            mpFinish.start();
-                                        }
-
-                                        android.widget.Toast.makeText(requireContext(), "¡Desafío completado!", android.widget.Toast.LENGTH_SHORT).show();
-                                    }
-                                });// TODO: Guardar en el historial totalTimeInMillis
-
-                                binding.chronometerFragmentChallengeDetail.start();
-                                isChronometerRunning = true;
-
-                                // Cambiamos el botón para que ahora sirva para parar
-                                binding.btnStartFragmentChallengeDetail.setText("Terminar / Parar");
-
-                            } catch (NumberFormatException e) {
-                                android.util.Log.e("ChallengeDetail", "Error al convertir el tiempo", e);
-                            }
+                            // Cambiamos el botón para que ahora sirva para parar
+                            binding.btnStartFragmentChallengeDetail.setText("Terminar / Parar");
                         }
 
+                        timeSpentInMillis = totalTimeInMillis;
                     } else {
                         // ESTADO 2: EL USUARIO PARA EL DESAFÍO ANTES DE TIEMPO
                         if (binding.chronometerFragmentChallengeDetail != null) {
@@ -184,21 +154,12 @@ public class ChallengeDetail extends Fragment {
 
                             // El tiempo invertido es el Total menos lo que sobró
                             timeSpentInMillis = totalTimeInMillis - timeRemaining;
-
-                            binding.btnStartFragmentChallengeDetail.setText("Desafío Finalizado");
-                            binding.btnStartFragmentChallengeDetail.setEnabled(false); // Lo bloqueamos para que no le dé más veces
-
-                            // Convertimos los milisegundos a minutos y segundos para mostrarle un Toast de enhorabuena
-                            int minutesCompleted = (int) (timeSpentInMillis / 1000) / 60;
-                            int secondsCompleted = (int) (timeSpentInMillis / 1000) % 60;
-
-                            String timeMsg = String.format("Has entrenado: %02d:%02d", minutesCompleted, secondsCompleted);
-                            android.widget.Toast.makeText(requireContext(), timeMsg, android.widget.Toast.LENGTH_LONG).show();
-
-                            // TODO: Aquí ya tienes tu variable `timeSpentInMillis` llena y lista para
-                            // pasarla al UserData y subirla a Firebase a su lista de challenges completados.
+                            onChallengeFinished(id);
                         }
                     }
+
+
+
                 });
             }
         }
@@ -216,5 +177,75 @@ public class ChallengeDetail extends Fragment {
             mpFinish = null;
         }
     }
+
+    private void initChronometer(String id, String type) {
+        try {
+            binding.chronometerFragmentChallengeDetail.setCountDown(true);
+            // La base es el momento actual + el tiempo total del desafío
+            binding.chronometerFragmentChallengeDetail.setBase(android.os.SystemClock.elapsedRealtime() + totalTimeInMillis);
+
+            binding.chronometerFragmentChallengeDetail.setOnChronometerTickListener(chronometer -> {
+
+                long timeRemaining = chronometer.getBase() - android.os.SystemClock.elapsedRealtime();
+
+                // Calculamos el tiempo que ya ha pasado
+                long timeElapsedMillis = totalTimeInMillis - timeRemaining;
+                long secondsElapsed = timeElapsedMillis / 1000;
+
+                // Lógica EMOM: Sonar cada minuto (60, 120, 180 segundos...)
+                if ("emom".equals(type) && secondsElapsed > 0 && secondsElapsed % 60 == 0) {
+                    if (mpMinute != null) {
+                        mpMinute.start();
+                    }
+                }
+
+                // Lógica de Fin de Desafío
+                if (timeRemaining <= 0) {
+                    chronometer.stop();
+                    chronometer.setText("00:00");
+                    isChronometerRunning = false;
+                    onChallengeFinished(id);
+
+                    if (mpFinish != null) {
+                        mpFinish.start();
+                    }
+
+                    android.widget.Toast.makeText(requireContext(), "¡Desafío completado!", android.widget.Toast.LENGTH_SHORT).show();
+                }
+
+            });
+
+            binding.chronometerFragmentChallengeDetail.start();
+            isChronometerRunning = true;
+        } catch (NumberFormatException e) {
+            android.util.Log.e("ChallengeDetail", "Error al convertir el tiempo", e);
+        }
+    }
+
+    private void onChallengeFinished(String id){
+        binding.btnStartFragmentChallengeDetail.setText("Desafío Finalizado");
+        binding.btnStartFragmentChallengeDetail.setEnabled(false); // Lo bloqueamos para que no le dé más
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        firebaseService = FirebaseService.getInstance();
+        firebaseUserService = FirebaseUserService.getInstance(firebaseService);
+        firebaseUserService.upsertChallengeTime(user.getUid(), id, (int) timeSpentInMillis, new IFirebaseCallback() {
+            @Override
+            public void onSuccess(Map<String, Object> data) {
+                // Convertimos los milisegundos a minutos y segundos para mostrarle un Toast de enhorabuena
+                int minutesCompleted = (int) (timeSpentInMillis / 1000) / 60;
+                int secondsCompleted = (int) (timeSpentInMillis / 1000) % 60;
+
+                String timeMsg = String.format("Has entrenado: %02d:%02d", minutesCompleted, secondsCompleted);
+                android.widget.Toast.makeText(requireContext(), timeMsg, android.widget.Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                Toast.makeText(getContext(), "Error al guardar el tiempo.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
 }

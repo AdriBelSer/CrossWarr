@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public class FirebaseExerciseService {
+    // TODO: refactorizar utilizando firebaseService.COLLECTION_NAME
 
     private static FirebaseExerciseService instance;
     FirebaseService firebaseService;

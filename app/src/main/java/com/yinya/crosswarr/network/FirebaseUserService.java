@@ -3,11 +3,12 @@ package com.yinya.crosswarr.network;
 import com.yinya.crosswarr.models.UserData;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class FirebaseUserService {
     private static FirebaseUserService instance;
-    FirebaseService firebaseService;
+    private FirebaseService firebaseService;
 
     private FirebaseUserService(FirebaseService firebaseService) {
         this.firebaseService = firebaseService;
@@ -23,11 +24,11 @@ public class FirebaseUserService {
     // Metodos CRUD usuarios
     public void createUser(UserData userData) {
         firebaseService = FirebaseService.getInstance();
-        firebaseService.createDocumentWithId("crosswarr", userData.getUid(), userData.asFirebaseUserData().asHashMap());
+        firebaseService.createDocumentWithId(firebaseService.COLLECTION_NAME, userData.getUid(), userData.asFirebaseUserData().asHashMap());
     }
 
     public void fetchUsers(IUsersCallback callback) {
-        firebaseService.getUsersFromMixedCollection("crosswarr", new IFirebaseCallback() {
+        firebaseService.getUsersFromMixedCollection(firebaseService.COLLECTION_NAME, new IFirebaseCallback() {
             @Override
             public void onSuccess(Map<String, Object> dataFromFirebase) {
                 ArrayList<UserData> allUsers = new ArrayList<>();
@@ -60,6 +61,12 @@ public class FirebaseUserService {
                 callback.onFailure(e);
             }
         });
+    }
+
+    public void upsertChallengeTime(String uid, String challengeId, int challengeTime, IFirebaseCallback callback){
+        Map<String, Object> data = new HashMap<>();
+        data.put(challengeId, challengeTime);
+        firebaseService.addItemToMap(firebaseService.COLLECTION_NAME, uid, "challenges", challengeId, challengeTime, aVoid -> callback.onSuccess(data), callback::onFailure);
     }
 
     public void deleteUser(UserData userData) {
