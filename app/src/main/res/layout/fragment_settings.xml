@@ -39,5 +39,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/settings_materials_switch" />
 
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/settings_notifications_switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:paddingHorizontal="20dp"
+        android:text="@string/switch_notifications_menu_settings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/settings_lenguage_switch" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

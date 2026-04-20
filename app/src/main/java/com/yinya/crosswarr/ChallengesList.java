@@ -20,6 +20,8 @@ import com.yinya.crosswarr.models.ChallengeData;
 import com.yinya.crosswarr.repository.Repository;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ChallengesList extends Fragment {
 
@@ -39,8 +41,8 @@ public class ChallengesList extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         challenges = new ArrayList<>();
-
-        adapter = new ChallengesUserViewAdapter(challenges, getContext(), new OnChallengeClickListener() {
+        Map<String, Object> myCompletedChallenges = new HashMap<>();
+        adapter = new ChallengesUserViewAdapter(challenges, myCompletedChallenges, getContext(), new OnChallengeClickListener() {
             @Override
             public void onChallengeClick(ChallengeData challenge, View view) {
                 challengeUserClicked(challenge, view);
@@ -74,6 +76,14 @@ public class ChallengesList extends Fragment {
                                         java.util.Map<String, Object> settings = (java.util.Map<String, Object>) dataFromFirebase.get("settings");
                                         Boolean useMat = (Boolean) settings.get("useMaterials");
                                         if (useMat != null) userHasEquipment = useMat;
+                                    }
+                                    if (dataFromFirebase.get("challenges") != null) {
+                                        java.util.Map<String, Object> historyMap = (java.util.Map<String, Object>) dataFromFirebase.get("challenges");
+
+                                        // Se lo enviamos al adaptador para que pinte los "Completados"
+                                        if (adapter != null) {
+                                            adapter.setCompletedChallenges(historyMap);
+                                        }
                                     }
 
                                     challenges.clear();

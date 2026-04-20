@@ -2,6 +2,8 @@ package com.yinya.crosswarr;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -9,9 +11,12 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.NavOptions;
@@ -25,14 +30,20 @@ import com.yinya.crosswarr.databinding.ActivityMainBinding;
 import com.yinya.crosswarr.models.ChallengeData;
 import com.yinya.crosswarr.repository.Repository;
 
-//TODO: VOY POR AQUI!!!!!!! VER LAS DOS ULTIMAS RESPUESTAS DE GEMINI PARA LA PANTALLA DE CARGA Y PARA QUE NO SE VAYA AL MAIN ACTIVITY AL DARLE AL BOTÓN ATRÁS DESDE EL DESAFIO DIARIO
-
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
     private NavController navController;
     private boolean hasNavigatedToChallenge = false;
     private ChallengeData todayChallenge = null;
+    private final ActivityResultLauncher<String> requestPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (isGranted) {
+                    android.util.Log.d("FCM", "Permiso de notificaciones concedido");
+                } else {
+                    android.util.Log.w("FCM", "Permiso de notificaciones denegado");
+                }
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
         loadTodaysChallenge();
 
         setupNavigation();
+
+        askNotificationPermission();
 
         // Escuchar los clics del menú superior de los 3 puntitos
         binding.mainAppbar.setOnMenuItemClickListener(item -> {
@@ -73,6 +86,8 @@ public class MainActivity extends AppCompatActivity {
             }
             return false;
         });
+
+
     }
 
     private boolean onBottomNavItemClick(MenuItem item) {
@@ -162,7 +177,6 @@ public class MainActivity extends AppCompatActivity {
         finish();
 
     }
-    //TODO: PONER SKELETON EN LA VISTA PARA CUANDO ESTÁ CARGANDO EL CHALLENGE DEL DIA QUE NO SE VEA FEO
 
     private void loadTodaysChallenge() {
         // 1. Pedimos los desafíos al repositorio
@@ -208,6 +222,21 @@ public class MainActivity extends AppCompatActivity {
 
         // Navegación automática al fragmento reutilizado
         navController.navigate(R.id.nav_daily_challenge, bundle, options);
+    }
+    private void askNotificationPermission() {
+        // Solo es necesario a partir de Android 13 (API 33)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) ==
+                    PackageManager.PERMISSION_GRANTED) {
+                // Ya tenemos permiso
+            } else if (shouldShowRequestPermissionRationale(android.Manifest.permission.POST_NOTIFICATIONS)) {
+                // Mostrar un diálogo educativo explicando por qué necesitas el permiso
+                // y luego pedirlo.
+            } else {
+                // Pedir el permiso directamente con la ventanita del sistema
+                requestPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS);
+            }
+        }
     }
 
 }

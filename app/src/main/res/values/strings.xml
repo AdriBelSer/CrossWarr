@@ -78,4 +78,14 @@
     <string name="nav_graph_exercises_edition">Edición de ejercicios</string>
     <string name="nav_graph_users_edition">Edición de usuarios</string>
     <string name="nav_graph_users_list">Lista de usuarios</string>
+    <string name="tv_challenge_status_card_list_challenges_item">Pendiente</string>
+    <string name="tv_challenge_time_card_list_challenges_item">Tiempo: --:--</string>
+    <string name="switch_notifications_menu_settings">Mostrar notificaciones</string>
+    <string name="tv_title_user_profile">Mi Perfil</string>
+    <string name="hint_name_user_profile">Nombre completo</string>
+    <string name="hint_email_user_profile">Correo electrónico</string>
+    <string name="tv_preferences_user_profile">Preferencias de la app</string>
+    <string name="switch_materials_user_profile">Tengo acceso a materiales / equipamiento</string>
+    <string name="switch_notifications_user_profile">Mostrar notificaciones</string>
+    <string name="hint_languaje_user_profile">Idioma preferido</string>
 </resources>

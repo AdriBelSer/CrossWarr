@@ -8,32 +8,49 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="120dp">
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="10dp">
-
+            android:padding="16dp">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_weight="1"
                 android:orientation="vertical">
-
 
                 <TextView
                     android:id="@+id/tv_challenge_date_card_list_challenges_item"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/tv_challenge_date_card_list_challenges_item"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
+                <TextView
+                    android:id="@+id/tv_challenge_status_card_list_challenges_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/tv_challenge_status_card_list_challenges_item"
+                    android:textSize="14sp" />
 
-            </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_challenge_time_card_list_challenges_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/tv_challenge_time_card_list_challenges_item"
+                    android:textSize="14sp"
+                    android:visibility="gone" /> </LinearLayout>
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

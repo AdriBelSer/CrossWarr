@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.yinya.crosswarr.databinding.FragmentUserProfileBinding;
 import com.yinya.crosswarr.models.UserData;
 import com.yinya.crosswarr.network.FirebaseService;
@@ -83,6 +84,13 @@ public class UserProfile extends Fragment {
                     } else {
                         currentUserData.setSettings(new HashMap<>());
                     }
+                    Boolean wantsNotifications = (Boolean) settings.get("notifications");
+                    // Si es null (usuario nuevo), asumimos que sí quiere (true)
+                    if (wantsNotifications != null) {
+                        binding.switchNotificationProfile.setChecked(wantsNotifications);
+                    } else {
+                        binding.switchNotificationProfile.setChecked(true);
+                    }
 
                     // Rellenar datos básicos en la vista
                     binding.etNameProfile.setText(currentUserData.getName());
@@ -114,11 +122,19 @@ public class UserProfile extends Fragment {
         mySettings.put("useMaterials", binding.switchMaterialsProfile.isChecked());
         mySettings.put("language", binding.acLanguageProfile.getText().toString());
 
-        // (El Token de notificaciones no lo cambiamos aquí manualmente,
-        // eso se suele actualizar en segundo plano al abrir la app).
+        boolean wantsNotifications = binding.switchNotificationProfile.isChecked();
+        mySettings.put("notifications", wantsNotifications);
 
         // 3. Guardar en Firebase (Pisando el documento actual con los nuevos datos)
         Repository.getInstance().createUser(currentUserData);
+
+        if (wantsNotifications) {
+            FirebaseMessaging.getInstance().subscribeToTopic("nuevos_retos")
+                    .addOnCompleteListener(task -> android.util.Log.d("FCM", "Suscrito a retos"));
+        } else {
+            FirebaseMessaging.getInstance().unsubscribeFromTopic("nuevos_retos")
+                    .addOnCompleteListener(task -> android.util.Log.d("FCM", "Desuscrito de retos"));
+        }
 
         android.widget.Toast.makeText(requireContext(), "Perfil actualizado", android.widget.Toast.LENGTH_SHORT).show();
     }
