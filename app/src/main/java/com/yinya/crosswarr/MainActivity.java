@@ -108,9 +108,9 @@ public class MainActivity extends AppCompatActivity {
             if (todayChallenge != null) {
                 hasNavigatedToChallenge = true; // Marcamos que ya cumplimos la misión
                 navigateToDailyChallenge(todayChallenge, options);
-            } //else{
-            // TODO: (Esto es un fallback) Ir a fragment en el que aparezca un mensaje de que no hay retos disponibles
-            // }
+            } else{
+                navController.navigate(R.id.noChallenge, null, options);
+             }
             return true;
         } else if (itemId == R.id.nav_exercises) {
             navController.navigate(R.id.nav_exercises, null, options);
@@ -202,7 +202,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
-
+            hasNavigatedToChallenge = true;
+            handleBottomNavClick(R.id.nav_daily_challenge);
         });
     }
 

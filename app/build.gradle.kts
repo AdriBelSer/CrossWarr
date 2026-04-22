@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.yinya.crosswarr"
-        minSdk = 24
+        minSdk = 31
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -57,6 +57,9 @@ dependencies {
 
 //Para pintar la imagen de google con imageview
     implementation(libs.picasso)
+
+//Splash screen
+    implementation(libs.androidx.core.splashscreen)
 
     implementation(libs.credentials)
     implementation(libs.androidx.credentials.play.services.auth)

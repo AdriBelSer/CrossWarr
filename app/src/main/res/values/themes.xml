@@ -6,6 +6,13 @@
 
         <!-- El color de fondo de la pantalla (evita que se vea transparente o negro) -->
         <item name="android:windowBackground">@color/white</item>
+
+        <!-- SplashScreen configuration -->
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/logo</item>
+        <item name="android:windowSplashScreenAnimationDuration">1000</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/black</item>
+        <item name="android:windowSplashScreenBackground">@color/black</item>
+
     </style>
 
     <style name="Theme.Crosswarr" parent="Base.Theme.Crosswarr" />
