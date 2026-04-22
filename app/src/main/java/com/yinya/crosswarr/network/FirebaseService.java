@@ -162,4 +162,12 @@ public class FirebaseService {
                 .addOnFailureListener(failureListener);
     }
 
+    public void deleteDocument(String collectionName, String documentId, OnSuccessListener<Void> successListener, OnFailureListener failureListener) {
+        db.collection(collectionName)
+                .document(documentId)
+                .delete()
+                .addOnSuccessListener(successListener)
+                .addOnFailureListener(failureListener);
+    }
+
 }

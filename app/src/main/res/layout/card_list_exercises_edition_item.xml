@@ -42,7 +42,6 @@
                     android:layout_margin="30dp"
                     android:scaleType="centerInside"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/tv_exercise_name_card_list_exercises_edition_item"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_bin" />
 

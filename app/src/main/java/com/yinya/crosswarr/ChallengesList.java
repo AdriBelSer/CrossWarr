@@ -77,12 +77,21 @@ public class ChallengesList extends Fragment {
                                         Boolean useMat = (Boolean) settings.get("useMaterials");
                                         if (useMat != null) userHasEquipment = useMat;
                                     }
+                                    // Preguntamos si es un Mapa (Usuario antiguo con retos completados)
                                     if (dataFromFirebase.get("challenges") != null) {
-                                        java.util.Map<String, Object> historyMap = (java.util.Map<String, Object>) dataFromFirebase.get("challenges");
-
-                                        // Se lo enviamos al adaptador para que pinte los "Completados"
-                                        if (adapter != null) {
-                                            adapter.setCompletedChallenges(historyMap);
+                                        Object challengesObj = dataFromFirebase.get("challenges");
+                                        if (challengesObj instanceof java.util.Map) {
+                                            java.util.Map<String, Object> historyMap = (java.util.Map<String, Object>) challengesObj;
+                                            if (adapter != null) {
+                                                adapter.setCompletedChallenges(historyMap);
+                                            }
+                                        }
+                                        // Preguntamos si es un ArrayList (Usuario nuevo con historial vacío)
+                                        else if (challengesObj instanceof java.util.ArrayList) {
+                                            if (adapter != null) {
+                                                // Le pasamos un mapa vacío para que pinte todo como "Pendiente" sin crashear
+                                                adapter.setCompletedChallenges(new java.util.HashMap<>());
+                                            }
                                         }
                                     }
 

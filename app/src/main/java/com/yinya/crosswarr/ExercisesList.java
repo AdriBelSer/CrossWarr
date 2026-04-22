@@ -60,8 +60,6 @@ public class ExercisesList extends Fragment {
 
     }
 
-    // TODO: Poner para que solo le salga al usuario si está isUsed a true (que eso quiere decir que se ha usado en un challenge)
-
 
     private void setupObservers() {
         Repository.getInstance().getExercisesLiveData().observe(getViewLifecycleOwner(), listFromFirebase -> {

@@ -86,13 +86,18 @@ public class UsersEditionList extends Fragment {
         bundle.putString("email", user.getEmail());
         bundle.putString("photo", user.getPhoto());
         bundle.putString("role", user.getRole());
-        bundle.putString("accountCreationDate", user.getAccountCreationDate().toString());
         bundle.putString("notificationPushToken", user.getNotificationPushToken());
         if (user.getSettings() != null) {
             bundle.putSerializable("settings", (java.io.Serializable) user.getSettings());
         }
         if (user.getChallenges() != null) {
             bundle.putSerializable("challenges", (java.io.Serializable) user.getChallenges());
+        }
+        if (user.getAccountCreationDate() != null) {
+            bundle.putString("accountCreationDate", user.getAccountCreationDate().toString());
+        } else {
+            // Si el usuario es antiguo y no tiene fecha, le pasamos un texto por defecto
+            bundle.putString("accountCreationDate", "Fecha desconocida");
         }
 
         Navigation.findNavController(view).navigate(R.id.usersEdition, bundle);

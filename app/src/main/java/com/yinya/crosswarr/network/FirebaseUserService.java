@@ -63,20 +63,18 @@ public class FirebaseUserService {
         });
     }
 
-    public void upsertChallengeTime(String uid, String challengeId, int challengeTime, IFirebaseCallback callback){
+    public void upsertChallengeTime(String uid, String challengeId, int challengeTime, IFirebaseCallback callback) {
         Map<String, Object> data = new HashMap<>();
         data.put(challengeId, challengeTime);
         firebaseService.addItemToMap(firebaseService.COLLECTION_NAME, uid, "challenges", challengeId, challengeTime, aVoid -> callback.onSuccess(data), callback::onFailure);
     }
 
     public void deleteUser(UserData userData) {
-        String targetMapKey = userData.getUid();
-        firebaseService.removeMapFromDocument(
-                "crosswarr",
+        firebaseService.deleteDocument(
+                firebaseService.COLLECTION_NAME,
                 userData.getUid(),
-                targetMapKey,
                 aVoid -> {
-                    android.util.Log.d("FirebaseUserService", "Usuario borrado de Firebase: " + targetMapKey);
+                    android.util.Log.d("FirebaseUserService", "Usuario borrado de Firebase: " + userData.getUid());
                 },
                 e -> {
                     android.util.Log.e("FirebaseUserService", "Error al borrar el usuario", e);

@@ -67,38 +67,20 @@ public class LoginActivity extends AppCompatActivity {
 
     private void onSignInResult(FirebaseAuthUIAuthenticationResult result) {
         Log.d("TEST_LOGIN", "onSignInResult");
-        IdpResponse response = result.getIdpResponse();
 
         if (result.getResultCode() == RESULT_OK) {
             Log.d("TEST_LOGIN", "USER OK onSignInResult");
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            if (response != null && response.isNewUser()) {
-                Log.d("TEST_LOGIN", "CREATE USER onSignInResult");
 
-                // Extraemos el nombre y la foto (con protección por si son nulos)
-                String name = user.getDisplayName() != null ? user.getDisplayName() : "";
-                String photoUrl = user.getPhotoUrl() != null ? user.getPhotoUrl().toString() : "";
-
-                // Usamos el constructor completo de UserData para inicializar los Mapas vacíos
-                UserData userData = new UserData(
-                        user.getUid(),
-                        user.getEmail(),
-                        name,
-                        photoUrl,
-                        "user", // Rol por defecto
-                        com.google.firebase.Timestamp.now(),
-                        "", // Aquí irá el token de notificaciones en el futuro
-                        new java.util.HashMap<>(), // Settings vacío
-                        new java.util.ArrayList<>() // Historial de challenges vacío
-                );
-
-                rp.createUser(userData);
+            if (user != null) {
+                // Delegamos la lógica a nuestra nueva función segura
+                verifyUserDocumentAndGo(user);
             }
-            goToMainActivity();
 
         } else {
             Log.d("TEST_LOGIN", "USER ERROR onSignInResult: " + result.getResultCode());
-            if (response.getError() != null) {
+            IdpResponse response = result.getIdpResponse();
+            if (response != null && response.getError() != null) {
                 Log.e("TEST_LOGIN", "ERROR INTERNO DE FIREBASE: ", response.getError());
             }
             Toast.makeText(this, "Error o inicio de sesión cancelado.", Toast.LENGTH_SHORT).show();
@@ -136,6 +118,45 @@ public class LoginActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.d("TEST_LOGIN", "onDestroy");
+    }
+    private void verifyUserDocumentAndGo(FirebaseUser user) {
+        com.yinya.crosswarr.network.FirebaseService.getInstance().getDocument("crosswarr", user.getUid(), new com.yinya.crosswarr.network.IFirebaseCallback() {
+            @Override
+            public void onSuccess(java.util.Map<String, Object> dataFromFirebase) {
+                // El documento existe.
+                Log.d("TEST_LOGIN", "Documento encontrado, navegando a Main.");
+                goToMainActivity();
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                // El documento NO existe
+                Log.d("TEST_LOGIN", "Documento NO encontrado. Creándolo ahora...");
+
+                String name = user.getDisplayName() != null ? user.getDisplayName() : "";
+                String photoUrl = user.getPhotoUrl() != null ? user.getPhotoUrl().toString() : "";
+
+                UserData userData = new UserData(
+                        user.getUid(),
+                        user.getEmail(),
+                        name,
+                        photoUrl,
+                        "user", // Rol por defecto
+                        com.google.firebase.Timestamp.now(),
+                        "", // Token notificaciones
+                        new java.util.HashMap<>(), // Settings vacío (MAPA)
+                        new java.util.ArrayList<>() // TODO: Comprobar que no de error, si da cambiar a java.util.HashMap<>().
+                );
+
+
+
+                // Creamos el usuario en Firestore
+                rp.createUser(userData);
+
+                // Navegamos al Main. Firestore guarda en caché local inmediatamente, así que no habrá crasheo.
+                goToMainActivity();
+            }
+        });
     }
 
     private void goToMainActivity() {
