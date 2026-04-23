@@ -89,6 +89,10 @@ public class ExercisesEditionList extends Fragment {
                 exercises.addAll(listFromFirebase);
                 if (adapter != null) {
                     adapter.notifyDataSetChanged();
+                    com.yinya.crosswarr.SkeletonUtils.hideSkeleton(
+                            binding.shimmerViewContainer,
+                            binding.exercisesEditionRecyclerview
+                    );
                 }
             }
         });

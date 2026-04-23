@@ -69,6 +69,7 @@ public class ChallengesList extends Fragment {
 
                                 @Override
                                 public void onSuccess(java.util.Map<String, Object> dataFromFirebase) {
+                                    if (binding == null) return;
                                     boolean userHasEquipment = false; // Asumimos que no tiene por defecto
 
                                     // Extraemos el ajuste useMaterials
@@ -89,7 +90,6 @@ public class ChallengesList extends Fragment {
                                         // Preguntamos si es un ArrayList (Usuario nuevo con historial vacío)
                                         else if (challengesObj instanceof java.util.ArrayList) {
                                             if (adapter != null) {
-                                                // Le pasamos un mapa vacío para que pinte todo como "Pendiente" sin crashear
                                                 adapter.setCompletedChallenges(new java.util.HashMap<>());
                                             }
                                         }
@@ -114,12 +114,21 @@ public class ChallengesList extends Fragment {
 
                                     if (adapter != null) {
                                         adapter.notifyDataSetChanged();
+                                        com.yinya.crosswarr.SkeletonUtils.hideSkeleton(
+                                                binding.shimmerViewContainer, // Tu ID del esqueleto en el XML
+                                                binding.challengesRecyclerview // Tu ID de la lista en el XML
+                                        );
                                     }
                                 }
 
                                 @Override
                                 public void onFailure(Exception e) {
+                                    if (binding == null) return;
                                     android.util.Log.e("ChallengesList", "Error al traer datos del usuario", e);
+                                    com.yinya.crosswarr.SkeletonUtils.hideSkeleton(
+                                            binding.shimmerViewContainer,
+                                            binding.challengesRecyclerview
+                                    );
                                 }
                             });
                 }

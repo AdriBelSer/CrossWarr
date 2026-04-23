@@ -18,7 +18,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDirections;
 import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
@@ -32,10 +31,6 @@ import com.yinya.crosswarr.repository.Repository;
 
 public class MainActivity extends AppCompatActivity {
 
-    ActivityMainBinding binding;
-    private NavController navController;
-    private boolean hasNavigatedToChallenge = false;
-    private ChallengeData todayChallenge = null;
     private final ActivityResultLauncher<String> requestPermissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
                 if (isGranted) {
@@ -44,6 +39,10 @@ public class MainActivity extends AppCompatActivity {
                     android.util.Log.w("FCM", "Permiso de notificaciones denegado");
                 }
             });
+    ActivityMainBinding binding;
+    private NavController navController;
+    private boolean hasNavigatedToChallenge = false;
+    private ChallengeData todayChallenge = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
             int id = item.getItemId();
 
             if (id == R.id.nav_logout) {
-                // Llama a tu méto-do de cerrar sesión
                 logoutSession(binding.getRoot());
                 return true;
 
@@ -108,9 +106,9 @@ public class MainActivity extends AppCompatActivity {
             if (todayChallenge != null) {
                 hasNavigatedToChallenge = true; // Marcamos que ya cumplimos la misión
                 navigateToDailyChallenge(todayChallenge, options);
-            } else{
+            } else {
                 navController.navigate(R.id.noChallenge, null, options);
-             }
+            }
             return true;
         } else if (itemId == R.id.nav_exercises) {
             navController.navigate(R.id.nav_exercises, null, options);
@@ -179,19 +177,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadTodaysChallenge() {
-        // 1. Pedimos los desafíos al repositorio
         Repository.getInstance().fetchChallengesFromFirebase();
-
-        // 2. Observamos la lista
         Repository.getInstance().getChallengesLiveData().observe(this, challenges -> {
-            // Si ya navegamos una vez en esta sesión o la lista está vacía, no hacemos nada
             if (hasNavigatedToChallenge || challenges == null || challenges.isEmpty()) return;
-
-            // 3. Obtenemos la fecha de hoy
             java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM-yyyy", java.util.Locale.getDefault());
             String todayString = sdf.format(new java.util.Date());
-
-            // 4. Buscamos el reto que coincida con la fecha de activación
             for (ChallengeData ch : challenges) {
                 if (ch.getActivationDate() != null) {
                     String chDate = sdf.format(ch.getActivationDate().toDate());
@@ -221,11 +211,10 @@ public class MainActivity extends AppCompatActivity {
         bundle.putString("repetitionCore", String.valueOf(challenge.getRepetitionCore()));
         bundle.putString("type", challenge.getType());
 
-        // Navegación automática al fragmento reutilizado
         navController.navigate(R.id.nav_daily_challenge, bundle, options);
     }
+
     private void askNotificationPermission() {
-        // Solo es necesario a partir de Android 13 (API 33)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) ==
                     PackageManager.PERMISSION_GRANTED) {

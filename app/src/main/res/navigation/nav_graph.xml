@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/nav_daily_challenge">
+    app:startDestination="@id/loadingFragment">
 
     <fragment
         android:id="@+id/nav_daily_challenge"
@@ -12,7 +12,6 @@
         <action
             android:id="@+id/action_nav_daily_challenge_to_nav_exercises"
             app:destination="@id/nav_exercises" />
-
         <action
             android:id="@+id/action_nav_daily_challenge_to_nav_challenges"
             app:destination="@id/nav_challenges" />
@@ -117,4 +116,12 @@
         android:id="@+id/noChallenge"
         android:name="com.yinya.crosswarr.NoChallenge"
         android:label="NoChallenge" />
+    <fragment
+        android:id="@+id/loadingFragment"
+        android:name="com.yinya.crosswarr.LoadingFragment"
+        android:label="LoadingFragment" >
+        <action
+            android:id="@+id/action_loadingFragment_to_nav_daily_challenge"
+            app:destination="@id/nav_daily_challenge" />
+    </fragment>
 </navigation>

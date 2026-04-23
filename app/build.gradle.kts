@@ -61,6 +61,10 @@ dependencies {
 //Splash screen
     implementation(libs.androidx.core.splashscreen)
 
+//Skeleton
+    implementation(libs.shimmer)
+
+
     implementation(libs.credentials)
     implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.googleid)

@@ -26,14 +26,17 @@
 
                 <TextView
                     android:id="@+id/tv_exercise_name_card_list_exercises_edition_item"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="40dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     android:text="@string/tv_exercise_name_card_list_exercise_item"
                     android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btn_delete_exercise"/>
 
                 <ImageButton
                     android:id="@+id/btn_delete_exercise"

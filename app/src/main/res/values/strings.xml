@@ -88,4 +88,11 @@
     <string name="switch_materials_user_profile">Tengo acceso a materiales / equipamiento</string>
     <string name="switch_notifications_user_profile">Mostrar notificaciones</string>
     <string name="hint_languaje_user_profile">Idioma preferido</string>
+    <string name="btn_tab_register_activity_login">Registrarse</string>
+    <string name="btn_tab_login_activity_login">Iniciar sesión</string>
+    <string name="hint_user_name_activity_login">Nombre de usuario</string>
+    <string name="hint_email_activity_login">Email</string>
+    <string name="hint_password_activity_login">Contraseña</string>
+    <string name="btn_continue_activity_login">Continuar</string>
+    <string name="tvForgotPassword_activity_login">He olvidado mi contraseña</string>
 </resources>

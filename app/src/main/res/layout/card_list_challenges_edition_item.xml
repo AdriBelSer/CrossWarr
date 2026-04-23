@@ -27,12 +27,15 @@
 
                 <TextView
                     android:id="@+id/tv_challenge_date_card_list_challenges_edition_item"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
                     android:layout_marginStart="12dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     android:text="@string/tv_challenge_date_card_list_challenges_item"
                     android:textSize="20sp"
+                    app:layout_constraintEnd_toStartOf="@+id/btn_delete_challenge"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

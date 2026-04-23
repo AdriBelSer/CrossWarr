@@ -97,6 +97,10 @@ public class ChallengesEditionList extends Fragment {
                 challenges.addAll(listFromFirebase);
                 if (adapter != null) {
                     adapter.notifyDataSetChanged();
+                    com.yinya.crosswarr.SkeletonUtils.hideSkeleton(
+                            binding.shimmerViewContainer,
+                            binding.challengesEditionRecyclerview
+                    );
                 }
             }
         });

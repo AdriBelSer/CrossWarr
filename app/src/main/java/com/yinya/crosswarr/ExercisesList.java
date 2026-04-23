@@ -106,6 +106,10 @@ public class ExercisesList extends Fragment {
 
                                     if (adapter != null) {
                                         adapter.notifyDataSetChanged();
+                                        com.yinya.crosswarr.SkeletonUtils.hideSkeleton(
+                                                binding.shimmerViewContainer,
+                                                binding.exercisesRecyclerview
+                                        );
                                     }
                                 }
 
