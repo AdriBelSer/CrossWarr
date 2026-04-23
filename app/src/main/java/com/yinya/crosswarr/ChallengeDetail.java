@@ -20,7 +20,6 @@ import com.yinya.crosswarr.network.IFirebaseCallback;
 
 import java.util.Map;
 
-//TODO: Hacer que cuando termine el desafío/le de al botón de parar vuelva a la página de inicio
 public class ChallengeDetail extends Fragment {
     long totalTimeInMillis;
     private FragmentChallengeDetailBinding binding;
@@ -238,6 +237,13 @@ public class ChallengeDetail extends Fragment {
 
                 String timeMsg = String.format("Has entrenado: %02d:%02d", minutesCompleted, secondsCompleted);
                 android.widget.Toast.makeText(requireContext(), timeMsg, android.widget.Toast.LENGTH_LONG).show();
+                // Espera 2 segundos (2000 milisegundos) y luego vuelve al inicio
+                new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
+                    if (getView() != null) { // Comprobación de seguridad por si ya se ha ido
+                        androidx.navigation.Navigation.findNavController(requireView()).popBackStack();
+                    }
+                }, 4000);
+
             }
 
             @Override

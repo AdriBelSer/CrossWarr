@@ -138,7 +138,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Configurar la barra superior (Toolbar) para que cambie de título automáticamente
-        NavigationUI.setupWithNavController(binding.mainAppbar, navController);
+        androidx.navigation.ui.AppBarConfiguration appBarConfiguration =
+                new androidx.navigation.ui.AppBarConfiguration.Builder(
+                        R.id.nav_daily_challenge,
+                        R.id.noChallenge // 🔥 Aquí incluimos tu pantalla de "Sin Reto" 🔥
+                ).build();
+
+        // 2. Vinculamos el AppBar pasándole nuestra configuración
+        NavigationUI.setupWithNavController(binding.mainAppbar, navController, appBarConfiguration);
 
         // Configurar el menú inferior (BottomNavigationView) para que cambie de pantalla
         binding.navView.setOnItemSelectedListener(this::onBottomNavItemClick);
