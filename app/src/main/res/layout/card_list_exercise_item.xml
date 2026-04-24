@@ -38,7 +38,6 @@
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:text="@string/tv_exercise_name_card_list_exercise_item"
-                android:textColor="@color/md_theme_onSurface"
                 android:textSize="@dimen/text_size_title"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

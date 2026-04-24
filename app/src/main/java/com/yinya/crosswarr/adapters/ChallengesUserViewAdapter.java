@@ -68,7 +68,7 @@ public class ChallengesUserViewAdapter extends RecyclerView.Adapter<ChallengesUs
         public void bind(ChallengeData challenge, Map<String, Object> userCompletedChallenges) {
             android.content.Context context = binding.getRoot().getContext();
             int successColor = androidx.core.content.ContextCompat.getColor(context, R.color.md_theme_success);
-            int neutralColor = androidx.core.content.ContextCompat.getColor(context, R.color.md_theme_neutral);
+            int neutralColor = androidx.core.content.ContextCompat.getColor(context, R.color.md_theme_onSurfaceVariant);
             // 1. FECHA
             if (challenge.getActivationDate() != null) {
                 java.util.Date date = challenge.getActivationDate().toDate();

@@ -92,28 +92,29 @@ public class LoginActivity extends AppCompatActivity {
 
     private void switchToLoginMode() {
         isLoginMode = true;
-        int orangeColor = androidx.core.content.ContextCompat.getColor(this, R.color.md_theme_primary);
+        int primaryColor = androidx.core.content.ContextCompat.getColor(this, R.color.md_theme_primary);
 
         binding.tilUsername.setVisibility(View.GONE);
         binding.tvForgotPassword.setVisibility(View.VISIBLE);
         binding.btnActionRegister.setText(R.string.btn_tab_login_activity_login);
-        binding.btnTabLogin.setBackgroundTintList(android.content.res.ColorStateList.valueOf(orangeColor));
+        binding.btnTabLogin.setBackgroundTintList(android.content.res.ColorStateList.valueOf(primaryColor));
         binding.btnTabLogin.setTextColor(android.graphics.Color.BLACK);
         binding.btnTabRegister.setBackgroundTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.TRANSPARENT));
-        binding.btnTabRegister.setTextColor(orangeColor);
+        binding.btnTabRegister.setTextColor(primaryColor);
+        binding.btnTabLogin.setBackgroundTintList(android.content.res.ColorStateList.valueOf(primaryColor));
     }
 
     private void switchToRegisterMode() {
         isLoginMode = false;
-        int orangeColor = androidx.core.content.ContextCompat.getColor(this, R.color.md_theme_primary);
+        int primaryColor = androidx.core.content.ContextCompat.getColor(this, R.color.md_theme_primary);
 
         binding.tilUsername.setVisibility(View.VISIBLE);
         binding.tvForgotPassword.setVisibility(View.GONE);
         binding.btnActionRegister.setText(R.string.btn_continue_activity_login);
-        binding.btnTabRegister.setBackgroundTintList(android.content.res.ColorStateList.valueOf(orangeColor));
+        binding.btnTabRegister.setBackgroundTintList(android.content.res.ColorStateList.valueOf(primaryColor));
         binding.btnTabRegister.setTextColor(android.graphics.Color.BLACK);
         binding.btnTabLogin.setBackgroundTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.TRANSPARENT));
-        binding.btnTabLogin.setTextColor(orangeColor);
+        binding.btnTabLogin.setTextColor(primaryColor);
     }
 
     // --- MÉTODOS DE AUTENTICACIÓN ---

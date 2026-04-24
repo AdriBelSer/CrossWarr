@@ -37,7 +37,6 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="@string/tv_challenge_date_card_list_challenges_item"
-                    android:textColor="@color/md_theme_onSurface"
                     android:textSize="@dimen/text_size_title"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/btn_delete_challenge"

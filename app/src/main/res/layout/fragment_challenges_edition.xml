@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/md_theme_background"
     android:orientation="vertical">
 
     <ScrollView
@@ -23,7 +21,6 @@
             android:layout_height="wrap_content"
             android:text="@string/title_fragment_challenges_edition"
             android:textAlignment="center"
-            android:textColor="@color/md_theme_onSurface"
             android:textSize="@dimen/text_size_title"
             android:textStyle="bold" />
 
@@ -38,7 +35,6 @@
                     android:id="@+id/et_challenge_name_fragment_challenges_edition"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/md_theme_onSurface"
                     android:inputType="textPersonName" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -58,7 +54,6 @@
                         android:id="@+id/et_challenge_time_fragment_challenges_edition"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/md_theme_onSurface"
                         android:inputType="number" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -75,7 +70,6 @@
                         android:id="@+id/et_challenge_date_fragment_challenges_edition"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/md_theme_onSurface"
                         android:focusable="false"
                         android:inputType="none" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -85,7 +79,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_large" android:text="@string/title_challenge_type_fragment_challenges_edition"
-                android:textColor="@color/md_theme_onSurface"
                 android:textStyle="bold" />
 
             <com.google.android.material.button.MaterialButtonToggleGroup
@@ -124,12 +117,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_default" android:text="@string/switch_materials_fragment_challenges_edition"
-                android:textColor="@color/md_theme_onSurface"
                 android:textSize="@dimen/text_size_subtitle" /> <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_default" android:text="@string/exercises_and_reps_title_fragment_challenges_edition"
-                android:textColor="@color/md_theme_onSurface"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -148,7 +139,6 @@
                         android:id="@+id/ac_upper_body_fragment_challenges_edition"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/md_theme_onSurface"
                         android:inputType="none" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -162,7 +152,6 @@
                         android:id="@+id/et_reps_upper_fragment_challenges_edition"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/md_theme_onSurface"
                         android:inputType="number" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
@@ -183,7 +172,6 @@
                         android:id="@+id/ac_lower_body_fragment_challenges_edition"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/md_theme_onSurface"
                         android:inputType="none" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -197,7 +185,6 @@
                         android:id="@+id/et_reps_lower_fragment_challenges_edition"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/md_theme_onSurface"
                         android:inputType="number" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
@@ -218,7 +205,6 @@
                         android:id="@+id/ac_core_fragment_challenges_edition"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/md_theme_onSurface"
                         android:inputType="none" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -232,7 +218,6 @@
                         android:id="@+id/et_reps_core_fragment_challenges_edition"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/md_theme_onSurface"
                         android:inputType="number" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
