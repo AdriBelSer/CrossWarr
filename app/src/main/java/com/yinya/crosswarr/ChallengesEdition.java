@@ -223,6 +223,9 @@ public class ChallengesEdition extends Fragment {
 
         binding.acCoreFragmentChallengesEdition.setText("");
         binding.etRepsCoreFragmentChallengesEdition.setText("");
+
+        binding.getRoot().clearFocus();
+        binding.toggleChallengeType.clearChecked();
     }
 
     @Override

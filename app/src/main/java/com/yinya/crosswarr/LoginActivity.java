@@ -92,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void switchToLoginMode() {
         isLoginMode = true;
-        int orangeColor = androidx.core.content.ContextCompat.getColor(this, R.color.orange);
+        int orangeColor = androidx.core.content.ContextCompat.getColor(this, R.color.md_theme_primary);
 
         binding.tilUsername.setVisibility(View.GONE);
         binding.tvForgotPassword.setVisibility(View.VISIBLE);
@@ -105,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void switchToRegisterMode() {
         isLoginMode = false;
-        int orangeColor = androidx.core.content.ContextCompat.getColor(this, R.color.orange);
+        int orangeColor = androidx.core.content.ContextCompat.getColor(this, R.color.md_theme_primary);
 
         binding.tilUsername.setVisibility(View.VISIBLE);
         binding.tvForgotPassword.setVisibility(View.GONE);

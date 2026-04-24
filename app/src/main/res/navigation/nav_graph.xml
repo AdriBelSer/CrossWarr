@@ -111,11 +111,11 @@
     <fragment
         android:id="@+id/userProfile"
         android:name="com.yinya.crosswarr.UserProfile"
-        android:label="UserProfile" />
+        android:label="@string/nav_graph_settings" />
     <fragment
         android:id="@+id/noChallenge"
         android:name="com.yinya.crosswarr.NoChallenge"
-        android:label="NoChallenge" />
+        android:label="@string/nav_graph_noChallenge" />
     <fragment
         android:id="@+id/loadingFragment"
         android:name="com.yinya.crosswarr.LoadingFragment"

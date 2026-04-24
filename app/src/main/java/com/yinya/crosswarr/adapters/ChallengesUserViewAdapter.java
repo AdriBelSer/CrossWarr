@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.yinya.crosswarr.R;
 import com.yinya.crosswarr.databinding.CardListChallengesItemBinding;
 import com.yinya.crosswarr.models.ChallengeData;
 
@@ -65,6 +66,9 @@ public class ChallengesUserViewAdapter extends RecyclerView.Adapter<ChallengesUs
         }
 
         public void bind(ChallengeData challenge, Map<String, Object> userCompletedChallenges) {
+            android.content.Context context = binding.getRoot().getContext();
+            int successColor = androidx.core.content.ContextCompat.getColor(context, R.color.md_theme_success);
+            int neutralColor = androidx.core.content.ContextCompat.getColor(context, R.color.md_theme_neutral);
             // 1. FECHA
             if (challenge.getActivationDate() != null) {
                 java.util.Date date = challenge.getActivationDate().toDate();
@@ -78,7 +82,7 @@ public class ChallengesUserViewAdapter extends RecyclerView.Adapter<ChallengesUs
             if (userCompletedChallenges != null && userCompletedChallenges.containsKey(challenge.getId())) {
                 // ¡El usuario ha completado este reto!
                 binding.tvChallengeStatusCardListChallengesItem.setText("Completado");
-                binding.tvChallengeStatusCardListChallengesItem.setTextColor(Color.parseColor("#4CAF50")); // Verde oscuro
+                binding.tvChallengeStatusCardListChallengesItem.setTextColor(android.content.res.ColorStateList.valueOf(successColor)); // Verde oscuro
                 binding.tvChallengeTimeCardListChallengesItem.setVisibility(android.view.View.VISIBLE);
 
                 // Recuperamos el tiempo de Firebase (Suele devolver Long o Integer)
@@ -99,7 +103,7 @@ public class ChallengesUserViewAdapter extends RecyclerView.Adapter<ChallengesUs
             } else {
                 // No lo ha completado
                 binding.tvChallengeStatusCardListChallengesItem.setText("Pendiente");
-                binding.tvChallengeStatusCardListChallengesItem.setTextColor(Color.parseColor("#F44336")); // Rojo
+                binding.tvChallengeStatusCardListChallengesItem.setTextColor(android.content.res.ColorStateList.valueOf(neutralColor)); // Rojo
                 binding.tvChallengeTimeCardListChallengesItem.setVisibility(android.view.View.GONE); // Ocultamos el tiempo
             }
         }

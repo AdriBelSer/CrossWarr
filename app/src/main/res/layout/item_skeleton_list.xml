@@ -11,7 +11,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="16dp"
-    android:background="@color/black"> <View
+    android:background="@color/md_theme_background"> <View
     android:layout_width="60dp"
     android:layout_height="60dp"
     android:background="#333333" /> <LinearLayout

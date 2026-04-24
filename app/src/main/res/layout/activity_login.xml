@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@color/md_theme_background"
     tools:context=".LoginActivity">
 
     <ImageView
@@ -34,8 +34,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/btn_tab_login_activity_login"
-            android:textColor="#FF6600"
-            app:strokeColor="#FF6600"
+            android:textColor="@color/md_theme_primary"
+            app:strokeColor="@color/md_theme_primary"
             app:strokeWidth="1dp" />
 
         <com.google.android.material.button.MaterialButton
@@ -44,10 +44,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/btn_tab_register_activity_login"
-            android:textColor="@color/orange"
+            android:textColor="@color/md_theme_primary"
             app:icon="@drawable/ic_pencil"
-            app:iconTint="@color/orange"
-            app:strokeColor="#FF6600"
+            app:iconTint="@color/md_theme_primary"
+            app:strokeColor="@color/md_theme_primary"
             app:strokeWidth="1dp" />
 
     </com.google.android.material.button.MaterialButtonToggleGroup>
@@ -58,101 +58,61 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="20dp"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toggle_tabs"
-        app:strokeColor="@color/orange"
-        app:strokeWidth="1dp">
+        app:layout_constraintTop_toBottomOf="@id/toggle_tabs">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/black"
             android:orientation="vertical"
             android:padding="24dp">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_username"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_user_name_activity_login"
-                android:textColorHint="#999999"
-                app:boxCornerRadiusBottomEnd="8dp"
-                app:boxCornerRadiusBottomStart="8dp"
-                app:boxCornerRadiusTopEnd="8dp"
-                app:boxCornerRadiusTopStart="8dp"
-                app:boxStrokeColor="@color/orange"
-                app:boxStrokeWidth="2dp"
-                app:boxStrokeWidthFocused="2dp"
-                app:endIconMode="clear_text"
-                app:endIconTint="@color/orange"
-                app:hintTextColor="@color/orange">
+                app:endIconMode="clear_text">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
-                    android:textColor="#FFFFFF" />
+                    android:textColor="@color/md_theme_onSurface" />
             </com.google.android.material.textfield.TextInputLayout>
-
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_email"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:hint="@string/hint_email_activity_login"
-                android:textColorHint="#999999"
-                app:boxCornerRadiusBottomEnd="8dp"
-                app:boxCornerRadiusBottomStart="8dp"
-                app:boxCornerRadiusTopEnd="8dp"
-                app:boxCornerRadiusTopStart="8dp"
-                app:boxStrokeColor="@color/orange"
-                app:boxStrokeWidth="2dp"
-                app:boxStrokeWidthFocused="2dp"
-                app:endIconMode="clear_text"
-                app:endIconTint="@color/orange"
-                app:hintTextColor="@color/orange">
+                app:endIconMode="clear_text">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress"
-                    android:textColor="#FFFFFF" />
+                    android:textColor="@color/md_theme_onSurface" />
             </com.google.android.material.textfield.TextInputLayout>
-
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_password"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:hint="@string/hint_password_activity_login"
-                android:textColorHint="#999999"
-                app:boxCornerRadiusBottomEnd="8dp"
-                app:boxCornerRadiusBottomStart="8dp"
-                app:boxCornerRadiusTopEnd="8dp"
-                app:boxCornerRadiusTopStart="8dp"
-                app:boxStrokeColor="@color/orange"
-                app:boxStrokeWidth="2dp"
-                app:boxStrokeWidthFocused="2dp"
-                app:endIconMode="password_toggle"
-                app:endIconTint="@color/orange"
-                app:hintTextColor="@color/orange">
+                app:endIconMode="password_toggle">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
-                    android:textColor="#FFFFFF" />
+                    android:textColor="@color/md_theme_onSurface" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
@@ -160,20 +120,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:padding="12dp"
-                android:text="@string/btn_continue_activity_login"
-                android:textColor="#FFFFFF"
-                app:backgroundTint="@color/orange"
-                app:cornerRadius="8dp" />
+                android:text="@string/btn_continue_activity_login" />
 
             <TextView
                 android:id="@+id/tv_forgot_password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/tvForgotPassword_activity_login"
-                android:textColor="@color/orange"
-                android:layout_marginTop="16dp"
                 android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:text="@string/tvForgotPassword_activity_login"
+                android:textColor="@color/md_theme_primary"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -183,15 +139,16 @@
         android:id="@+id/iv_loading_logo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/loading_logo"
-        android:background="@color/black"
+        android:background="@color/md_theme_background"
         android:clickable="true"
-        android:focusable="true"
         android:elevation="10dp"
+        android:focusable="true"
+        android:src="@drawable/loading_logo"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:visibility="visible"/>
+        tools:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

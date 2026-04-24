@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/md_theme_background"
     android:orientation="vertical">
 
     <ScrollView
@@ -16,62 +17,56 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="24dp">
-
-            <TextView
-                android:id="@+id/tv_title_challenge_fragment_challenges_edition"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/title_fragment_challenges_edition"
-                android:textAlignment="center"
-                android:textAppearance="?attr/textAppearanceHeadline5"
-                android:textStyle="bold" />
-
+            android:padding="@dimen/margin_large"> <TextView
+            android:id="@+id/tv_title_challenge_fragment_challenges_edition"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/title_fragment_challenges_edition"
+            android:textAlignment="center"
+            android:textColor="@color/md_theme_onSurface"
+            android:textSize="@dimen/text_size_title"
+            android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_challenge_name_fragment_challenges_edition"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:hint="@string/challenge_name_fragment_challenges_edition">
+                android:layout_marginTop="@dimen/margin_xlarge" android:hint="@string/challenge_name_fragment_challenges_edition"
+                app:endIconMode="clear_text">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_challenge_name_fragment_challenges_edition"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/md_theme_onSurface"
                     android:inputType="textPersonName" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal">
+                android:layout_marginTop="@dimen/margin_default" android:orientation="horizontal">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_challenge_time_fragment_challenges_edition"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="1"
+                    android:layout_marginEnd="@dimen/margin_small" android:layout_weight="1"
                     android:hint="Tiempo (min)">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_challenge_time_fragment_challenges_edition"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/md_theme_onSurface"
                         android:inputType="number" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_challenge_date_fragment_challenges_edition"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/margin_small" android:layout_weight="1"
                     android:hint="@string/activation_date_fragment_challenges_edition"
                     app:endIconDrawable="@android:drawable/ic_menu_today"
                     app:endIconMode="custom">
@@ -80,6 +75,7 @@
                         android:id="@+id/et_challenge_date_fragment_challenges_edition"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/md_theme_onSurface"
                         android:focusable="false"
                         android:inputType="none" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -88,20 +84,19 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="@string/title_challenge_type_fragment_challenges_edition"
+                android:layout_marginTop="@dimen/margin_large" android:text="@string/title_challenge_type_fragment_challenges_edition"
+                android:textColor="@color/md_theme_onSurface"
                 android:textStyle="bold" />
 
             <com.google.android.material.button.MaterialButtonToggleGroup
                 android:id="@+id/toggle_challenge_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:singleSelection="true">
+                android:layout_marginTop="@dimen/margin_small" app:singleSelection="true">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_type_amrap_fragment_challenges_edition"
-                    style="?attr/materialButtonOutlinedStyle"
+                    style="@style/Widget.Crosswarr.Button.Outlined"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -109,7 +104,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_type_emom_fragment_challenges_edition"
-                    style="?attr/materialButtonOutlinedStyle"
+                    style="@style/Widget.Crosswarr.Button.Outlined"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -117,50 +112,47 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_type_ft_fragment_challenges_edition"
-                    style="?attr/materialButtonOutlinedStyle"
+                    style="@style/Widget.Crosswarr.Button.Outlined"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/type_ft_fragment_challenges_edition" />
             </com.google.android.material.button.MaterialButtonToggleGroup>
+
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/switch_requires_equipment_challenge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/switch_materials_fragment_challenges_edition"
-                android:textSize="16sp" />
-
-            <TextView
+                android:layout_marginTop="@dimen/margin_default" android:text="@string/switch_materials_fragment_challenges_edition"
+                android:textColor="@color/md_theme_onSurface"
+                android:textSize="@dimen/text_size_subtitle" /> <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/exercises_and_reps_title_fragment_challenges_edition"
+                android:layout_marginTop="@dimen/margin_default" android:text="@string/exercises_and_reps_title_fragment_challenges_edition"
+                android:textColor="@color/md_theme_onSurface"
                 android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal">
+                android:layout_marginTop="@dimen/margin_small" android:orientation="horizontal">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    style="@style/Widget.Crosswarr.TextInputLayout.ExposedDropdown"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="3"
+                    android:layout_marginEnd="@dimen/margin_small" android:layout_weight="3"
                     android:hint="@string/rb_sup_fragment_challenges_edition">
 
                     <AutoCompleteTextView
                         android:id="@+id/ac_upper_body_fragment_challenges_edition"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/md_theme_onSurface"
                         android:inputType="none" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -170,6 +162,7 @@
                         android:id="@+id/et_reps_upper_fragment_challenges_edition"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/md_theme_onSurface"
                         android:inputType="number" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
@@ -177,26 +170,24 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal">
+                android:layout_marginTop="@dimen/margin_small" android:orientation="horizontal">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    style="@style/Widget.Crosswarr.TextInputLayout.ExposedDropdown"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="3"
+                    android:layout_marginEnd="@dimen/margin_small" android:layout_weight="3"
                     android:hint="@string/rb_inf_fragment_challenges_edition">
 
                     <AutoCompleteTextView
                         android:id="@+id/ac_lower_body_fragment_challenges_edition"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/md_theme_onSurface"
                         android:inputType="none" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -206,6 +197,7 @@
                         android:id="@+id/et_reps_lower_fragment_challenges_edition"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/md_theme_onSurface"
                         android:inputType="number" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
@@ -213,27 +205,24 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="24dp"
-                android:orientation="horizontal">
+                android:layout_marginTop="@dimen/margin_small" android:layout_marginBottom="@dimen/margin_large" android:orientation="horizontal">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    style="@style/Widget.Crosswarr.TextInputLayout.ExposedDropdown"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="3"
+                    android:layout_marginEnd="@dimen/margin_small" android:layout_weight="3"
                     android:hint="@string/rb_core_fragment_challenges_edition">
 
                     <AutoCompleteTextView
                         android:id="@+id/ac_core_fragment_challenges_edition"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/md_theme_onSurface"
                         android:inputType="none" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -243,6 +232,7 @@
                         android:id="@+id/et_reps_core_fragment_challenges_edition"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/md_theme_onSurface"
                         android:inputType="number" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
@@ -253,8 +243,6 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_create_challenge_fragment_challenges_edition"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_margin="16dp"
-        android:text="@string/btn_create_challenge" />
+        android:layout_height="wrap_content" android:layout_margin="@dimen/margin_default" android:text="@string/btn_create_challenge" />
 
 </LinearLayout>

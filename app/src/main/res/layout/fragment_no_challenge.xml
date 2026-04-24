@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/iv_no_challenge"
-        android:layout_width="280dp"
-        android:layout_height="280dp"
+        android:layout_width="@dimen/image_size_hero"
+        android:layout_height="@dimen/image_size_hero"
         android:src="@drawable/ic_rest_day"
         app:layout_constraintBottom_toTopOf="@id/tv_no_challenge"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,11 +20,10 @@
         android:id="@+id/tv_no_challenge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Hoy es día de descanso.\n¡No hay retos disponibles!"
+        android:layout_marginTop="@dimen/margin_default" android:text="@string/rest_day_message"
         android:textAlignment="center"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="@color/md_theme_onSurface"
+        android:textSize="@dimen/text_size_title" app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_no_challenge" />

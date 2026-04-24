@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -8,48 +9,45 @@
             type="com.yinya.crosswarr.models.ExerciseData" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="120dp">
+        android:layout_height="@dimen/card_height_list_item"
+        android:layout_marginHorizontal="@dimen/margin_default"
+        android:layout_marginVertical="@dimen/margin_small">
 
-        <androidx.cardview.widget.CardView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="120dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="match_parent"
+            android:padding="4dp">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="4dp">
+            <TextView
+                android:id="@+id/tv_exercise_name_card_list_exercises_edition_item"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_large"
+                android:layout_marginEnd="@dimen/margin_default"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@string/tv_exercise_name_card_list_exercise_item"
+                android:textColor="@color/md_theme_onSurface"
+                android:textSize="@dimen/text_size_title"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btn_delete_exercise"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/tv_exercise_name_card_list_exercises_edition_item"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="40dp"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text="@string/tv_exercise_name_card_list_exercise_item"
-                    android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/btn_delete_exercise"/>
+            <ImageButton
+                android:id="@+id/btn_delete_exercise"
+                android:layout_width="@dimen/icon_size_action"
+                android:layout_height="@dimen/icon_size_action"
+                android:layout_marginEnd="@dimen/margin_large"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:scaleType="centerInside"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_bin" />
 
-                <ImageButton
-                    android:id="@+id/btn_delete_exercise"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_margin="30dp"
-                    android:scaleType="centerInside"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_bin" />
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

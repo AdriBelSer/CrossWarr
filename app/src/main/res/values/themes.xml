@@ -1,18 +1,77 @@
 <resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.Crosswarr" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- El color primario (usado para los botones de Firebase) -->
-        <item name="colorPrimary">@color/black</item>
+        <item name="colorPrimary">@color/md_theme_primary</item>
+        <item name="colorSecondary">@color/md_theme_primary</item>
+        <item name="colorOnPrimary">@color/md_theme_onPrimary</item>
+        <item name="android:colorBackground">@color/md_theme_background</item>
+        <item name="bottomNavigationStyle">@style/Widget.Crosswarr.BottomNavigationView</item>
 
-        <!-- El color de fondo de la pantalla (evita que se vea transparente o negro) -->
-        <item name="android:windowBackground">@color/white</item>
+        <item name="textInputStyle">@style/Widget.Crosswarr.TextInputLayout</item>
+        <item name="materialButtonStyle">@style/Widget.Crosswarr.Button.Solid</item>
+        <item name="materialCardViewStyle">@style/Widget.Crosswarr.CardView</item>
 
         <!-- SplashScreen configuration -->
         <item name="android:windowSplashScreenAnimatedIcon">@drawable/logo</item>
         <item name="android:windowSplashScreenAnimationDuration">1000</item>
-        <item name="android:windowSplashScreenIconBackgroundColor">@color/black</item>
-        <item name="android:windowSplashScreenBackground">@color/black</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/md_theme_background</item>
+        <item name="android:windowSplashScreenBackground">@color/md_theme_background</item>
+    </style>
 
+    <style name="Widget.Crosswarr.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/selector_input_border</item>
+        <item name="boxStrokeWidth">2dp</item>
+        <item name="boxStrokeWidthFocused">2dp</item>
+        <item name="boxCornerRadiusTopStart">8dp</item>
+        <item name="boxCornerRadiusTopEnd">8dp</item>
+        <item name="boxCornerRadiusBottomStart">8dp</item>
+        <item name="boxCornerRadiusBottomEnd">8dp</item>
+        <item name="hintTextColor">@color/md_theme_primary</item>
+        <item name="android:textColorHint">@color/md_theme_neutral</item>
+        <item name="endIconTint">@color/md_theme_primary</item>
+    </style>
+
+    <style name="Widget.Crosswarr.TextInputLayout.ExposedDropdown" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="boxStrokeColor">@color/selector_input_border</item>
+        <item name="boxStrokeWidth">1dp</item>
+        <item name="boxStrokeWidthFocused">2dp</item>
+        <item name="boxBackgroundColor">@android:color/transparent</item>
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Crosswarr.Dropdown</item>
+    </style>
+
+    <style name="Widget.Crosswarr.Button.Solid" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/md_theme_primary</item>
+        <item name="android:textColor">@color/md_theme_onPrimary</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="android:padding">12dp</item>
+    </style>
+
+    <style name="Widget.Crosswarr.Button.Outlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeColor">@color/md_theme_primary</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="android:textColor">@color/md_theme_primary</item>
+        <item name="iconTint">@color/md_theme_primary</item>
+        <item name="cornerRadius">@dimen/input_corner_radius</item>
+    </style>
+
+    <style name="Widget.Crosswarr.CardView" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/md_theme_background</item>
+        <item name="cardCornerRadius">@dimen/card_corner_radius</item>
+        <item name="cardElevation">0dp</item>
+        <item name="strokeColor">@color/md_theme_primary</item>
+        <item name="strokeWidth">1dp</item>
+    </style>
+
+    <style name="Widget.Crosswarr.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="android:background">@color/md_theme_background</item>
+        <item name="itemIconTint">@color/md_theme_primary</item>
+        <item name="itemTextColor">@color/md_theme_onPrimary</item>
+    </style>
+
+    <style name="ThemeOverlay.Crosswarr.Dropdown" parent="">
+        <item name="colorSurface">@color/md_theme_background</item>
+        <item name="colorOnSurface">@color/md_theme_onSurface</item>
+        <item name="android:textColorPrimary">@color/md_theme_onPrimary</item>
     </style>
 
     <style name="Theme.Crosswarr" parent="Base.Theme.Crosswarr" />

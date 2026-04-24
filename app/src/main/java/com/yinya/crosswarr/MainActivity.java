@@ -137,11 +137,13 @@ public class MainActivity extends AppCompatActivity {
             navController = navHostFragment.getNavController();
         }
 
-        // Configurar la barra superior (Toolbar) para que cambie de título automáticamente
+        // Configurar la barra superior (Toolbar) para que cno se vea la flecha de "atrás"
         androidx.navigation.ui.AppBarConfiguration appBarConfiguration =
                 new androidx.navigation.ui.AppBarConfiguration.Builder(
                         R.id.nav_daily_challenge,
-                        R.id.noChallenge // 🔥 Aquí incluimos tu pantalla de "Sin Reto" 🔥
+                        R.id.noChallenge,
+                        R.id.nav_exercises,
+                        R.id.nav_challenges
                 ).build();
 
         // 2. Vinculamos el AppBar pasándole nuestra configuración

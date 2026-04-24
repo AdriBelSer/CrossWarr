@@ -1,45 +1,50 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="exercise"
             type="com.yinya.crosswarr.models.ExerciseData" />
     </data>
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="120dp">
+        android:layout_height="@dimen/card_height_list_item"
+        android:layout_marginHorizontal="@dimen/margin_default"
+        android:layout_marginVertical="@dimen/margin_small">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="10dp">
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/iv_exercise_card_list_exercise_item"
-                android:layout_width="50dp"
-                android:layout_height="100dp"
-                android:layout_margin="10dp"
-                android:src="@drawable/ic_launcher_background" />
+                android:layout_width="100dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_launcher_background"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/tv_exercise_name_card_list_exercise_item"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:orientation="vertical">
+                android:layout_marginStart="@dimen/margin_default"
+                android:layout_marginEnd="@dimen/margin_default"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="@string/tv_exercise_name_card_list_exercise_item"
+                android:textColor="@color/md_theme_onSurface"
+                android:textSize="@dimen/text_size_title"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/iv_exercise_card_list_exercise_item"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/tv_exercise_name_card_list_exercise_item"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tv_exercise_name_card_list_exercise_item"
-                    android:textSize="20sp" />
-
-
-            </LinearLayout>
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
 </layout>
