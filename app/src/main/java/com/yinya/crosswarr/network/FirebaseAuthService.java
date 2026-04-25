@@ -47,7 +47,7 @@ public class FirebaseAuthService {
                 });
     }
 
-    // (Opcional) Método para cerrar sesión que puedes usar en tu MainActivity
+
     public void logout() {
         mAuth.signOut();
     }
@@ -63,10 +63,8 @@ public class FirebaseAuthService {
                 });
     }
 
-    // Interfaz para avisar a la Activity cuando la tarea termine
     public interface IAuthCallback {
         void onSuccess(FirebaseUser user);
-
         void onFailure(Exception e);
     }
 }

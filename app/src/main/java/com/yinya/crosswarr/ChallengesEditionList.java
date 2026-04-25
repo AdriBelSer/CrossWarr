@@ -47,9 +47,9 @@ public class ChallengesEditionList extends Fragment {
                 // Comprobamos que tenga fecha
                 if (challenge.getActivationDate() == null) {
                     android.widget.Toast.makeText(requireContext(),
-                            "Error: El desafío no tiene fecha de activación y no se puede verificar.",
+                            R.string.challenges_edition_list_toast_delete_error_date,
                             android.widget.Toast.LENGTH_SHORT).show();
-                    return; // Cortamos la ejecución aquí
+                    return;
                 }
 
                 // Convertimos a Date de Java y comparamos
@@ -58,23 +58,22 @@ public class ChallengesEditionList extends Fragment {
 
                 if (activationDate.before(currentDate)) {
                     // Ya es pasado, no se puede borrar
-                    android.widget.Toast.makeText(requireContext(),
-                            "No se puede borrar: Este desafío ya ha sido publicado.",
+                    android.widget.Toast.makeText(requireContext(),R.string.challenges_edition_list_toast_delete_error_challenge_published,
                             android.widget.Toast.LENGTH_LONG).show();
 
                 } else {
                     // Es futuro, pedimos confirmación
                     new android.app.AlertDialog.Builder(requireContext())
-                            .setTitle("Borrar Challenge")
-                            .setMessage("¿Estás seguro de que quieres borrar el challenge '" + challenge.getTitle() + "'?")
-                            .setPositiveButton("Sí, borrar", (dialog, which) -> {
+                            .setTitle(R.string.challenges_edition_list_alertDialog_title)
+                            .setMessage(requireContext().getString(R.string.challenges_edition_list_alertDialog_message,challenge.getTitle()))
+                            .setPositiveButton(R.string.challenges_edition_list_alertDialog_btnYes, (dialog, which) -> {
                                 Repository.getInstance().deleteChallenge(challenge);
                                 challenges.remove(challenge);
                                 adapter.notifyDataSetChanged();
 
-                                android.widget.Toast.makeText(requireContext(), "Desafío borrado", android.widget.Toast.LENGTH_SHORT).show();
+                                android.widget.Toast.makeText(requireContext(), R.string.challenges_edition_list_alertDialog_success, android.widget.Toast.LENGTH_SHORT).show();
                             })
-                            .setNegativeButton("Cancelar", null)
+                            .setNegativeButton(R.string.challenges_edition_list_alertDialog_btnCancel, null)
                             .show();
                 }
             }

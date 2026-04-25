@@ -1,15 +1,14 @@
 package com.yinya.crosswarr;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,11 +22,10 @@ import com.yinya.crosswarr.repository.Repository;
 import java.util.HashMap;
 import java.util.Map;
 
-//TODO: REVISAR VOY POR AQUI!!!
-//TODO: IR A "DESAFIO"/ INICIO CUANDO GUARDO LOS DATOS DEL USUARIO SIENDO USUARIO
 public class UserProfile extends Fragment {
     private FragmentUserProfileBinding binding;
-    private UserData currentUserData; // Guardaremos aquí los datos actuales
+    private UserData currentUserData;
+    private PreferencesHelper prefsHelper;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,7 +37,10 @@ public class UserProfile extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        prefsHelper = new PreferencesHelper(requireContext());
+
         setupLanguageDropdown();
+        setupThemeSwitch();
         loadMyProfile();
 
         binding.btnSaveProfile.setOnClickListener(v -> saveProfile());
@@ -49,6 +50,11 @@ public class UserProfile extends Fragment {
         String[] languages = new String[]{"Español", "English"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, languages);
         binding.acLanguageProfile.setAdapter(adapter);
+        binding.acLanguageProfile.setText(prefsHelper.getLanguage(), false);
+    }
+
+    private void setupThemeSwitch() {
+        binding.switchThemeProfile.setChecked(prefsHelper.isDarkMode());
     }
 
     private void loadMyProfile() {
@@ -61,6 +67,7 @@ public class UserProfile extends Fragment {
         FirebaseService.getInstance().getDocument("crosswarr", myUid, new IFirebaseCallback() {
             @Override
             public void onSuccess(Map<String, Object> dataFromFirebase) {
+                if (binding == null || !isAdded()) return;
                 if (dataFromFirebase != null) {
                     currentUserData = new UserData();
                     currentUserData.setUid((String) dataFromFirebase.get("uid"));
@@ -77,7 +84,8 @@ public class UserProfile extends Fragment {
 
                         // Aplicar los settings a la vista
                         Boolean useMaterials = (Boolean) settings.get("useMaterials");
-                        if (useMaterials != null) binding.switchMaterialsProfile.setChecked(useMaterials);
+                        if (useMaterials != null)
+                            binding.switchMaterialsProfile.setChecked(useMaterials);
 
                         String lang = (String) settings.get("language");
                         if (lang != null) binding.acLanguageProfile.setText(lang, false);
@@ -100,7 +108,8 @@ public class UserProfile extends Fragment {
 
             @Override
             public void onFailure(Exception e) {
-                android.widget.Toast.makeText(requireContext(), "Error cargando perfil", android.widget.Toast.LENGTH_SHORT).show();
+                if (binding == null || !isAdded()) return;
+                android.widget.Toast.makeText(requireContext(), R.string.user_profile_toas_error_charging_profile, android.widget.Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -111,7 +120,7 @@ public class UserProfile extends Fragment {
         // 1. Recoger los datos de texto
         String newName = binding.etNameProfile.getText().toString().trim();
         if (newName.isEmpty()) {
-            android.widget.Toast.makeText(requireContext(), "El nombre no puede estar vacío", android.widget.Toast.LENGTH_SHORT).show();
+            android.widget.Toast.makeText(requireContext(), R.string.user_profile_toas_error_empty_name, android.widget.Toast.LENGTH_SHORT).show();
             return;
         }
         currentUserData.setName(newName);
@@ -135,8 +144,28 @@ public class UserProfile extends Fragment {
             FirebaseMessaging.getInstance().unsubscribeFromTopic("nuevos_retos")
                     .addOnCompleteListener(task -> android.util.Log.d("FCM", "Desuscrito de retos"));
         }
+        //Variables tema
+        boolean isDark = binding.switchThemeProfile.isChecked();
+        prefsHelper.saveDarkMode(isDark);
 
-        android.widget.Toast.makeText(requireContext(), "Perfil actualizado", android.widget.Toast.LENGTH_SHORT).show();
+        //Variables idioma
+        String selectedLang = binding.acLanguageProfile.getText().toString();
+        prefsHelper.saveLanguage(selectedLang);
+
+        android.widget.Toast.makeText(requireContext(), R.string.user_profile_toas_successful_update, android.widget.Toast.LENGTH_SHORT).show();
+
+        //Aplicacion del tema
+        if (isDark) {
+            androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode(androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode(androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
+        //Aplicacion de idioma
+        String langCode = selectedLang.equals("English") ? "en" : "es";
+        androidx.appcompat.app.AppCompatDelegate.setApplicationLocales(
+                androidx.core.os.LocaleListCompat.forLanguageTags(langCode)
+        );
     }
 
     @Override

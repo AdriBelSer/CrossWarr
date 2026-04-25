@@ -54,9 +54,9 @@ public class ExerciseDetail extends Fragment {
             // Cargar los materiales con TextUtils para añadirlos uno tras otro
             if (binding.tvExerciseDetailMaterials != null && materials != null) {
                 String txtMaterials = TextUtils.join(", ", materials);
-                binding.tvExerciseDetailMaterials.setText("Materiales: " + txtMaterials);
+                binding.tvExerciseDetailMaterials.setText(requireContext().getString(R.string.exercise_detail_materials, txtMaterials));
             } else if (binding.tvExerciseDetailMaterials == null || materials == null) {
-                binding.tvExerciseDetailMaterials.setText("Sin material");
+                binding.tvExerciseDetailMaterials.setText(R.string.exercise_detail_noMaterials);
             }
 
             // Cargar la imagen con Picasso

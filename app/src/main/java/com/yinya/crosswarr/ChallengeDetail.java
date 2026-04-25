@@ -80,39 +80,22 @@ public class ChallengeDetail extends Fragment {
             // Asignar Descripción con Formato Seguro
             if (binding.tvChallengeDescriptionFragmentChallengeDetail != null && type != null) {
                 String description = "";
-
                 String safeType = type.trim().toLowerCase();
 
                 if ("amrap".equals(safeType)) {
-                    description = String.format("Descripción del desafío: Este desafío consistirá en un %s *,\n" +
-                                    "- Tren superior: %s. %s repeticiones. \n" +
-                                    "- Tren inferior: %s. %s repeticiones. \n" +
-                                    "- Core: %s. %s repeticiones. \n" +
-                                    "El tiempo para superar el desafío es de: %s minutos \n\n" +
-                                    "* As Many Rounds As possible: Haz tantas rondas de este bloque de ejercicios como puedas.",
+                    description = requireContext().getString(R.string.challenge_detail_description_amrap,
                             safeType.toUpperCase(), exerciseSup, repetitionSup, exerciseInf, repetitionInf, exerciseCore, repetitionCore, time);
 
                 } else if ("ft".equals(safeType)) {
-                    description = String.format("Descripción del desafío: Este desafío consistirá en un %s *,\n" +
-                                    "- Tren superior: %s. %s repeticiones. \n" +
-                                    "- Tren inferior: %s. %s repeticiones. \n" +
-                                    "- Core: %s. %s repeticiones. \n" +
-                                    "El tiempo para superar el desafío es de: %s minutos \n\n" +
-                                    "* For time: Tu tiempo máximo para completar estos ejercicios es de %s minutos.",
+                    description = requireContext().getString(R.string.challenge_detail_description_ft,
                             safeType.toUpperCase(), exerciseSup, repetitionSup, exerciseInf, repetitionInf, exerciseCore, repetitionCore, time, time);
 
                 } else if ("emom".equals(safeType)) {
-                    description = String.format("Descripción del desafío: Este desafío consistirá en un %s *,\n" +
-                                    "- Tren superior: %s. %s repeticiones. \n" +
-                                    "- Tren inferior: %s. %s repeticiones. \n" +
-                                    "- Core: %s. %s repeticiones. \n" +
-                                    "El tiempo para superar el desafío es de: %s minutos \n\n" +
-                                    "* Every minute on the minute: Tienes un minuto para hacer las repeticiones y descansar, ¡Mientras antes las hagas más tiempo descansas!",
+                    description = requireContext().getString(R.string.challenge_detail_description_emom,
                             safeType.toUpperCase(), exerciseSup, repetitionSup, exerciseInf, repetitionInf, exerciseCore, repetitionCore, time);
 
                 } else {
-                    // Si no es ninguno de los 3, que nos lo diga por pantalla
-                    description = "Error: El tipo de desafío guardado en la base de datos no es válido. Tipo recibido: '" + type + "'";
+                    description = requireContext().getString(R.string.challenge_detail_description_error,type);
                 }
 
                 binding.tvChallengeDescriptionFragmentChallengeDetail.setText(description);
@@ -120,7 +103,7 @@ public class ChallengeDetail extends Fragment {
 
             // Asignar Duración
             if (binding.tvDurationDescriptionFragmentChallengeDetail != null) {
-                binding.tvDurationDescriptionFragmentChallengeDetail.setText("Duración del desafío: " + time + " min.");
+                binding.tvDurationDescriptionFragmentChallengeDetail.setText(requireContext().getString(R.string.challenge_detail_duration, time));
             }
 
             // Lógica del tempotizador
@@ -128,8 +111,8 @@ public class ChallengeDetail extends Fragment {
                 binding.btnStartFragmentChallengeDetail.setOnClickListener(v -> {
 
                     if (!isChronometerRunning) {
-                        // INICIAR EL DESAFÍO
 
+                        // INICIAR EL DESAFÍO
                         totalTimeInMillis = Long.parseLong(time) * 60 * 1000;
 
                         if (binding.chronometerFragmentChallengeDetail != null) {
@@ -138,7 +121,7 @@ public class ChallengeDetail extends Fragment {
                             initChronometer(id, type);
 
                             // Cambiamos el botón para que ahora sirva para parar
-                            binding.btnStartFragmentChallengeDetail.setText("Terminar / Parar");
+                            binding.btnStartFragmentChallengeDetail.setText(requireContext().getString(R.string.challenge_detail_btn_stop));
                         }
 
                         timeSpentInMillis = totalTimeInMillis;
@@ -209,7 +192,7 @@ public class ChallengeDetail extends Fragment {
                         mpFinish.start();
                     }
 
-                    android.widget.Toast.makeText(requireContext(), "¡Desafío completado!", android.widget.Toast.LENGTH_SHORT).show();
+                    android.widget.Toast.makeText(requireContext(), R.string.challenge_detail_toast_completed, android.widget.Toast.LENGTH_SHORT).show();
                 }
 
             });
@@ -222,7 +205,7 @@ public class ChallengeDetail extends Fragment {
     }
 
     private void onChallengeFinished(String id){
-        binding.btnStartFragmentChallengeDetail.setText("Desafío Finalizado");
+        binding.btnStartFragmentChallengeDetail.setText(requireContext().getText(R.string.challenge_detail_challenge_finised));
         binding.btnStartFragmentChallengeDetail.setEnabled(false); // Lo bloqueamos para que no le dé más
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -235,9 +218,9 @@ public class ChallengeDetail extends Fragment {
                 int minutesCompleted = (int) (timeSpentInMillis / 1000) / 60;
                 int secondsCompleted = (int) (timeSpentInMillis / 1000) % 60;
 
-                String timeMsg = String.format("Has entrenado: %02d:%02d", minutesCompleted, secondsCompleted);
+                String timeMsg = requireContext().getString(R.string.challenge_detail_toast_time_trained, minutesCompleted, secondsCompleted);
                 android.widget.Toast.makeText(requireContext(), timeMsg, android.widget.Toast.LENGTH_LONG).show();
-                // Espera 2 segundos (2000 milisegundos) y luego vuelve al inicio
+                // Espera 4 segundos (4000 milisegundos) y luego vuelve al inicio
                 new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
                     if (getView() != null) { // Comprobación de seguridad por si ya se ha ido
                         androidx.navigation.Navigation.findNavController(requireView()).popBackStack();
@@ -248,7 +231,7 @@ public class ChallengeDetail extends Fragment {
 
             @Override
             public void onFailure(Exception e) {
-                Toast.makeText(getContext(), "Error al guardar el tiempo.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), R.string.challenge_detail_error_saving_time, Toast.LENGTH_SHORT).show();
             }
         });
     }

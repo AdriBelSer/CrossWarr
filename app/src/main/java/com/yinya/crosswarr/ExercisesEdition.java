@@ -34,10 +34,10 @@ public class ExercisesEdition extends Fragment {
 
         binding.switchMaterialsFragmentExercisesEdition.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                binding.switchMaterialsFragmentExercisesEdition.setText("Con materiales");
+                binding.switchMaterialsFragmentExercisesEdition.setText(R.string.exercise_edition_materials);
                 binding.tilMaterialsListFragmentExercisesEdition.setVisibility(View.VISIBLE);
             } else {
-                binding.switchMaterialsFragmentExercisesEdition.setText("Sin materiales");
+                binding.switchMaterialsFragmentExercisesEdition.setText(R.string.exercise_edition_noMaterials);
                 binding.tilMaterialsListFragmentExercisesEdition.setVisibility(View.GONE);
                 binding.etMaterialsListFragmentExercisesEdition.setText(""); // Borramos si se vuelve a apagar
             }
@@ -80,7 +80,7 @@ public class ExercisesEdition extends Fragment {
 
         // VALIDACIÓN
         if (name.isEmpty() || description.isEmpty() || selectedRadioId == -1) {
-            Toast.makeText(getContext(), "Por favor, rellena todos los campos", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), R.string.exercise_edition_toast_error, Toast.LENGTH_SHORT).show();
             return; // Cortamos la ejecución aquí, no seguimos
         }
 
@@ -114,10 +114,7 @@ public class ExercisesEdition extends Fragment {
         Repository.getInstance().createExercise(newExercise);
 
         // Le avisamos al usuario de que ha ido bien
-        Toast.makeText(getContext(), "¡Ejercicio guardado en Firebase!", Toast.LENGTH_SHORT).show();
-
-        // Volver a la pantalla anterior automáticamente
-        //requireActivity().getSupportFragmentManager().popBackStack();
+        Toast.makeText(getContext(), R.string.exercise_edition_toast_success, Toast.LENGTH_SHORT).show();
 
         cleanForm();
     }

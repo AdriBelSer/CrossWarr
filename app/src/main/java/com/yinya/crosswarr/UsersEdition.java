@@ -70,18 +70,15 @@ public class UsersEdition extends Fragment {
         String role = binding.switchRoleFragmentUsersEdition.isChecked() ? "admin" : "user";
 
         if (name.isEmpty() || email.isEmpty()) {
-            android.widget.Toast.makeText(requireContext(), "Por favor, rellena todos los campos", android.widget.Toast.LENGTH_SHORT).show();
+            android.widget.Toast.makeText(requireContext(), R.string.users_edition_toast_error_empty_data, android.widget.Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // TODO: Ver si quiero crear un usuario nuevo:
-        //  Si es un usuario NUEVO, generamos datos base
         if (currentUid == null) {
-            currentUid = UUID.randomUUID().toString(); // ID aleatorio
+            currentUid = UUID.randomUUID().toString();
             currentCreationDate = Timestamp.now();
         }
 
-        // Creamos el objeto con los datos combinados (los nuevos de la UI + los viejos que guardamos)
         UserData savedUser = new UserData(
                 currentUid,
                 email,
@@ -94,12 +91,9 @@ public class UsersEdition extends Fragment {
                 currentChallenges
         );
 
-        // createDocumentWithId en FirebaseService usa set() que machaca el documento si existe.
-        // Si quieres que actúe como un update combinando datos, en tu FirebaseService.java
-        // deberías añadir SetOptions.merge() a ese método en el futuro.
         Repository.getInstance().createUser(savedUser);
 
-        android.widget.Toast.makeText(requireContext(), "Usuario guardado correctamente", android.widget.Toast.LENGTH_SHORT).show();
+        android.widget.Toast.makeText(requireContext(), R.string.users_edition_toast_save_successfull, android.widget.Toast.LENGTH_SHORT).show();
         goBackToUsers();
     }
 
@@ -114,43 +108,3 @@ public class UsersEdition extends Fragment {
     }
 }
 
-
-/*//TODO: El código de abajo es un ejemplo de cómo elegir una foto de la galería de imágenes del propio programa
-       //¿pongo avatares predeterminados?
-     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        binding.fabEditPhotoChallengeFragmentChallengesEdition.setOnClickListener(v -> {
-            showImageMenu();
-        });
-        binding.btnCreateChallengeFragmentChallengesEdition.setOnClickListener(v -> {
-            saveChallenge();
-        });
-
-    }
-
-    private void showImageMenu() {
-        String[] options = {"10 minutos", "15 minutos", "20 minutos"};
-        int[] imagenesDrawables = {
-                R.drawable.photo_10,
-                R.drawable.photo_15,
-                R.drawable.photo_20
-        };
-
-        // 5. Creamos el menú emergente de Material Design
-        new MaterialAlertDialogBuilder(requireContext())
-                .setTitle("Elige la imagen del desafío")
-                .setItems(options, (dialog, which) -> {
-                    // 'which' nos dice qué número de opcion se ha elegido (0, 1 o 2)
-
-                    // Cambiamos la foto
-                    binding.ivChallengeAvatarFragmentChallengesEdition.setImageResource(imagenesDrawables[which]);
-
-                    // Guardamos el nombre o identificador para enviarlo a
-                    if (which == 0) photoChallenge = "photo_10";
-                    else if (which == 1) photoChallenge = "photo_15";
-                    else if (which == 2) photoChallenge = "photo_20";
-                })
-                .show();
-    }
-    */

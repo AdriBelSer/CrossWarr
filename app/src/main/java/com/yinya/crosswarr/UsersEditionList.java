@@ -43,15 +43,15 @@ public class UsersEditionList extends Fragment {
             @Override
             public void onDeleteClick(UserData user) {
                 new android.app.AlertDialog.Builder(requireContext())
-                        .setTitle("Borrar Usuario")
-                        .setMessage("¿Estás seguro de que quieres borrar el usuario '" + user.getName() + "'?")
-                        .setPositiveButton("Sí, borrar", (dialog, which) -> {
+                        .setTitle(R.string.User_edition_list_delete_title)
+                        .setMessage(requireContext().getString(R.string.User_edition_list_delete_message))
+                        .setPositiveButton(R.string.User_edition_list_delete_yes_btn, (dialog, which) -> {
                             Repository.getInstance().deleteUser(user);
                             users.remove(user);
                             adapter.notifyDataSetChanged();
-                            android.widget.Toast.makeText(requireContext(), "Usuario borrado", android.widget.Toast.LENGTH_SHORT).show();
+                            android.widget.Toast.makeText(requireContext(), R.string.User_edition_list_delete_success, android.widget.Toast.LENGTH_SHORT).show();
                         })
-                        .setNegativeButton("Cancelar", null)
+                        .setNegativeButton(R.string.User_edition_list_delete_cancel_btn, null)
                         .show();
             }
 

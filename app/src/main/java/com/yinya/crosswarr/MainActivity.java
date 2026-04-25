@@ -27,7 +27,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.yinya.crosswarr.databinding.ActivityMainBinding;
 import com.yinya.crosswarr.models.ChallengeData;
+import com.yinya.crosswarr.network.FirebaseService;
+import com.yinya.crosswarr.network.IFirebaseCallback;
 import com.yinya.crosswarr.repository.Repository;
+
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,6 +52,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
+
+        PreferencesHelper prefs = new PreferencesHelper(this);
+        //Aplicar tena
+        if (prefs.isDarkMode()) {
+            androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode(androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode(androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO);
+        }
+        //Aplicar idioma
+        String savedLang = prefs.getLanguage();
+        String langCode = savedLang.equals("English") ? "en" : "es";
+        androidx.appcompat.app.AppCompatDelegate.setApplicationLocales(
+                androidx.core.os.LocaleListCompat.forLanguageTags(langCode)
+        );
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -157,6 +175,36 @@ public class MainActivity extends AppCompatActivity {
         if (menu instanceof MenuBuilder) {
             ((MenuBuilder) menu).setOptionalIconsVisible(true);
         }
+
+        android.view.MenuItem adminOptions = menu.findItem(R.id.nav_admin_options);
+
+        // 2. Obtenemos el usuario actual de Auth
+        com.google.firebase.auth.FirebaseUser currentUser = com.google.firebase.auth.FirebaseAuth.getInstance().getCurrentUser();
+
+        if (currentUser != null) {
+            FirebaseService service = FirebaseService.getInstance();
+
+            service.getDocument(service.COLLECTION_NAME, currentUser.getUid(), new IFirebaseCallback() {
+                @Override
+                public void onSuccess(Map<String, Object> dataFromFirebase) {
+                    if (dataFromFirebase != null && dataFromFirebase.containsKey("role")) {
+                        String role = (String) dataFromFirebase.get("role");
+
+                        // Si el rol es exactamente "admin", mostramos el menú
+                        if ("admin".equals(role)) {
+                            if (adminOptions != null) {
+                                adminOptions.setVisible(true);
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Exception e) {
+                    android.util.Log.e("MainActivity", "Error al validar rol de admin", e);
+                }
+            });
+        }
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
             com.google.android.material.appbar.AppBarLayout appBarLayout = findViewById(R.id.main_appbar_layout);
 
@@ -172,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
                 .signOut(this)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(MainActivity.this, "Se ha salido de la sesión correctamente.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, R.string.main_activity_logout_toast, Toast.LENGTH_SHORT).show();
                         goToLogin();
                     }
                 });
@@ -224,18 +272,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void askNotificationPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) ==
-                    PackageManager.PERMISSION_GRANTED) {
-                // Ya tenemos permiso
-            } else if (shouldShowRequestPermissionRationale(android.Manifest.permission.POST_NOTIFICATIONS)) {
-                // Mostrar un diálogo educativo explicando por qué necesitas el permiso
-                // y luego pedirlo.
-            } else {
-                // Pedir el permiso directamente con la ventanita del sistema
-                requestPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS);
-            }
-        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED &&
+                !shouldShowRequestPermissionRationale(android.Manifest.permission.POST_NOTIFICATIONS))
+
+            requestPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS);
     }
 
 }

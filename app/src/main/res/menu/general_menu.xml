@@ -1,31 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/nav_settings"
         android:enabled="true"
         android:icon="@drawable/ic_settings"
         android:title="@string/appbar_nav_menu_settings" />
-<!-- TODO: Poner como predeterminado visible a false para que no lo vean los usuarios se vea si hubiera algun problema-->
+
     <item
         android:id="@+id/nav_admin_options"
         android:enabled="true"
         android:icon="@drawable/ic_challenges_edition"
         android:title="@string/appbar_nav_menu_admin_options"
-        android:visible="true">
+        android:visible="false">
         <menu>
             <item
-            android:id="@+id/nav_exercices_edition"
-            android:title="@string/appbar_nav_menu_exercises_edit"
-                android:icon="@drawable/ic_exercises_edition"/>
+                android:id="@+id/nav_exercices_edition"
+                android:icon="@drawable/ic_exercises_edition"
+                android:title="@string/appbar_nav_menu_exercises_edit" />
             <item
-            android:id="@+id/nav_challenges_edition"
-            android:title="@string/appbar_nav_menu_challenge_edit"
-                android:icon="@drawable/ic_challenges_edition"/>
+                android:id="@+id/nav_challenges_edition"
+                android:icon="@drawable/ic_challenges_edition"
+                android:title="@string/appbar_nav_menu_challenge_edit" />
             <item
                 android:id="@+id/nav_users_edition"
-                android:title="@string/appbar_nav_menu_users_edit"
-                android:icon="@drawable/ic_user_edition"/>
+                android:icon="@drawable/ic_user_edition"
+                android:title="@string/appbar_nav_menu_users_edit" />
         </menu>
     </item>
 

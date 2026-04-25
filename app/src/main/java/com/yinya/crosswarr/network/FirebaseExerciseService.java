@@ -72,8 +72,6 @@ public class FirebaseExerciseService {
                             ex.setId((String) map.get("id"));
                             ex.setName((String) map.get("name"));
                             ex.setDescription((String) map.get("description"));
-                            //TODO: Descomentar lo siguiente y borrar lo siguiente si no funciona al actualizar el ejercicio con el isUsed
-                            //ex.setType((String) map.get("type"));
                             ex.setType(arrayName);
                             ex.setImage((String) map.get("image"));
                             ex.setVideo((String) map.get("video"));

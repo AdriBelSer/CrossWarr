@@ -87,6 +87,14 @@
                 android:text="@string/switch_notifications_user_profile"
                 android:textSize="16sp" />
 
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switch_theme_profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/theme_user_profile"
+                android:textSize="16sp" />
+
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
@@ -109,6 +117,6 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_margin="16dp"
-        android:text="Guardar Cambios" />
+        android:text="@string/save_changes_user_profile" />
 
 </LinearLayout>

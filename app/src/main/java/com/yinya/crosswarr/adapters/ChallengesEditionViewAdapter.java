@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.yinya.crosswarr.R;
 import com.yinya.crosswarr.databinding.CardListChallengesEditionItemBinding;
 import com.yinya.crosswarr.models.ChallengeData;
 
@@ -73,7 +74,7 @@ public class ChallengesEditionViewAdapter extends RecyclerView.Adapter<Challenge
 
             } else {
                 // Texto de seguridad por si algún challenge antiguo no tiene fecha
-                binding.tvChallengeDateCardListChallengesEditionItem.setText("Fecha no disponible");
+                binding.tvChallengeDateCardListChallengesEditionItem.setText(R.string.challenges_edition_view_adapter_getItemCount_noDataChallenge);
             }
         }
     }

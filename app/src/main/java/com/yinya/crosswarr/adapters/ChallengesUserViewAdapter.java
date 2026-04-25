@@ -75,17 +75,17 @@ public class ChallengesUserViewAdapter extends RecyclerView.Adapter<ChallengesUs
                 java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
                 binding.tvChallengeDateCardListChallengesItem.setText(sdf.format(date));
             } else {
-                binding.tvChallengeDateCardListChallengesItem.setText("Fecha no disponible");
+                binding.tvChallengeDateCardListChallengesItem.setText(R.string.challenges_user_view_adapter_bind_noData_message);
             }
 
-            // 2. LÓGICA DE COMPLETADO Y TIEMPO
+            // LÓGICA DE COMPLETADO Y TIEMPO
             if (userCompletedChallenges != null && userCompletedChallenges.containsKey(challenge.getId())) {
-                // ¡El usuario ha completado este reto!
-                binding.tvChallengeStatusCardListChallengesItem.setText("Completado");
-                binding.tvChallengeStatusCardListChallengesItem.setTextColor(android.content.res.ColorStateList.valueOf(successColor)); // Verde oscuro
+                // El usuario ha completado este reto
+                binding.tvChallengeStatusCardListChallengesItem.setText(R.string.challenges_user_view_adapter_bind_completed_message);
+                binding.tvChallengeStatusCardListChallengesItem.setTextColor(android.content.res.ColorStateList.valueOf(successColor));
                 binding.tvChallengeTimeCardListChallengesItem.setVisibility(android.view.View.VISIBLE);
 
-                // Recuperamos el tiempo de Firebase (Suele devolver Long o Integer)
+                // Recuperamos el tiempo de Firebase
                 Object timeObj = userCompletedChallenges.get(challenge.getId());
                 long timeInMillis = 0;
 
@@ -98,37 +98,15 @@ public class ChallengesUserViewAdapter extends RecyclerView.Adapter<ChallengesUs
                 // Transformamos a minutos y segundos
                 int minutes = (int) (timeInMillis / 1000) / 60;
                 int seconds = (int) (timeInMillis / 1000) % 60;
-                binding.tvChallengeTimeCardListChallengesItem.setText(String.format(Locale.getDefault(), "Tu tiempo: %02d:%02d", minutes, seconds));
+                binding.tvChallengeTimeCardListChallengesItem.setText(context.getString(R.string.challenges_user_view_adapter_bind_your_time, minutes, seconds));
 
             } else {
                 // No lo ha completado
-                binding.tvChallengeStatusCardListChallengesItem.setText("Pendiente");
-                binding.tvChallengeStatusCardListChallengesItem.setTextColor(android.content.res.ColorStateList.valueOf(neutralColor)); // Rojo
-                binding.tvChallengeTimeCardListChallengesItem.setVisibility(android.view.View.GONE); // Ocultamos el tiempo
+                binding.tvChallengeStatusCardListChallengesItem.setText(R.string.challenges_user_view_adapter_bind_pending_message);
+                binding.tvChallengeStatusCardListChallengesItem.setTextColor(android.content.res.ColorStateList.valueOf(neutralColor));
+                binding.tvChallengeTimeCardListChallengesItem.setVisibility(android.view.View.GONE);
             }
         }
     }
 }
-
-
-       /* public void bind(ChallengeData challenge) {
-            binding.tvChallengeDateCardListChallengesItem.setText(challenge.getActivationDate().toString());
-            //Comprobar que la fecha no venga nula desde Firebase
-            if (challenge.getActivationDate() != null) {
-
-                //Convertir el "Timestamp" de Firebase a un "Date"
-                java.util.Date date = challenge.getActivationDate().toDate();
-
-                // formato DD-MM-YYYY
-                java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM-yyyy", java.util.Locale.getDefault());
-
-                binding.tvChallengeDateCardListChallengesItem.setText(sdf.format(date));
-
-            } else {
-                // Texto de seguridad por si algún challenge antiguo no tiene fecha
-                binding.tvChallengeDateCardListChallengesItem.setText("Fecha no disponible");
-            }
-        }
-        }
-}*/
 

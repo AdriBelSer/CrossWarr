@@ -124,7 +124,7 @@ public class LoginActivity extends AppCompatActivity {
         String password = binding.etPassword.getText().toString().trim();
 
         if (email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "Rellena el email y la contraseña", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.login_activity_toast_email_pss_needed, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -136,7 +136,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Exception e) {
-                Toast.makeText(LoginActivity.this, "Error: Revisa tus credenciales.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, R.string.login_activity_toast_error, Toast.LENGTH_SHORT).show();
                 Log.e("TEST_LOGIN", "Error en login", e);
             }
         });
@@ -148,7 +148,7 @@ public class LoginActivity extends AppCompatActivity {
         String password = binding.etPassword.getText().toString().trim();
 
         if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "Rellena todos los campos para registrarte", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.login_activity_toast_resitration_fiels_empty, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -168,7 +168,8 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Exception e) {
-                Toast.makeText(LoginActivity.this, "Error al registrar: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                String message = getString(R.string.login_activity_toast_resitration_error, e.getMessage());
+                Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
                 Log.e("TEST_LOGIN", "Error en registro", e);
             }
         });
@@ -178,8 +179,8 @@ public class LoginActivity extends AppCompatActivity {
         String email = binding.etEmail.getText().toString().trim();
 
         if (email.isEmpty()) {
-            binding.tilEmail.setError("Introduce tu email aquí primero");
-            Toast.makeText(this, "Escribe tu email arriba para enviarte el enlace", Toast.LENGTH_LONG).show();
+            binding.tilEmail.setError(getString(R.string.login_activity_title_reset_pss));
+            Toast.makeText(this, R.string.login_activity_toast_reset_pss, Toast.LENGTH_LONG).show();
             return;
         }
         binding.tilEmail.setError(null);
@@ -187,12 +188,12 @@ public class LoginActivity extends AppCompatActivity {
         authService.sendPasswordResetEmail(email, new FirebaseAuthService.IAuthCallback() {
             @Override
             public void onSuccess(FirebaseUser user) {
-                Toast.makeText(LoginActivity.this, "Correo de recuperación enviado", Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, R.string.login_activity_toast_reset_pss_success, Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onFailure(Exception e) {
-                Toast.makeText(LoginActivity.this, "Error al enviar el correo.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, R.string.login_activity_toast_reset_pss_failure, Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -132,7 +132,7 @@ public class ChallengesEdition extends Fragment {
                 exerciseInf.isEmpty() || repsInfStr.isEmpty() ||
                 exerciseCore.isEmpty() || repsCoreStr.isEmpty()) {
 
-            android.widget.Toast.makeText(requireContext(), "Por favor, rellena todos los campos", android.widget.Toast.LENGTH_SHORT).show();
+            android.widget.Toast.makeText(requireContext(), R.string.challenges_edition_saveChallenge_error, android.widget.Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -186,14 +186,14 @@ public class ChallengesEdition extends Fragment {
             markExerciseAsUsedInFirebase(exerciseInf);
             markExerciseAsUsedInFirebase(exerciseCore);
 
-            android.widget.Toast.makeText(requireContext(), "Desafío guardado correctamente", android.widget.Toast.LENGTH_SHORT).show();
+            android.widget.Toast.makeText(requireContext(), R.string.challenges_edition_saveChallenge_success, android.widget.Toast.LENGTH_SHORT).show();
 
 
         } catch (ParseException e) {
-            android.widget.Toast.makeText(requireContext(), "Error al interpretar la fecha", android.widget.Toast.LENGTH_SHORT).show();
+            android.widget.Toast.makeText(requireContext(), R.string.challenges_edition_saveChallenge_errorDate, android.widget.Toast.LENGTH_SHORT).show();
             throw new RuntimeException(e);
         } catch (NumberFormatException e) {
-            android.widget.Toast.makeText(requireContext(), "Asegúrate de que el tiempo y repeticiones sean números", android.widget.Toast.LENGTH_SHORT).show();
+            android.widget.Toast.makeText(requireContext(), R.string.challenges_edition_saveChallenge_errorTimeOrReps, android.widget.Toast.LENGTH_SHORT).show();
         }
 
         cleanForm();

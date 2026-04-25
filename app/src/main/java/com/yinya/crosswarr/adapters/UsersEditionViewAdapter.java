@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.yinya.crosswarr.R;
 import com.yinya.crosswarr.databinding.CardListUsersEditionItemBinding;
 import com.yinya.crosswarr.models.UserData;
 
@@ -63,9 +64,9 @@ public class UsersEditionViewAdapter extends RecyclerView.Adapter<UsersEditionVi
             binding.tvUserNameCardListUsersEditionItem.setText(user.getName());
             binding.tvUserEmailCardListUsersEditionItem.setText(user.getEmail());
             if (user.getRole().equals("admin")) {
-                binding.tvUserRoleCardListUsersEditionItem.setText("Administrador");
+                binding.tvUserRoleCardListUsersEditionItem.setText(R.string.user_edition_view_adapter_bind_admin);
             } else {
-                binding.tvUserRoleCardListUsersEditionItem.setText("Usuario");
+                binding.tvUserRoleCardListUsersEditionItem.setText(R.string.user_edition_view_adapter_bind_user);
             }
         }
     }

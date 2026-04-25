@@ -45,13 +45,13 @@ public class ExercisesEditionList extends Fragment {
             public void onDeleteClick(ExerciseData exercise) {
                 if (exercise.isUsed()) {
                     android.widget.Toast.makeText(getContext(),
-                            "No se puede borrar: Este ejercicio está siendo utilizado en un Challenge.",
+                            R.string.exercises_edition_list_btn_delete_error,
                             android.widget.Toast.LENGTH_LONG).show();
                 } else {
                     new android.app.AlertDialog.Builder(getContext())
-                            .setTitle("Borrar Ejercicio")
-                            .setMessage("¿Estás seguro de que quieres borrar el ejercicio '" + exercise.getName() + "'?")
-                            .setPositiveButton("Sí, borrar", (dialog, which) -> {
+                            .setTitle(R.string.exercises_edition_list_btn_delete_title)
+                            .setMessage(requireContext().getString(R.string.exercises_edition_list_btn_delete_message))
+                            .setPositiveButton(R.string.exercises_edition_list_btn_delete_yes, (dialog, which) -> {
 
                                 // 1. Ordenamos a Firebase que lo borre
                                 Repository.getInstance().deleteExercise(exercise);
@@ -60,9 +60,9 @@ public class ExercisesEditionList extends Fragment {
                                 exercises.remove(exercise);
                                 adapter.notifyDataSetChanged();
 
-                                android.widget.Toast.makeText(getContext(), "Ejercicio borrado", android.widget.Toast.LENGTH_SHORT).show();
+                                android.widget.Toast.makeText(getContext(), R.string.exercises_edition_list_btn_delete_success, android.widget.Toast.LENGTH_SHORT).show();
                             })
-                            .setNegativeButton("Cancelar", null)
+                            .setNegativeButton(R.string.exercises_edition_list_btn_delete_cancel, null)
                             .show();
                 }
             }
@@ -114,5 +114,3 @@ public class ExercisesEditionList extends Fragment {
         }
     }
 
-
-// TODO: Funcionalidad de borrar SOLO si el ejercicio no se ha utilizado en un challenge
