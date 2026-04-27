@@ -51,5 +51,20 @@
             app:menu="@menu/bottom_navigation_menu" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <include
+        android:id="@+id/includeLayoutWelcome"
+        layout="@layout/guide_welcome" />
+    <include
+        android:id="@+id/includeLayoutChallenge"
+        layout="@layout/guide_challenge" />
+    <include
+        android:id="@+id/includeLayoutExercises"
+        layout="@layout/guide_exercises" />
+    <include
+        android:id="@+id/includeLayoutRecords"
+        layout="@layout/guide_records" />
+    <include
+        android:id="@+id/includeLayoutSettings"
+        layout="@layout/guide_menu_settings" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

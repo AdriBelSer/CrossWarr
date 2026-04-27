@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/guideMenuSettingsLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:clickable="true"
+    android:focusable="true"
+    android:visibility="gone"
+    tools:visibility="visible">
+
+
+    <TextView
+        android:id="@+id/textStepMenuSettings"
+        android:layout_width="409dp"
+        android:layout_height="286dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:background="@drawable/speech_bubble_upside_right"
+        android:gravity="center"
+        android:paddingHorizontal="30dp"
+        android:paddingTop="60dp"
+        android:paddingBottom="30dp"
+        android:text="@string/guide_settings_text"
+        android:textColor="@color/md_theme_guide_text"
+        android:textSize="@dimen/text_guide_size_body"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.widget.Button
+        android:id="@+id/btn_exit_guide_MenuSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_default"
+        android:layout_marginBottom="@dimen/margin_bottom_button_next_end_guide"
+        android:background="@color/md_theme_guide_background"
+        android:text="@string/guide_finish_btn"
+        android:textAllCaps="false"
+        android:textColor="@color/md_theme_guide_text"
+        android:textSize="@dimen/text_guide_size_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

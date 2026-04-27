@@ -4,14 +4,12 @@ import android.util.Log;
 
 import com.google.firebase.Timestamp;
 import com.yinya.crosswarr.models.ChallengeData;
-import com.yinya.crosswarr.models.ExerciseData;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class FirebaseChallengeService {
-    // TODO: refactorizar utilizando firebaseService.COLLECTION_NAME
     private static FirebaseChallengeService instance;
     FirebaseService firebaseService;
 
@@ -33,7 +31,7 @@ public class FirebaseChallengeService {
 
         firebaseService = FirebaseService.getInstance();
         firebaseService.addMapToDocument(
-                "crosswarr",
+                firebaseService.COLLECTION_NAME,
                 "challenges",
                 mapKey,
                 challengeMap,
@@ -129,6 +127,7 @@ public class FirebaseChallengeService {
             }
         });
     }
+
     public void deleteChallenge(ChallengeData challengeData) {
         String targetMapKey = challengeData.getId();
         firebaseService.removeMapFromDocument(

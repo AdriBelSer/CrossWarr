@@ -3,6 +3,10 @@
 
     <color name="md_theme_success">#4CAF50</color>
     <color name="md_theme_neutral">#999999</color>
+    <color name="md_theme_guide_background">#FF884F</color>
+    <color name="md_theme_guide_text">#000000</color>
+    <color name="md_theme_guide_white_highly_translucent">#65FFFFFF</color>
+    <color name="md_theme_guide_white_translucent">#D0FFFFFF</color>
 
     <color name="md_theme_primary">#FF6600</color>
     <color name="md_theme_onPrimary">#581E00</color>
@@ -48,7 +52,8 @@
     <color name="md_theme_surfaceBright">#3A3939</color>
     <color name="md_theme_surfaceContainerLowest">#0E0E0E</color>
     <color name="md_theme_surfaceContainerLow">#1C1B1B</color>
-    <color name="md_theme_surfaceContainer">#201F1F</color> <!-- ESTE ES EL COLOR DEL BOTTOM NAV BAR Y DEL MENÚ DEL APPBAR -->
+    <color name="md_theme_surfaceContainer">#201F1F
+    </color> <!-- ESTE ES EL COLOR DEL BOTTOM NAV BAR Y DEL MENÚ DEL APPBAR -->
     <color name="md_theme_surfaceContainerHigh">#2B2A2A</color>
     <color name="md_theme_surfaceContainerHighest">#353434</color>
     <color name="md_theme_primary_mediumContrast">#FFD3C1</color>

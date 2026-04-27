@@ -49,7 +49,12 @@ public class ExerciseDetail extends Fragment {
                 binding.tvExerciseDetailDescription.setText(description);
             }
             if (binding.tvExerciseDetailTypes != null) {
-                binding.tvExerciseDetailTypes.setText(type);
+                if (type.equalsIgnoreCase("upper_body_with_equipment"))binding.tvExerciseDetailTypes.setText(R.string.exercise_type_detail_uper_with_material);
+                else if (type.equalsIgnoreCase("upper_body_without_equipment"))binding.tvExerciseDetailTypes.setText(R.string.exercise_type_detail_uper_without_material);
+                else if(type.equalsIgnoreCase("lower_body_with_equipment"))binding.tvExerciseDetailTypes.setText(R.string.exercise_type_detail_lower_with_material);
+                else if(type.equalsIgnoreCase("lower_body_without_equipment"))binding.tvExerciseDetailTypes.setText(R.string.exercise_type_detail_lower_without_material);
+                else if(type.equalsIgnoreCase("core_with_equipment"))binding.tvExerciseDetailTypes.setText(R.string.exercise_type_detail_core_with_material);
+                else if(type.equalsIgnoreCase("core_without_equipment"))binding.tvExerciseDetailTypes.setText(R.string.exercise_type_detail_core_without_material);
             }
             // Cargar los materiales con TextUtils para añadirlos uno tras otro
             if (binding.tvExerciseDetailMaterials != null && materials != null) {

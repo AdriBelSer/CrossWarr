@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/guideRecordsLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:clickable="true"
+    android:focusable="true"
+    android:visibility="gone"
+    tools:visibility="visible">
+
+
+    <TextView
+        android:id="@+id/textStepRecords"
+        android:layout_width="302dp"
+        android:layout_height="189dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="?attr/actionBarSize"
+        android:background="@drawable/speech_bubble_right"
+        android:gravity="center"
+        android:paddingHorizontal="30dp"
+        android:paddingTop="30dp"
+        android:paddingBottom="50dp"
+        android:text="@string/guide_records_text"
+        android:textColor="@color/md_theme_guide_text"
+        android:textSize="@dimen/text_guide_size_body"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_next_guide_records" />
+
+
+    <android.widget.Button
+        android:id="@+id/btn_exit_guide_records"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/md_theme_guide_white_translucent"
+        android:text="@string/guide_skip_btn"
+        android:textAllCaps="false"
+        android:textColor="@color/md_theme_guide_text"
+        android:textSize="@dimen/text_guide_size_btn"
+        android:translationY="?attr/actionBarSize"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.widget.Button
+        android:id="@+id/btn_next_guide_records"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:layout_marginEnd="@dimen/margin_default"
+        android:layout_marginBottom="@dimen/margin_bottom_button_next_end_guide"
+        android:background="@color/md_theme_guide_background"
+        android:text="@string/guide_next_btn"
+        android:textAllCaps="false"
+        android:textColor="@color/md_theme_guide_text"
+        android:textSize="@dimen/text_guide_size_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

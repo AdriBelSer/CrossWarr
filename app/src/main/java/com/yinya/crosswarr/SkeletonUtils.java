@@ -17,8 +17,8 @@ public class SkeletonUtils {
     }
 
     /**
-     * (Opcional) Método para volver a mostrar el skeleton por si
-     * el usuario recarga la página o haces pull-to-refresh
+     * Método para volver a mostrar el skeleton por si
+     * el usuario recarga la página o se hace pull-to-refresh
      */
     public static void showSkeleton(ShimmerFrameLayout shimmerContainer, View dataView) {
         if (shimmerContainer != null) {

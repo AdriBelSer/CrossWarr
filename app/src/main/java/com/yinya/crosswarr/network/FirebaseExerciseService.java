@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 public class FirebaseExerciseService {
-    // TODO: refactorizar utilizando firebaseService.COLLECTION_NAME
-
     private static FirebaseExerciseService instance;
     FirebaseService firebaseService;
 
@@ -29,11 +27,11 @@ public class FirebaseExerciseService {
 
     public void createExercise(ExerciseData exerciseData) {
         HashMap<String, Object> exerciseMap = exerciseData.asFirebaseExerciseData().asHashMap();
-        String targetArrayName =  exerciseData.getType();
+        String targetArrayName = exerciseData.getType();
 
         firebaseService = FirebaseService.getInstance();
         firebaseService.addElementToArray(
-                "crosswarr",
+                firebaseService.COLLECTION_NAME,
                 "exercises",
                 targetArrayName,
                 exerciseMap,

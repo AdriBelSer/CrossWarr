@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/guideWelcome"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/md_theme_guide_background"
+    android:clickable="true"
+    android:focusable="true"
+    android:visibility="gone"
+    tools:visibility="visible">
+
+
+    <TextView
+        android:id="@+id/tv_textWelcomeTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:padding="20dp"
+        android:text="@string/guide_welcome_title"
+        android:textColor="@color/md_theme_guide_text"
+        android:textSize="@dimen/text_guide_size_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_textWelcomeFirstParagraph"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="15dp"
+        android:padding="5dp"
+        android:text="@string/guide_welcome_frst_paragraph"
+        android:textColor="@color/md_theme_guide_text"
+        android:textSize="@dimen/text_guide_size_body"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_textWelcomeTitle" />
+
+
+    <TextView
+        android:id="@+id/tv_textWelcomeSecondParagraph"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="15dp"
+        android:layout_marginTop="24dp"
+        android:gravity="left"
+        android:padding="5dp"
+        android:text="@string/guide_welcome_scnd_paragraph"
+        android:textColor="@color/md_theme_guide_text"
+        android:textSize="@dimen/text_guide_size_body"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_textWelcomeFirstParagraph" />
+
+    <TextView
+        android:id="@+id/tv_textWelcomeThirdParagraph"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="15dp"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="@string/guide_welcome_trd_paragraph"
+        android:textColor="@color/md_theme_guide_text"
+        android:textSize="@dimen/text_guide_size_body"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_textWelcomeSecondParagraph" />
+
+    <TextView
+        android:id="@+id/tv_textWelcomeFourthParagraph"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="15dp"
+        android:gravity="left"
+        android:padding="5dp"
+        android:text="@string/guide_welcome_fourth_paragraph"
+        android:textColor="@color/md_theme_guide_text"
+        android:textSize="@dimen/text_guide_size_body"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_textWelcomeThirdParagraph" />
+
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/av_welcomeDumbbell"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_exit_guide"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_textWelcomeFourthParagraph"
+        app:lottie_autoPlay="true"
+        app:lottie_rawRes="@raw/lottie_mancuerna_inicio"
+        app:lottie_loop="true" />
+
+    <android.widget.Button
+        android:id="@+id/btn_start_guide"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="15dp"
+        android:background="@android:color/transparent"
+        android:shadowColor="#003C64"
+        android:shadowRadius="20"
+        android:text="@string/guide_welcome_btn_start"
+        android:textColor="#ffffff"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/av_welcomeDumbbell"
+        app:layout_constraintEnd_toEndOf="@+id/av_welcomeDumbbell"
+        app:layout_constraintStart_toStartOf="@+id/av_welcomeDumbbell"
+        app:layout_constraintTop_toTopOf="@+id/av_welcomeDumbbell" />
+
+    <android.widget.Button
+        android:id="@+id/btn_exit_guide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:layout_margin="20dp"
+        android:layout_marginEnd="@dimen/margin_default"
+        android:layout_marginBottom="@dimen/margin_bottom_button_next_end_guide"
+        android:background="@color/md_theme_guide_white_highly_translucent"
+        android:padding="20dp"
+        android:text="@string/guide_welcome_btn_skip"
+        android:textAllCaps="false"
+        android:textColor="@color/md_theme_guide_text"
+        android:textSize="@dimen/text_guide_size_btn"
+        app:layout_constraintBottom_toBottomOf="@+id/av_welcomeDumbbell"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/av_welcomeDumbbell" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

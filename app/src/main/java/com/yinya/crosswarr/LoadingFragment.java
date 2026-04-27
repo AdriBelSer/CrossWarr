@@ -1,20 +1,21 @@
 package com.yinya.crosswarr;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class LoadingFragment extends Fragment {
+import androidx.fragment.app.Fragment;
 
+import com.yinya.crosswarr.databinding.FragmentLoadingBinding;
+
+public class LoadingFragment extends Fragment {
+    FragmentLoadingBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_loading, container, false);
+        binding = FragmentLoadingBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 }

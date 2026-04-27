@@ -1,25 +1,22 @@
 package com.yinya.crosswarr;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
+
+import com.yinya.crosswarr.databinding.FragmentNoChallengeBinding;
+
 public class NoChallenge extends Fragment {
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
+    FragmentNoChallengeBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_no_challenge, container, false);
+        binding = FragmentNoChallengeBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+
     }
 }

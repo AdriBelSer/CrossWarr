@@ -156,4 +156,25 @@
     <string name="main_activity_logout_toast">Se ha salido de la sesión correctamente.</string>
     <string name="save_changes_user_profile">Guardar Cambios</string>
     <string name="theme_user_profile">Tema claro / oscuro</string>
+    <string name="guide_welcome_title">¡Bienvenido a CrossWarr!</string>
+    <string name="guide_welcome_frst_paragraph">Prepárate para llevar tu entrenamiento al siguiente nivel. Con esta app podrás superar retos diarios, dispongas o no de material, y registrar tus mejores marcas.</string>
+    <string name="guide_welcome_scnd_paragraph">En esta guía aprenderas a navegar por la app, y a familiarizarte con las diferentes pestañas y ajustes.</string>
+    <string name="guide_welcome_trd_paragraph">¿Listo para sudar?</string>
+    <string name="guide_welcome_fourth_paragraph">Pulsa \'Comenzar\' para hacer un recorrido rápido por tu nueva arena de entrenamiento, o \'Saltar\' para pasar directamente a la acción.</string>
+    <string name="guide_welcome_btn_start">Comenzar</string>
+    <string name="guide_welcome_btn_skip">Saltar</string>
+    <string name="guide_challenge_text">Aqui verás el desafío diario</string>
+    <string name="guide_skip_btn">Saltar guía</string>
+    <string name="guide_next_btn">Siguiente</string>
+    <string name="guide_exercises_text">Aquí verás la lista de ejercicios que aparecen en los desafíos</string>
+    <string name="guide_finish_btn">Finalizar guía</string>
+    <string name="guide_records_text">Aquí verás tu avance y podrás repetir desafíos</string>
+    <string name="guide_settings_text">Aquí puedes personalizar algunos ajustes, como por ejemplo, indicar si dispones de materiales, para que te aparezcan tanto los retos que necesitan materiales, como los que no necesitan</string>
+    <string name="label_nav_graph_daily_challenge">Desafío diario</string>
+    <string name="exercise_type_detail_uper_with_material">Tren superior con material</string>
+    <string name="exercise_type_detail_uper_without_material">Tren superior sin material</string>
+    <string name="exercise_type_detail_lower_with_material">Tren inferior con material</string>
+    <string name="exercise_type_detail_lower_without_material">Tren inferior sin material</string>
+    <string name="exercise_type_detail_core_with_material">Core con material</string>
+    <string name="exercise_type_detail_core_without_material">Core sin material</string>
 </resources>

@@ -25,7 +25,14 @@ import androidx.navigation.ui.NavigationUI;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.yinya.crosswarr.databinding.ActivityMainBinding;
+import com.yinya.crosswarr.databinding.GuideChallengeBinding;
+import com.yinya.crosswarr.databinding.GuideExercisesBinding;
+import com.yinya.crosswarr.databinding.GuideMenuSettingsBinding;
+import com.yinya.crosswarr.databinding.GuideRecordsBinding;
+import com.yinya.crosswarr.databinding.GuideWelcomeBinding;
 import com.yinya.crosswarr.models.ChallengeData;
 import com.yinya.crosswarr.network.FirebaseService;
 import com.yinya.crosswarr.network.IFirebaseCallback;
@@ -44,6 +51,15 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
     ActivityMainBinding binding;
+    GuideChallengeBinding guideChallengesBinding;
+    GuideExercisesBinding guideExercisesBinding;
+    GuideMenuSettingsBinding guideMenuSettingsBinding;
+    GuideRecordsBinding guideRecordsBinding;
+    GuideWelcomeBinding guideWelcomeBinding;
+
+    private Map<Integer, float[]> menuItemsInfo = new java.util.HashMap<>();
+    private boolean reproducingGuide = false;
+
     private NavController navController;
     private boolean hasNavigatedToChallenge = false;
     private ChallengeData todayChallenge = null;
@@ -67,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
                 androidx.core.os.LocaleListCompat.forLanguageTags(langCode)
         );
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setBindings();
         setContentView(binding.getRoot());
 
         loadTodaysChallenge();
@@ -104,7 +120,134 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        getToolbarInfoItemSize();
+        boolean showGuide = prefs.getSavedNeedGuide();
+        if (showGuide)
+            initializeGuide();
     }
+
+    private void getToolbarInfoItemSize() {
+        MaterialToolbar mToolbar = findViewById(R.id.main_appbar);
+
+        mToolbar.post(() -> {
+            Menu mToolbarMenu = mToolbar.getMenu();
+            MenuItem menuItem = mToolbarMenu.findItem(R.id.nav_settings);
+
+            if (menuItem != null) {
+                View infoItem = mToolbar.findViewById(menuItem.getItemId());
+
+                if (infoItem != null) {
+                    float itemWidth = infoItem.getWidth();
+                    int[] location = new int[2];
+                    infoItem.getLocationOnScreen(location);
+                    float[] itemInfo = {0, itemWidth, location[0], infoItem.getY()};
+                    menuItemsInfo.put(R.id.nav_settings, itemInfo); // Guardamos por ID
+                } else {
+                    // Si está oculto en los 3 puntitos, apuntamos a la esquina superior derecha a mano
+                    float[] itemInfo = {0, 100f, mToolbar.getWidth() - 150f, mToolbar.getY() + 20f};
+                    menuItemsInfo.put(R.id.nav_settings, itemInfo);
+                }
+            }
+        });
+    }
+
+    private void setBindings() {
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        guideWelcomeBinding = binding.includeLayoutWelcome;
+        guideChallengesBinding = binding.includeLayoutChallenge;
+        guideExercisesBinding = binding.includeLayoutExercises;
+        guideRecordsBinding = binding.includeLayoutRecords;
+        guideMenuSettingsBinding = binding.includeLayoutSettings;
+    }
+
+    private void setWelcomeGuideOnClickListeners() {
+        guideWelcomeBinding.btnStartGuide.setOnClickListener(view -> {
+            guideWelcomeBinding.guideWelcome.setVisibility(View.GONE);
+            onStartGuide(); // Inicia la guía
+        });
+        guideWelcomeBinding.btnExitGuide.setOnClickListener(this::onExitGuide);
+    }
+
+    private void setChallengesGuideOnClickListeners() {
+        guideChallengesBinding.btnExitGuideChallenges.setOnClickListener(this::onExitGuide);
+        guideChallengesBinding.btnNextGuideChallenges.setOnClickListener(view -> {
+            guideChallengesBinding.guideChallengeLayout.setVisibility(View.GONE);
+            goToExercises();
+        });
+    }
+
+    private void setExercisesGuideOnClickListeners() {
+        guideExercisesBinding.btnExitGuideExercises.setOnClickListener(this::onExitGuide);
+        guideExercisesBinding.btnNextGuideExercises.setOnClickListener(v -> {
+            guideExercisesBinding.guideExercisesLayout.setVisibility(View.GONE);
+            goToRecords();
+        });
+    }
+
+    private void setRecordsGuideClickListeners() {
+        guideRecordsBinding.btnExitGuideRecords.setOnClickListener(this::onExitGuide);
+        guideRecordsBinding.btnNextGuideRecords.setOnClickListener(v -> {
+            guideRecordsBinding.guideRecordsLayout.setVisibility(View.GONE);
+            goToMenuSettings();
+        });
+    }
+
+
+    private void setMenuSettingsGuideClickListeners() {
+        guideMenuSettingsBinding.btnExitGuideMenuSettings.setOnClickListener(this::onExitGuide);
+    }
+
+    private void initializeGuide() {
+        setWelcomeGuideOnClickListeners();
+        reproducingGuide = true;
+        guideWelcomeBinding.getRoot().setVisibility(View.VISIBLE);
+    }
+
+    private void onStartGuide() {
+        guideWelcomeBinding.getRoot().setVisibility(View.GONE);
+        goToChallenges();
+    }
+
+
+    private void onExitGuide(View view) {
+        PreferencesHelper prefs = new PreferencesHelper(this);
+        prefs.saveNeedGuide(false);
+
+        guideWelcomeBinding.guideWelcome.setVisibility(View.GONE);
+        guideChallengesBinding.guideChallengeLayout.setVisibility(View.GONE);
+        guideExercisesBinding.guideExercisesLayout.setVisibility(View.GONE);
+        guideRecordsBinding.guideRecordsLayout.setVisibility(View.GONE);
+        guideMenuSettingsBinding.guideMenuSettingsLayout.setVisibility(View.GONE);
+
+        handleBottomNavClick(R.id.nav_daily_challenge);
+        reproducingGuide = false;
+    }
+
+
+    private void goToChallenges() {
+        guideChallengesBinding.guideChallengeLayout.setVisibility(View.VISIBLE);
+        setChallengesGuideOnClickListeners();
+        handleBottomNavClick(R.id.nav_daily_challenge);
+    }
+
+    private void goToExercises() {
+        guideExercisesBinding.guideExercisesLayout.setVisibility(View.VISIBLE);
+        setExercisesGuideOnClickListeners();
+        handleBottomNavClick(R.id.nav_exercises);
+    }
+
+    private void goToRecords() {
+        guideRecordsBinding.guideRecordsLayout.setVisibility(View.VISIBLE);
+        setRecordsGuideClickListeners();
+        handleBottomNavClick(R.id.nav_challenges);
+    }
+
+    private void goToMenuSettings() {
+        guideMenuSettingsBinding.guideMenuSettingsLayout.setVisibility(View.VISIBLE);
+        setMenuSettingsGuideClickListeners();
+        navController.navigate(R.id.userProfile);
+    }
+
 
     private boolean onBottomNavItemClick(MenuItem item) {
         int id = item.getItemId();
@@ -206,11 +349,17 @@ public class MainActivity extends AppCompatActivity {
             });
         }
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
-            com.google.android.material.appbar.AppBarLayout appBarLayout = findViewById(R.id.main_appbar_layout);
+            AppBarLayout appBarLayout = findViewById(R.id.main_appbar_layout);
 
             if (appBarLayout != null) {
                 // El primer 'true' significa "expándete", el segundo 'true' significa "hazlo con animación suave"
                 appBarLayout.setExpanded(true, true);
+            }
+
+            Menu bottomMenu = binding.navView.getMenu();
+            MenuItem item = bottomMenu.findItem(destination.getId());
+            if (item != null) {
+                item.setChecked(true);
             }
         });
     }

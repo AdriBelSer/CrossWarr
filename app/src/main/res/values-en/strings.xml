@@ -157,4 +157,25 @@
     <string name="main_activity_logout_toast">Logged out successfully.</string>
     <string name="save_changes_user_profile">Save Changes</string>
     <string name="theme_user_profile">Light / Dark theme</string>
+    <string name="guide_welcome_title">Welcome to CrossWarr!</string>
+    <string name="guide_welcome_frst_paragraph">Get ready to take your training to the next level. With this app, you can conquer daily challenges, with or without equipment, and record your personal bests.</string>
+    <string name="guide_welcome_scnd_paragraph">In this guide, you will learn how to navigate the app and get familiar with the different tabs and settings.</string>
+    <string name="guide_welcome_trd_paragraph">Ready to sweat?</string>
+    <string name="guide_welcome_fourth_paragraph">Press \'Start\' for a quick tour of your new training arena, or \'Skip\' to jump straight into the action.</string>
+    <string name="guide_welcome_btn_start">Start</string>
+    <string name="guide_welcome_btn_skip">Skip</string>
+    <string name="guide_challenge_text">Here you will see the daily challenge</string>
+    <string name="guide_skip_btn">Skip guide</string>
+    <string name="guide_next_btn">Next</string>
+    <string name="guide_exercises_text">Here you will find the list of exercises included in the challenges</string>
+    <string name="guide_finish_btn">Finish guide</string>
+    <string name="guide_records_text">Here you can track your progress and replay challenges</string>
+    <string name="guide_settings_text">Here you can customize some settings, such as indicating if you have equipment available, so you can receive both equipment-based and no-equipment challenges</string>
+    <string name="label_nav_graph_daily_challenge">Daily challenge</string>
+    <string name="exercise_type_detail_uper_with_material">Upper body with equipment</string>
+    <string name="exercise_type_detail_uper_without_material">Upper body without equipment</string>
+    <string name="exercise_type_detail_lower_with_material">Lower body with equipment</string>
+    <string name="exercise_type_detail_lower_without_material">Lower body without equipment</string>
+    <string name="exercise_type_detail_core_with_material">Core with equipment</string>
+    <string name="exercise_type_detail_core_without_material">Core without equipment</string>
 </resources>

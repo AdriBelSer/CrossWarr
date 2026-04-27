@@ -45,7 +45,7 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.firebase.ui.auth)
     implementation(libs.firebase.firestore)
-    implementation ("com.google.firebase:firebase-messaging")
+    implementation (libs.firebase.messaging)
 
 //Recyclerview
     implementation(libs.recyclerview)
@@ -64,6 +64,8 @@ dependencies {
 //Skeleton
     implementation(libs.shimmer)
 
+//Lotties
+    implementation(libs.lottie)
 
     implementation(libs.credentials)
     implementation(libs.androidx.credentials.play.services.auth)

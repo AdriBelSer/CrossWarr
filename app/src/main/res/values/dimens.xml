@@ -11,4 +11,9 @@
     <dimen name="margin_tiny">4dp</dimen>
 
     <dimen name="image_size_hero">280dp</dimen>
+
+    <dimen name="text_guide_size_title">40sp</dimen>
+    <dimen name="text_guide_size_body">20sp</dimen>
+    <dimen name="text_guide_size_btn">12sp</dimen>
+    <dimen name="margin_bottom_button_next_end_guide">60dp</dimen>
 </resources>
