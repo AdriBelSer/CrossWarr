@@ -6,6 +6,7 @@
     <color name="md_theme_guide_text">#000000</color>
     <color name="md_theme_guide_white_highly_translucent">#65FFFFFF</color>
     <color name="md_theme_guide_white_translucent">#D0FFFFFF</color>
+    <color name="md_theme_secondaryContainerTransparency">#80FFDBCD</color>
 
     <color name="md_theme_primary">#FF6600</color>
     <color name="md_theme_onPrimary">#FFFFFF</color>

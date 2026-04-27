@@ -103,6 +103,11 @@
         <item name="android:background">@color/md_theme_background</item>
         <item name="itemIconTint">@color/md_theme_primary</item>
         <item name="itemTextColor">@color/md_theme_primary</item>
+        <item name="itemActiveIndicatorStyle">@style/Widget.Crosswarr.BottomNav.ActiveIndicator</item>
+    </style>
+
+    <style name="Widget.Crosswarr.BottomNav.ActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/md_theme_secondaryContainerTransparency</item>
     </style>
 
     <style name="Theme.Crosswarr" parent="Base.Theme.Crosswarr" />
