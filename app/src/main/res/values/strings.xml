@@ -10,8 +10,8 @@
     <string name="bottom_nav_menu_challenges">Historial</string>
     <string name="menu_selectable_spanish">Español</string>
     <string name="menu_selectable_english">English</string>
-    <string name="tv_title_fragment_challenge_detail">Desafío del día</string>
-    <string name="tv_subtitle_fragment_challenge_detail">¡LISTO PARA EL DESAFÍO!</string>
+    <string name="tv_title_fragment_challenge_detail">¡Comencemos!</string>
+    <string name="tv_subtitle_fragment_challenge_detail">¿Listo para el desafío?</string>
     <string name="btn_start_fragment_challenge_detail">Iniciar desafío</string>
     <string name="tv_exercise_name_card_list_exercise_item">Exercise name</string>
     <string name="tv_challenge_name_card_list_challenges_item">Challenge name</string>
@@ -26,8 +26,8 @@
     <string name="appbar_nav_menu_logout">Log out</string>
     <string name="appbar_nav_menu_settings">Ajustes</string>
     <string name="tv_user_id_card_list_user_item">ID del usuario</string>
-    <string name="tv_title_fragment_daily_challenge">Desafío del día</string>
-    <string name="tv_subtitle_fragment_daily_challenge">LISTO PARA EL DESAFÍO</string>
+    <string name="tv_title_fragment_daily_challenge">¡Comencemos!</string>
+    <string name="tv_subtitle_fragment_daily_challenge">¿Listo para el desafío?</string>
     <string name="tv_challenge_title_fragment_daily_challenge">Titulo del desafío</string>
     <string name="tv_challenge_description_fragment_daily_challenge">Descripción del desafío</string>
     <string name="tv_challenge_duration_fragment_daily_challenge">Duración del desafío</string>

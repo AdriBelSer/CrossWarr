@@ -106,8 +106,8 @@ public class DailyChallenge extends Fragment {
             }
 
             // Lógica del tempotizador
-            if (binding.chronometerFragmentDailyChallenge != null && time != null) {
-                binding.chronometerFragmentDailyChallenge.setOnClickListener(v -> {
+            if (binding.btnStartFragmentDailyChallenge != null && time != null) {
+                binding.btnStartFragmentDailyChallenge.setOnClickListener(v -> {
 
                     if (!isChronometerRunning) {
                         // INICIAR EL DESAFÍO
@@ -120,7 +120,7 @@ public class DailyChallenge extends Fragment {
                             initChronometer(id, type);
 
                             // Cambiamos el botón para que ahora sirva para parar
-                            binding.chronometerFragmentDailyChallenge.setText(requireContext().getString(R.string.challenge_detail_btn_stop));
+                            binding.btnStartFragmentDailyChallenge.setText(requireContext().getString(R.string.challenge_detail_btn_stop));
                         }
 
                         timeSpentInMillis = totalTimeInMillis;
@@ -204,8 +204,8 @@ public class DailyChallenge extends Fragment {
     }
 
     private void onChallengeFinished(String id){
-        binding.chronometerFragmentDailyChallenge.setText(requireContext().getText(R.string.challenge_detail_challenge_finised));
-        binding.chronometerFragmentDailyChallenge.setEnabled(false); // Lo bloqueamos para que no le dé más
+        binding.btnStartFragmentDailyChallenge.setText(requireContext().getText(R.string.challenge_detail_challenge_finised));
+        binding.btnStartFragmentDailyChallenge.setEnabled(false); // Lo bloqueamos para que no le dé más
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         firebaseService = FirebaseService.getInstance();
@@ -222,7 +222,7 @@ public class DailyChallenge extends Fragment {
                 // Espera 4 segundos (4000 milisegundos) y luego vuelve al inicio
                 new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
                     if (getView() != null) { // Comprobación de seguridad por si ya se ha ido
-                        androidx.navigation.Navigation.findNavController(requireView()).popBackStack();
+                        androidx.navigation.Navigation.findNavController(requireView()).navigate(R.id.nav_challenges);
                     }
                 }, 4000);
 

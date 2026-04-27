@@ -21,10 +21,10 @@ import com.yinya.crosswarr.repository.Repository;
 import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity {
+    ObjectAnimator animator;
     private Repository rp;
     private FirebaseAuthService authService;
     private ActivityLoginBinding binding;
-
     private boolean isLoginMode = false;
 
     @Override
@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
 // Animación para el logo de carga
         PropertyValuesHolder scaleX = PropertyValuesHolder.ofFloat("scaleX", 1f, 1.1f, 1f);
         PropertyValuesHolder scaleY = PropertyValuesHolder.ofFloat("scaleY", 1f, 1.1f, 1f);
-        ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(binding.ivLoadingLogo, scaleX, scaleY);
+        animator = ObjectAnimator.ofPropertyValuesHolder(binding.ivLoadingLogo, scaleX, scaleY);
         animator.setDuration(800);
         animator.setRepeatCount(ValueAnimator.INFINITE);
         animator.setRepeatMode(ValueAnimator.REVERSE);
@@ -244,5 +244,14 @@ public class LoginActivity extends AppCompatActivity {
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
         finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // 🔥 Asegurarnos de que la animación muera con la actividad
+        if (animator != null) {
+            animator.cancel();
+        }
     }
 }
