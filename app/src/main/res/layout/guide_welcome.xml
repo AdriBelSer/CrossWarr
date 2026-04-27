@@ -93,14 +93,12 @@
         android:id="@+id/av_welcomeDumbbell"
         android:layout_width="250dp"
         android:layout_height="250dp"
-        android:layout_marginBottom="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btn_exit_guide"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_textWelcomeFourthParagraph"
         app:lottie_autoPlay="true"
-        app:lottie_rawRes="@raw/lottie_mancuerna_inicio"
-        app:lottie_loop="true" />
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/lottie_mancuerna_inicio" />
 
     <android.widget.Button
         android:id="@+id/btn_start_guide"
