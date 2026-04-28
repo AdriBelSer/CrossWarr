@@ -100,7 +100,10 @@ public class ExercisesEditionList extends Fragment {
     }
 
     private void loadExercise() {
-        Repository.getInstance().fetchExercisesFromFirebase();
+        if (Repository.getInstance().getExercisesLiveData().getValue() == null ||
+                Repository.getInstance().getExercisesLiveData().getValue().isEmpty()) {
+            Repository.getInstance().fetchExercisesFromFirebase();
+        }
     }
 
     public void exerciseAdminClicked(ExerciseData exercise, View view) {

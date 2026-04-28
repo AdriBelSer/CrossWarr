@@ -27,6 +27,9 @@ import java.util.Locale;
 public class ChallengesEdition extends Fragment {
     private FragmentChallengesEditionBinding binding;
     private ArrayList<ExerciseData> allExercisesList = new ArrayList<>();
+    ArrayAdapter<String> upperAdapter;
+    ArrayAdapter<String> lowerAdapter;
+    ArrayAdapter<String> coreAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -94,9 +97,9 @@ public class ChallengesEdition extends Fragment {
                 }
 
                 // Creamos tres adapters distintos, uno para cada lista
-                ArrayAdapter<String> upperAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, upperExercises);
-                ArrayAdapter<String> lowerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, lowerExercises);
-                ArrayAdapter<String> coreAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, coreExercises);
+                upperAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, upperExercises);
+                lowerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, lowerExercises);
+                coreAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, coreExercises);
 
                 // Asignamos cada adapter a su desplegable correspondiente
                 binding.acUpperBodyFragmentChallengesEdition.setAdapter(upperAdapter);
@@ -187,7 +190,8 @@ public class ChallengesEdition extends Fragment {
             markExerciseAsUsedInFirebase(exerciseCore);
 
             android.widget.Toast.makeText(requireContext(), R.string.challenges_edition_saveChallenge_success, android.widget.Toast.LENGTH_SHORT).show();
-
+            Repository.getInstance().fetchExercisesFromFirebase();
+            cleanForm();
 
         } catch (ParseException e) {
             android.widget.Toast.makeText(requireContext(), R.string.challenges_edition_saveChallenge_errorDate, android.widget.Toast.LENGTH_SHORT).show();
@@ -196,7 +200,6 @@ public class ChallengesEdition extends Fragment {
             android.widget.Toast.makeText(requireContext(), R.string.challenges_edition_saveChallenge_errorTimeOrReps, android.widget.Toast.LENGTH_SHORT).show();
         }
 
-        cleanForm();
     }
 
     private void markExerciseAsUsedInFirebase(String exerciseName) {
@@ -215,14 +218,17 @@ public class ChallengesEdition extends Fragment {
         binding.etChallengeTimeFragmentChallengesEdition.setText("");
         binding.etChallengeDateFragmentChallengesEdition.setText("");
 
-        binding.acUpperBodyFragmentChallengesEdition.setText("");
+        binding.acUpperBodyFragmentChallengesEdition.setText("", false);
         binding.etRepsUpperFragmentChallengesEdition.setText("");
 
-        binding.acLowerBodyFragmentChallengesEdition.setText("");
+        binding.acLowerBodyFragmentChallengesEdition.setText("", false);
         binding.etRepsLowerFragmentChallengesEdition.setText("");
 
-        binding.acCoreFragmentChallengesEdition.setText("");
+        binding.acCoreFragmentChallengesEdition.setText("", false);
         binding.etRepsCoreFragmentChallengesEdition.setText("");
+
+        binding.switchRequiresEquipmentChallenge.setChecked(false);
+        binding.btnTypeAmrapFragmentChallengesEdition.setChecked(false);
 
         binding.getRoot().clearFocus();
         binding.toggleChallengeType.clearChecked();

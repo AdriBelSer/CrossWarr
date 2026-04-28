@@ -125,7 +125,10 @@ public class ExercisesList extends Fragment {
 
 
     private void loadExercise() {
-        Repository.getInstance().fetchExercisesFromFirebase();
+        if (Repository.getInstance().getExercisesLiveData().getValue() == null ||
+                Repository.getInstance().getExercisesLiveData().getValue().isEmpty()) {
+            Repository.getInstance().fetchExercisesFromFirebase();
+        }
     }
 
     public void exerciseUserClicked(ExerciseData exercise, View view) {
