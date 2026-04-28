@@ -374,8 +374,6 @@ public class MainActivity extends AppCompatActivity {
                         goToLogin();
                     }
                 });
-        FirebaseFirestore.getInstance().terminate();
-        FirebaseFirestore.getInstance().clearPersistence();
     }
 
     private void goToLogin() {
