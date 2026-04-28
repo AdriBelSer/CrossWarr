@@ -72,6 +72,7 @@ public class ExercisesList extends Fragment {
 
                                 @Override
                                 public void onSuccess(java.util.Map<String, Object> dataFromFirebase) {
+                                    if (binding == null) return;
                                     boolean userHasEquipment = false;
 
                                     // Extraemos el ajuste useMaterials del usuario
@@ -147,6 +148,10 @@ public class ExercisesList extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if (binding != null && binding.exercisesRecyclerview != null) {
+            binding.exercisesRecyclerview.setAdapter(null);
+        }
+        adapter = null;
         binding = null;
     }
 

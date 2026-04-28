@@ -129,6 +129,10 @@ public class ChallengesEditionList extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if (binding != null && binding.challengesEditionRecyclerview != null) {
+            binding.challengesEditionRecyclerview.setAdapter(null);
+        }
+        adapter = null;
         binding = null;
     }
 }

@@ -109,6 +109,10 @@ public class UsersEditionList extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if (binding != null && binding.usersEditionRecyclerview != null) {
+            binding.usersEditionRecyclerview.setAdapter(null);
+        }
+        adapter = null;
         binding = null;
     }
 }

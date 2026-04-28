@@ -97,6 +97,9 @@ public class ExerciseDetail extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if (binding != null && binding.ivExerciseDetail != null) {
+            Picasso.get().cancelRequest(binding.ivExerciseDetail);
+        }
         binding = null;
     }
 }

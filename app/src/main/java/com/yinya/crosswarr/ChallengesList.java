@@ -162,6 +162,10 @@ public class ChallengesList extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if (binding != null && binding.challengesRecyclerview != null) {
+            binding.challengesRecyclerview.setAdapter(null);
+        }
+        adapter = null;
         binding = null; // Buena práctica para evitar fugas de memoria
     }
 }

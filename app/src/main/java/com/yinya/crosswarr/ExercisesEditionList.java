@@ -122,6 +122,10 @@ public class ExercisesEditionList extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if (binding != null && binding.exercisesEditionRecyclerview != null) {
+            binding.exercisesEditionRecyclerview.setAdapter(null);
+        }
+        adapter = null;
         binding = null;
     }
 }
