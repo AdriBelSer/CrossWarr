@@ -27,6 +27,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.yinya.crosswarr.databinding.ActivityMainBinding;
 import com.yinya.crosswarr.databinding.GuideChallengeBinding;
 import com.yinya.crosswarr.databinding.GuideExercisesBinding;
@@ -373,6 +374,8 @@ public class MainActivity extends AppCompatActivity {
                         goToLogin();
                     }
                 });
+        FirebaseFirestore.getInstance().terminate();
+        FirebaseFirestore.getInstance().clearPersistence();
     }
 
     private void goToLogin() {
@@ -383,23 +386,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadTodaysChallenge() {
-        Repository.getInstance().fetchChallengesFromFirebase();
-        Repository.getInstance().getChallengesLiveData().observe(this, challenges -> {
-            if (hasNavigatedToChallenge || challenges == null || challenges.isEmpty()) return;
-            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM-yyyy", java.util.Locale.getDefault());
-            String todayString = sdf.format(new java.util.Date());
-            for (ChallengeData ch : challenges) {
-                if (ch.getActivationDate() != null) {
-                    String chDate = sdf.format(ch.getActivationDate().toDate());
-                    if (todayString.equals(chDate)) {
-                        todayChallenge = ch;
-                        handleBottomNavClick(R.id.nav_daily_challenge);
-                        break;
+        Repository repo = Repository.getInstance();
+        repo.fetchChallengesFromFirebase();
+        repo.getChallengesLiveData().observe(this, new androidx.lifecycle.Observer<java.util.ArrayList<com.yinya.crosswarr.models.ChallengeData>>() {
+            @Override
+            public void onChanged(java.util.ArrayList<com.yinya.crosswarr.models.ChallengeData> challenges) {
+                // Si ya navegamos o no hay datos, no hacemos nada
+                if (hasNavigatedToChallenge || challenges == null || challenges.isEmpty()) return;
+
+                java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM-yyyy", java.util.Locale.getDefault());
+                String todayString = sdf.format(new java.util.Date());
+
+                for (com.yinya.crosswarr.models.ChallengeData ch : challenges) {
+                    if (ch.getActivationDate() != null) {
+                        String chDate = sdf.format(ch.getActivationDate().toDate());
+                        if (todayString.equals(chDate)) {
+                            todayChallenge = ch;
+                            handleBottomNavClick(R.id.nav_daily_challenge);
+                            repo.getChallengesLiveData().removeObserver(this);
+                            hasNavigatedToChallenge = true;
+                            return;
+                        }
                     }
                 }
+
+                hasNavigatedToChallenge = true;
+                handleBottomNavClick(R.id.nav_daily_challenge);
+                repo.getChallengesLiveData().removeObserver(this);
             }
-            hasNavigatedToChallenge = true;
-            handleBottomNavClick(R.id.nav_daily_challenge);
         });
     }
 

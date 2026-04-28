@@ -141,4 +141,10 @@ public class ExercisesList extends Fragment {
         Navigation.findNavController(view).navigate(R.id.exerciseDetail, bundle);
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+
 }

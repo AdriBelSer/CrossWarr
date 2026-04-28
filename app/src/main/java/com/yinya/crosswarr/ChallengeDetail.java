@@ -95,7 +95,7 @@ public class ChallengeDetail extends Fragment {
                             safeType.toUpperCase(), exerciseSup, repetitionSup, exerciseInf, repetitionInf, exerciseCore, repetitionCore, time);
 
                 } else {
-                    description = requireContext().getString(R.string.challenge_detail_description_error,type);
+                    description = requireContext().getString(R.string.challenge_detail_description_error, type);
                 }
 
                 binding.tvChallengeDescriptionFragmentChallengeDetail.setText(description);
@@ -141,22 +141,8 @@ public class ChallengeDetail extends Fragment {
                     }
 
 
-
                 });
             }
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mpMinute != null) {
-            mpMinute.release();
-            mpMinute = null;
-        }
-        if (mpFinish != null) {
-            mpFinish.release();
-            mpFinish = null;
         }
     }
 
@@ -204,7 +190,7 @@ public class ChallengeDetail extends Fragment {
         }
     }
 
-    private void onChallengeFinished(String id){
+    private void onChallengeFinished(String id) {
         binding.btnStartFragmentChallengeDetail.setText(requireContext().getText(R.string.challenge_detail_challenge_finised));
         binding.btnStartFragmentChallengeDetail.setEnabled(false); // Lo bloqueamos para que no le dé más
 
@@ -236,5 +222,19 @@ public class ChallengeDetail extends Fragment {
         });
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (mpMinute != null) {
+            mpMinute.release();
+            mpMinute = null;
+        }
+        if (mpFinish != null) {
+            mpFinish.release();
+            mpFinish = null;
+        }
+        binding = null;
+
+    }
 
 }

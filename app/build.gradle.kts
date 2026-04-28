@@ -67,6 +67,9 @@ dependencies {
 //Lotties
     implementation(libs.lottie)
 
+//Fugas de memoria
+    debugImplementation(libs.leakcanary.android)
+
     implementation(libs.credentials)
     implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.googleid)

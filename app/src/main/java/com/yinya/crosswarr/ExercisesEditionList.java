@@ -41,6 +41,7 @@ public class ExercisesEditionList extends Fragment {
             public void onExerciseClick(ExerciseData exercise, View view) {
                 exerciseAdminClicked(exercise, view);
             }
+
             @Override
             public void onDeleteClick(ExerciseData exercise) {
                 if (exercise.isUsed()) {
@@ -97,20 +98,28 @@ public class ExercisesEditionList extends Fragment {
             }
         });
     }
-        private void loadExercise () {
-            Repository.getInstance().fetchExercisesFromFirebase();
-        }
-        public void exerciseAdminClicked(ExerciseData exercise, View view) {
-            Bundle bundle = new Bundle();
-            bundle.putString("name", exercise.getName()); // Pasa el nombre
-            bundle.putString("description", exercise.getDescription()); // Pasa la descripción
-            bundle.putString("type", exercise.getType()); // Pasa el tipo
-            bundle.putString("image", exercise.getImage()); // Pasa la imagen
-            bundle.putString("video", exercise.getVideo()); // Pasa el video
-            bundle.putStringArrayList("materials", exercise.getMaterials()); // Pasa los materiales
 
-            // Navegar al ExerciseDetailFragment con el Bundle
-            Navigation.findNavController(view).navigate(R.id.exerciseDetail, bundle);
-        }
+    private void loadExercise() {
+        Repository.getInstance().fetchExercisesFromFirebase();
     }
+
+    public void exerciseAdminClicked(ExerciseData exercise, View view) {
+        Bundle bundle = new Bundle();
+        bundle.putString("name", exercise.getName()); // Pasa el nombre
+        bundle.putString("description", exercise.getDescription()); // Pasa la descripción
+        bundle.putString("type", exercise.getType()); // Pasa el tipo
+        bundle.putString("image", exercise.getImage()); // Pasa la imagen
+        bundle.putString("video", exercise.getVideo()); // Pasa el video
+        bundle.putStringArrayList("materials", exercise.getMaterials()); // Pasa los materiales
+
+        // Navegar al ExerciseDetailFragment con el Bundle
+        Navigation.findNavController(view).navigate(R.id.exerciseDetail, bundle);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+}
 

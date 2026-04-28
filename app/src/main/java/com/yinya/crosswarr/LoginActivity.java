@@ -249,7 +249,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // 🔥 Asegurarnos de que la animación muera con la actividad
+        // Asegurarnos de que la animación muera con la actividad
         if (animator != null) {
             animator.cancel();
         }

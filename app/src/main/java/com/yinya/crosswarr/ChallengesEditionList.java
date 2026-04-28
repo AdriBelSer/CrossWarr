@@ -125,4 +125,10 @@ public class ChallengesEditionList extends Fragment {
         // Navegar al ChallengeDetailFragment con el Bundle
         Navigation.findNavController(view).navigate(R.id.challengeDetail, bundle);
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
 }

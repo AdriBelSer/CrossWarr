@@ -18,4 +18,10 @@ public class LoadingFragment extends Fragment {
         binding = FragmentLoadingBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
 }
