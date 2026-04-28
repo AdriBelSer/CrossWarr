@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
@@ -125,7 +126,7 @@ public class DailyChallenge extends Fragment {
 
                         if (binding.chronometerFragmentDailyChallenge != null) {
                             binding.chronometerFragmentDailyChallenge.setVisibility(android.view.View.VISIBLE);
-
+                            requireActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                             initChronometer(id, type);
 
                             // Cambiamos el botón para que ahora sirva para parar
@@ -138,6 +139,7 @@ public class DailyChallenge extends Fragment {
                         if (binding.chronometerFragmentDailyChallenge != null) {
                             binding.chronometerFragmentDailyChallenge.stop();
                             isChronometerRunning = false;
+                            requireActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
                             // Calculamos cuánto tiempo sobraba en el cronómetro
                             long timeRemaining = binding.chronometerFragmentDailyChallenge.getBase() - android.os.SystemClock.elapsedRealtime();
@@ -201,6 +203,7 @@ public class DailyChallenge extends Fragment {
     private void onChallengeFinished(String id) {
         binding.btnStartFragmentDailyChallenge.setText(requireContext().getText(R.string.challenge_detail_challenge_finised));
         binding.btnStartFragmentDailyChallenge.setEnabled(false); // Lo bloqueamos para que no le dé más
+        requireActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         firebaseService = FirebaseService.getInstance();
@@ -233,6 +236,9 @@ public class DailyChallenge extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if (getActivity() != null) {
+            getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
         if (mpMinute != null) {
             mpMinute.release();
             mpMinute = null;
