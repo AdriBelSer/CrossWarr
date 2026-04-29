@@ -27,7 +27,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.yinya.crosswarr.databinding.ActivityMainBinding;
 import com.yinya.crosswarr.databinding.GuideChallengeBinding;
 import com.yinya.crosswarr.databinding.GuideExercisesBinding;
@@ -41,16 +40,27 @@ import com.yinya.crosswarr.repository.Repository;
 
 import java.util.Map;
 
+/**
+ * Actividad principal y corazón estructural de la aplicación.
+ * Aloja el contenedor de navegación (NavHostFragment) y gestiona los componentes globales de la UI
+ * como la barra superior (Toolbar), el menú de navegación inferior (BottomNavigationView) y el
+ * sistema de tutorial interactivo (Guía). También es responsable de cargar las preferencias del usuario
+ * (idioma, tema), gestionar permisos y validar los roles (Admin/User).
+ */
 public class MainActivity extends AppCompatActivity {
 
-    private final ActivityResultLauncher<String> requestPermissionLauncher =
-            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
-                if (isGranted) {
-                    android.util.Log.d("FCM", "Permiso de notificaciones concedido");
-                } else {
-                    android.util.Log.w("FCM", "Permiso de notificaciones denegado");
-                }
-            });
+    /**
+     * Lanzador de resultados para solicitar el permiso de notificaciones push
+     * requerido a partir de Android 13 (Tiramisu).
+     */
+    private final ActivityResultLauncher<String> requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+        if (isGranted) {
+            android.util.Log.d("FCM", "Permiso de notificaciones concedido");
+        } else {
+            android.util.Log.w("FCM", "Permiso de notificaciones denegado");
+        }
+    });
+    // Bindings principales y de las capas de la guía (Tutorial)
     ActivityMainBinding binding;
     GuideChallengeBinding guideChallengesBinding;
     GuideExercisesBinding guideExercisesBinding;
@@ -62,27 +72,35 @@ public class MainActivity extends AppCompatActivity {
     private boolean reproducingGuide = false;
 
     private NavController navController;
+
+    // Control de flujo para el desafío del día
     private boolean hasNavigatedToChallenge = false;
     private ChallengeData todayChallenge = null;
 
+    /**
+     * Invocado cuando se crea la actividad.
+     * Inicializa las preferencias de tema e idioma, infla la UI, solicita permisos
+     * e inicia la búsqueda del reto del día actual en la base de datos.
+     *
+     * @param savedInstanceState Estado anterior de la actividad, si existe.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
 
         PreferencesHelper prefs = new PreferencesHelper(this);
-        //Aplicar tena
+
+        // Aplicar tema (Modo Oscuro / Claro) según las preferencias locales
         if (prefs.isDarkMode()) {
             androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode(androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode(androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO);
         }
-        //Aplicar idioma
+        // Aplicar idioma de la aplicación (Español / Inglés)
         String savedLang = prefs.getLanguage();
         String langCode = savedLang.equals("English") ? "en" : "es";
-        androidx.appcompat.app.AppCompatDelegate.setApplicationLocales(
-                androidx.core.os.LocaleListCompat.forLanguageTags(langCode)
-        );
+        androidx.appcompat.app.AppCompatDelegate.setApplicationLocales(androidx.core.os.LocaleListCompat.forLanguageTags(langCode));
 
         setBindings();
         setContentView(binding.getRoot());
@@ -93,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
         askNotificationPermission();
 
-        // Escuchar los clics del menú superior de los 3 puntitos
+        // Escuchar los clics del menú de opciones (3 puntitos de la esquina superior derecha)
         binding.mainAppbar.setOnMenuItemClickListener(item -> {
             int id = item.getItemId();
 
@@ -120,13 +138,17 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
 
-
         getToolbarInfoItemSize();
+
+        // Determinar si es la primera vez que el usuario entra para mostrarle el tutorial
         boolean showGuide = prefs.getSavedNeedGuide();
-        if (showGuide)
-            initializeGuide();
+        if (showGuide) initializeGuide();
     }
 
+    /**
+     * Calcula dinámicamente la posición y tamaño del ícono de ajustes en la Toolbar
+     * para enfocarlo correctamente durante el tutorial.
+     */
     private void getToolbarInfoItemSize() {
         MaterialToolbar mToolbar = findViewById(R.id.main_appbar);
 
@@ -152,6 +174,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Vincula todas las vistas y sub-vistas (incluidas las capas del tutorial)
+     * utilizando View Binding.
+     */
     private void setBindings() {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         guideWelcomeBinding = binding.includeLayoutWelcome;
@@ -160,6 +186,8 @@ public class MainActivity extends AppCompatActivity {
         guideRecordsBinding = binding.includeLayoutRecords;
         guideMenuSettingsBinding = binding.includeLayoutSettings;
     }
+
+    // --- MÉTODOS DEL TUTORIAL (GUÍA INTERACTIVA) ---
 
     private void setWelcomeGuideOnClickListeners() {
         guideWelcomeBinding.btnStartGuide.setOnClickListener(view -> {
@@ -209,7 +237,12 @@ public class MainActivity extends AppCompatActivity {
         goToChallenges();
     }
 
-
+    /**
+     * Finaliza la visualización de la guía interactiva y guarda en las preferencias
+     * que el usuario ya no necesita verla en futuros inicios de sesión.
+     *
+     * @param view La vista que desencadenó el evento de salida.
+     */
     private void onExitGuide(View view) {
         PreferencesHelper prefs = new PreferencesHelper(this);
         prefs.saveNeedGuide(false);
@@ -249,24 +282,30 @@ public class MainActivity extends AppCompatActivity {
         navController.navigate(R.id.userProfile);
     }
 
+    // --- MÉTODOS DE NAVEGACIÓN ---
 
     private boolean onBottomNavItemClick(MenuItem item) {
         int id = item.getItemId();
         return handleBottomNavClick(id);
     }
 
+    /**
+     * Maneja los clics en la barra de navegación inferior aplicando reglas de negocio.
+     * Limpia la pila de retroceso (Backstack) para evitar acumulaciones de fragmentos
+     * y rutea al usuario correctamente dependiendo de si hay un reto diario disponible o no.
+     *
+     * @param itemId El ID del elemento del menú seleccionado.
+     * @return true si la navegación fue gestionada con éxito, false en caso contrario.
+     */
     private boolean handleBottomNavClick(int itemId) {
-        // Configuramos las opciones de navegación
-        NavOptions options = new NavOptions.Builder()
-                .setLaunchSingleTop(true)
-                .setRestoreState(false) // <--- ESTO evita que vuelva al fragmento de detalle
-                .setPopUpTo(navController.getGraph().getStartDestinationId(), false, true)
-                .build();
+        // Configuramos opciones de navegación para no acumular fragmentos en memoria
+        NavOptions options = new NavOptions.Builder().setLaunchSingleTop(true).setRestoreState(false) // <--- ESTO evita que vuelva al fragmento de detalle
+                .setPopUpTo(navController.getGraph().getStartDestinationId(), false, true).build();
 
         if (itemId == R.id.nav_daily_challenge) {
-            // 5. Si lo encontramos, navegamos
+            // Evaluamos si el administrador ha publicado un reto para hoy
             if (todayChallenge != null) {
-                hasNavigatedToChallenge = true; // Marcamos que ya cumplimos la misión
+                hasNavigatedToChallenge = true;
                 navigateToDailyChallenge(todayChallenge, options);
             } else {
                 navController.navigate(R.id.noChallenge, null, options);
@@ -283,38 +322,34 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-
-    // Méto do para navegar en el menú
-    // Para que se vean los iconos en el menu desplegable de los 3 puntitos primero hay que
-    //"suprimir" el aviso de error de API restringida
+    /**
+     * Configura el componente de navegación principal (Jetpack Navigation).
+     * Vincula el BottomNavigationView y la Toolbar con el NavController, y añade lógica
+     * dinámica para validar el rol del usuario contra Firebase y mostrar las opciones de administrador.
+     * * Se usa SuppressLint("RestrictedApi") porque forzar la visibilidad de íconos en el
+     * menú de desbordamiento (overflow) usa APIs internas de AndroidX.
+     */
     @SuppressLint("RestrictedApi")
     private void setupNavigation() {
 
         // Obtener el NavHostFragment a través del Gestor de Fragmentos
-        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.navHostFragment);
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.navHostFragment);
 
         // Extraer el NavController de ese fragmento
         if (navHostFragment != null) {
             navController = navHostFragment.getNavController();
         }
 
-        // Configurar la barra superior (Toolbar) para que cno se vea la flecha de "atrás"
-        androidx.navigation.ui.AppBarConfiguration appBarConfiguration =
-                new androidx.navigation.ui.AppBarConfiguration.Builder(
-                        R.id.nav_daily_challenge,
-                        R.id.noChallenge,
-                        R.id.nav_exercises,
-                        R.id.nav_challenges
-                ).build();
+        // Definir qué destinos son de nivel superior (para que no muestren flecha de "atrás")
+        androidx.navigation.ui.AppBarConfiguration appBarConfiguration = new androidx.navigation.ui.AppBarConfiguration.Builder(R.id.nav_daily_challenge, R.id.noChallenge, R.id.nav_exercises, R.id.nav_challenges).build();
 
-        // 2. Vinculamos el AppBar pasándole nuestra configuración
+        // Vincular el AppBar pasándole nuestra configuración
         NavigationUI.setupWithNavController(binding.mainAppbar, navController, appBarConfiguration);
 
-        // Configurar el menú inferior (BottomNavigationView) para que cambie de pantalla
+        // Configurar el menú inferior para responder a los clics
         binding.navView.setOnItemSelectedListener(this::onBottomNavItemClick);
 
-        // Mostrar iconos en los 3 puntitos -> Requiere @SuppressLint
+        // Forzar la visualización de iconos en el menú de los 3 puntitos
         Menu menu = binding.mainAppbar.getMenu();
         if (menu instanceof MenuBuilder) {
             ((MenuBuilder) menu).setOptionalIconsVisible(true);
@@ -322,7 +357,7 @@ public class MainActivity extends AppCompatActivity {
 
         android.view.MenuItem adminOptions = menu.findItem(R.id.nav_admin_options);
 
-        // 2. Obtenemos el usuario actual de Auth
+        // LÓGICA DE ROLES: Validar si el usuario actual tiene permisos de Administrador
         com.google.firebase.auth.FirebaseUser currentUser = com.google.firebase.auth.FirebaseAuth.getInstance().getCurrentUser();
 
         if (currentUser != null) {
@@ -349,6 +384,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+        // Listener global de cambio de destino para auto-expandir la barra superior y marcar el ítem inferior
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
             AppBarLayout appBarLayout = findViewById(R.id.main_appbar_layout);
 
@@ -365,39 +401,51 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Cierra la sesión activa en Firebase Auth, muestra un mensaje de éxito y devuelve
+     * al usuario a la pantalla de Login, impidiendo que pueda volver atrás.
+     *
+     * @param view La vista que disparó la acción (generalmente un botón del menú).
+     */
     private void logoutSession(View view) {
-        AuthUI.getInstance()
-                .signOut(this)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(MainActivity.this, R.string.main_activity_logout_toast, Toast.LENGTH_SHORT).show();
-                        goToLogin();
-                    }
-                });
+        AuthUI.getInstance().signOut(this).addOnCompleteListener(new OnCompleteListener<Void>() {
+            public void onComplete(@NonNull Task<Void> task) {
+                Toast.makeText(MainActivity.this, R.string.main_activity_logout_toast, Toast.LENGTH_SHORT).show();
+                goToLogin();
+            }
+        });
     }
 
     private void goToLogin() {
         Intent i = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(i);
-        finish();
+        finish(); // Destruimos la Main para que no quede en la pila (Backstack)
 
     }
 
+    /**
+     * Observa la lista de desafíos proveniente del Repositorio y busca si existe alguno
+     * programado específicamente para la fecha de hoy. Si lo encuentra, actualiza la
+     * variable de estado y redirige al usuario automáticamente a la pantalla del reto.
+     */
     private void loadTodaysChallenge() {
         Repository repo = Repository.getInstance();
         repo.fetchChallengesFromFirebase();
         repo.getChallengesLiveData().observe(this, new androidx.lifecycle.Observer<java.util.ArrayList<com.yinya.crosswarr.models.ChallengeData>>() {
             @Override
             public void onChanged(java.util.ArrayList<com.yinya.crosswarr.models.ChallengeData> challenges) {
-                // Si ya navegamos o no hay datos, no hacemos nada
+                // Si ya procesamos la navegación o no hay datos, abortamos
                 if (hasNavigatedToChallenge || challenges == null || challenges.isEmpty()) return;
 
+                // Obtenemos la fecha actual en formato texto (ej: 25-04-2026)
                 java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM-yyyy", java.util.Locale.getDefault());
                 String todayString = sdf.format(new java.util.Date());
 
                 for (com.yinya.crosswarr.models.ChallengeData ch : challenges) {
                     if (ch.getActivationDate() != null) {
                         String chDate = sdf.format(ch.getActivationDate().toDate());
+
+                        // Si la fecha del reto coincide exactamente con el día de hoy
                         if (todayString.equals(chDate)) {
                             todayChallenge = ch;
                             handleBottomNavClick(R.id.nav_daily_challenge);
@@ -408,6 +456,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
+                // Si recorrimos toda la lista y no hubo match, navegamos a la pantalla de "No hay reto"
                 hasNavigatedToChallenge = true;
                 handleBottomNavClick(R.id.nav_daily_challenge);
                 repo.getChallengesLiveData().removeObserver(this);
@@ -415,11 +464,18 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Empaqueta la información del desafío del día en un Bundle y ejecuta la navegación
+     * hacia el fragmento DailyChallenge usando el NavController.
+     *
+     * @param challenge El objeto con la información del reto a mostrar.
+     * @param options   Opciones de comportamiento de navegación (limpieza de backstack).
+     */
     private void navigateToDailyChallenge(ChallengeData challenge, NavOptions options) {
         Bundle bundle = new Bundle();
         bundle.putString("id", challenge.getId());
         bundle.putString("title", challenge.getTitle());
-        bundle.putString("time", String.valueOf(challenge.getChallenteTime()));
+        bundle.putString("time", String.valueOf(challenge.getChallengeTime()));
         bundle.putString("exerciseSup", challenge.getExerciseSup());
         bundle.putString("exerciseInf", challenge.getExerciseInf());
         bundle.putString("exerciseCore", challenge.getExerciseCore());
@@ -432,10 +488,12 @@ public class MainActivity extends AppCompatActivity {
         navController.navigate(R.id.nav_daily_challenge, bundle, options);
     }
 
+    /**
+     * Solicita activamente al usuario el permiso para mostrar notificaciones push.
+     * Este paso es un requisito técnico indispensable a partir de Android 13 (API 33 / Tiramisu).
+     */
     private void askNotificationPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
-                ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED &&
-                !shouldShowRequestPermissionRationale(android.Manifest.permission.POST_NOTIFICATIONS))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED && !shouldShowRequestPermissionRationale(android.Manifest.permission.POST_NOTIFICATIONS))
 
             requestPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS);
     }

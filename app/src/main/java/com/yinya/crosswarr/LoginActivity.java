@@ -20,6 +20,13 @@ import com.yinya.crosswarr.repository.Repository;
 
 import java.util.ArrayList;
 
+/**
+ * Actividad principal de autenticación.
+ * Actúa como la puerta de entrada a la aplicación, gestionando tanto el inicio de sesión
+ * de usuarios existentes como el registro de nuevas cuentas.
+ * Sincroniza la autenticación (Firebase Auth) con la base de datos (Firestore),
+ * asegurando que cada usuario tenga su perfil creado antes de acceder al contenido principal.
+ */
 public class LoginActivity extends AppCompatActivity {
     ObjectAnimator animator;
     private Repository rp;
@@ -27,6 +34,13 @@ public class LoginActivity extends AppCompatActivity {
     private ActivityLoginBinding binding;
     private boolean isLoginMode = false;
 
+    /**
+     * Invocado cuando la actividad es creada.
+     * Configura el View Binding, inicializa las dependencias de red, arranca la
+     * animación de carga y verifica si el usuario ya tiene una sesión activa (Auto-login).
+     *
+     * @param savedInstanceState Si la actividad se está reiniciando, contiene el estado anterior.
+     */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
         rp = Repository.getInstance();
         authService = FirebaseAuthService.getInstance();
 
-// Animación para el logo de carga
+        // Animación de pulso (latido) para el logo de carga
         PropertyValuesHolder scaleX = PropertyValuesHolder.ofFloat("scaleX", 1f, 1.1f, 1f);
         PropertyValuesHolder scaleY = PropertyValuesHolder.ofFloat("scaleY", 1f, 1.1f, 1f);
         animator = ObjectAnimator.ofPropertyValuesHolder(binding.ivLoadingLogo, scaleX, scaleY);
@@ -46,11 +60,12 @@ public class LoginActivity extends AppCompatActivity {
         animator.setRepeatMode(ValueAnimator.REVERSE);
         animator.start();
 
-        // Comprobar si ya hay sesión iniciada (Auto-login)
+        // Comprobar si ya hay sesión iniciada (Auto-login) para evitar pedir credenciales de nuevo
         FirebaseUser user = authService.getCurrentUser();
         if (user != null) {
             verifyUserDocument(user);
 
+            // Si no hay sesión, detenemos el logo palpitante y mostramos el formulario
         } else {
             animator.cancel();
             binding.ivLoadingLogo.setVisibility(View.GONE);
@@ -60,13 +75,21 @@ public class LoginActivity extends AppCompatActivity {
         setupListeners();
     }
 
+    /**
+     * Configuración inicial de la interfaz de usuario.
+     * Por defecto, la pantalla arranca en modo "Inicio de sesión".
+     */
     private void setupUI() {
         switchToLoginMode();
         binding.tilUsername.setVisibility(View.GONE);
     }
 
+    /**
+     * Establece los oyentes (listeners) para los eventos de interacción del usuario,
+     * como el cambio de pestañas, el botón principal de acción y la recuperación de contraseña.
+     */
     private void setupListeners() {
-        // Listener para las pestañas (Toggle Group)
+        // Listener para alternar visualmente entre Login y Registro
         binding.toggleTabs.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
             if (isChecked) {
                 if (checkedId == R.id.btn_tab_login) {
@@ -77,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        // Listener para el botón principal ("Continuar")
+        // Listener para el botón principal ("Continuar" o "Entrar")
         binding.btnActionRegister.setOnClickListener(v -> {
             if (isLoginMode) {
                 performLogin();
@@ -86,10 +109,15 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        // Listener para "He olvidado la contraseña"
+        // Listener para el flujo de "He olvidado la contraseña"
         binding.tvForgotPassword.setOnClickListener(v -> resetPassword());
     }
 
+    /**
+     * Transforma la interfaz de usuario al modo "Inicio de Sesión".
+     * Oculta el campo de nombre de usuario, muestra la opción de recuperar contraseña
+     * y ajusta los colores de las pestañas para indicar el estado activo.
+     */
     private void switchToLoginMode() {
         isLoginMode = true;
         int primaryColor = androidx.core.content.ContextCompat.getColor(this, R.color.md_theme_primary);
@@ -97,6 +125,8 @@ public class LoginActivity extends AppCompatActivity {
         binding.tilUsername.setVisibility(View.GONE);
         binding.tvForgotPassword.setVisibility(View.VISIBLE);
         binding.btnActionRegister.setText(R.string.btn_tab_login_activity_login);
+
+        // Ajuste de colores para la pestaña activa
         binding.btnTabLogin.setBackgroundTintList(android.content.res.ColorStateList.valueOf(primaryColor));
         binding.btnTabLogin.setTextColor(android.graphics.Color.BLACK);
         binding.btnTabRegister.setBackgroundTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.TRANSPARENT));
@@ -104,6 +134,11 @@ public class LoginActivity extends AppCompatActivity {
         binding.btnTabLogin.setBackgroundTintList(android.content.res.ColorStateList.valueOf(primaryColor));
     }
 
+    /**
+     * Transforma la interfaz de usuario al modo "Registro".
+     * Muestra el campo de nombre de usuario, oculta la recuperación de contraseña
+     * y ajusta los colores de las pestañas.
+     */
     private void switchToRegisterMode() {
         isLoginMode = false;
         int primaryColor = androidx.core.content.ContextCompat.getColor(this, R.color.md_theme_primary);
@@ -111,6 +146,8 @@ public class LoginActivity extends AppCompatActivity {
         binding.tilUsername.setVisibility(View.VISIBLE);
         binding.tvForgotPassword.setVisibility(View.GONE);
         binding.btnActionRegister.setText(R.string.btn_continue_activity_login);
+
+        // Ajuste de colores para la pestaña activa
         binding.btnTabRegister.setBackgroundTintList(android.content.res.ColorStateList.valueOf(primaryColor));
         binding.btnTabRegister.setTextColor(android.graphics.Color.BLACK);
         binding.btnTabLogin.setBackgroundTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.TRANSPARENT));
@@ -119,6 +156,10 @@ public class LoginActivity extends AppCompatActivity {
 
     // --- MÉTODOS DE AUTENTICACIÓN ---
 
+    /**
+     * Valida los campos de entrada y solicita el inicio de sesión a Firebase Auth.
+     * Si tiene éxito, procede a verificar el documento del usuario en la base de datos.
+     */
     private void performLogin() {
         String email = binding.etEmail.getText().toString().trim();
         String password = binding.etPassword.getText().toString().trim();
@@ -142,6 +183,11 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Valida los campos, crea una cuenta nueva en Firebase Auth y actualiza el perfil
+     * asociado con el nombre proporcionado. Una vez completado, verifica y crea su documento
+     * en la base de datos de Firestore.
+     */
     private void performRegistration() {
         String username = binding.etUsername.getText().toString().trim();
         String email = binding.etEmail.getText().toString().trim();
@@ -155,13 +201,11 @@ public class LoginActivity extends AppCompatActivity {
         authService.registerWithEmailAndPassword(email, password, new FirebaseAuthService.IAuthCallback() {
             @Override
             public void onSuccess(FirebaseUser user) {
-                // Actualizamos el perfil de Firebase Auth con el nombre que introdujo
-                com.google.firebase.auth.UserProfileChangeRequest profileUpdates = new com.google.firebase.auth.UserProfileChangeRequest.Builder()
-                        .setDisplayName(username)
-                        .build();
+                // Actualizamos el perfil interno de Firebase Auth con el nombre visual
+                com.google.firebase.auth.UserProfileChangeRequest profileUpdates = new com.google.firebase.auth.UserProfileChangeRequest.Builder().setDisplayName(username).build();
 
                 user.updateProfile(profileUpdates).addOnCompleteListener(task -> {
-                    // Una vez registrado y actualizado el nombre, vamos al Main
+                    // Una vez registrado y actualizado el nombre, pasamos a la verificación del documento
                     verifyUserDocument(user);
                 });
             }
@@ -175,6 +219,10 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Envía un correo electrónico de recuperación de contraseña a través de Firebase.
+     * Requiere que el campo de correo electrónico esté rellenado.
+     */
     private void resetPassword() {
         String email = binding.etEmail.getText().toString().trim();
 
@@ -200,6 +248,14 @@ public class LoginActivity extends AppCompatActivity {
 
     // --- MÉTODOS DE NAVEGACIÓN Y FIRESTORE ---
 
+    /**
+     * Comprueba si el usuario autenticado tiene su documento de perfil correspondiente en Firestore.
+     * Si el documento existe (login normal), le da acceso a la app.
+     * Si no existe (nuevo registro o error previo), construye el objeto {@link UserData} base
+     * y ordena al Repositorio que lo guarde en la nube antes de dejarle entrar.
+     *
+     * @param user El usuario autenticado devuelto por Firebase Auth.
+     */
     private void verifyUserDocument(FirebaseUser user) {
         com.yinya.crosswarr.network.FirebaseService.getInstance().getDocument("crosswarr", user.getUid(), new com.yinya.crosswarr.network.IFirebaseCallback() {
             @Override
@@ -212,8 +268,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onFailure(Exception e) {
                 Log.d("TEST_LOGIN", "Documento NO encontrado. Creándolo ahora...");
 
-                // Si estamos en flujo de registro manual, user.getDisplayName() podría no estar listo aún en Firebase,
-                // así que cogemos el texto del campo si está disponible.
+                // Fallback seguro: si Auth no ha tenido tiempo de propagar el DisplayName, lo cogemos de la UI
                 String name = user.getDisplayName();
                 if (name == null || name.isEmpty()) {
                     name = binding.etUsername.getText().toString().trim();
@@ -222,17 +277,9 @@ public class LoginActivity extends AppCompatActivity {
 
                 String photoUrl = user.getPhotoUrl() != null ? user.getPhotoUrl().toString() : "";
 
-                UserData userData = new UserData(
-                        user.getUid(),
-                        user.getEmail(),
-                        name,
-                        photoUrl,
-                        "user",
-                        com.google.firebase.Timestamp.now(),
-                        "",
-                        new java.util.HashMap<>(),
-                        new ArrayList<>()
-                );
+                // Creación de la estructura del perfil estándar para un usuario nuevo
+                UserData userData = new UserData(user.getUid(), user.getEmail(), name, photoUrl, "user", // Rol por defecto
+                        com.google.firebase.Timestamp.now(), "", new java.util.HashMap<>(), new ArrayList<>());
 
                 rp.createUser(userData);
                 goToMainActivity();
@@ -240,12 +287,21 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Inicia la Actividad Principal de la aplicación (MainActivity) y finaliza la actual.
+     * Finalizar esta actividad asegura que el usuario no pueda volver a la pantalla de login
+     * simplemente pulsando el botón físico "Atrás".
+     */
     private void goToMainActivity() {
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
         finish();
     }
 
+    /**
+     * Invocado cuando la actividad va a ser destruida por el sistema.
+     * Se asegura de limpiar las animaciones en ejecución para evitar fugas de memoria.
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
