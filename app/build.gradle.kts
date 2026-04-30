@@ -70,6 +70,19 @@ dependencies {
 //Fugas de memoria
     debugImplementation(libs.leakcanary.android)
 
+//Tests
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.ext.junit)
+    androidTestImplementation(libs.espresso.core)
+    androidTestImplementation(libs.androidx.espresso.intents)
+    debugImplementation (libs.androidx.fragment.testing)
+    debugImplementation (libs.androidx.core)
+    androidTestImplementation (libs.mockito.android)
+    androidTestImplementation (libs.androidx.core)
+    androidTestImplementation (libs.androidx.runner)
+    androidTestImplementation (libs.androidx.rules)
+
     implementation(libs.credentials)
     implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.googleid)
@@ -77,7 +90,4 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.ext.junit)
-    androidTestImplementation(libs.espresso.core)
 }
