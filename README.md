@@ -47,3 +47,15 @@ Ubicadas en `src/androidTest/java`, utilizan **Espresso** para verificar flujos 
 1. **Clonar el repositorio:**
    ```bash
    git clone https://github.com/AdriBelSer/CrossWarr.git
+
+## 📷 Capturas de pantalla
+
+<img alt="Reto del dia" width="400" src="https://github.com/user-attachments/assets/f380feba-4d43-4795-8642-d0a3d5be4fb3" />
+<img alt="Lista de ejercicios" width="400" src="https://github.com/user-attachments/assets/e3de58ed-d116-4199-8755-1384ba8a5665" />
+<img alt="Lista de desafíos" width="400" src="https://github.com/user-attachments/assets/6a5bc0a6-889e-4a5e-a218-72d11bf47c20" />
+<img alt="Ajustes" width="400" src="https://github.com/user-attachments/assets/f363f8e9-6220-4d55-b6cf-83e432b917eb" />
+
+
+
+
+   
