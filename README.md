@@ -18,13 +18,13 @@
 
 ## 🛠️ Tecnologías utilizadas
 
-| **Lenguaje** | Java |
-| **Arquitectura** | Repository Pattern + LiveData + Observers |
-| **Base de Datos** | Firebase Cloud Firestore (NoSQL) |
-| **Autenticación** | Firebase Auth |
-| **UI/UX** | View Binding, Navigation Component, Shimmer (Skeletons) |
-| **Multimedia** | Picasso (Imágenes) y Lottie (Animaciones) |
-| **Notificaciones** | Firebase Cloud Messaging (FCM) |
+- **Lenguaje:** Java 
+-  **Arquitectura:** Repository Pattern + LiveData + Observers 
+-  **Base de Datos:** Firebase Cloud Firestore (NoSQL) 
+-  **Autenticación:** Firebase Auth |
+-  **UI/UX:** View Binding, Navigation Component, Shimmer (Skeletons) 
+-  **Multimedia:** Picasso (Imágenes) y Lottie (Animaciones) |
+-  **Notificaciones:** Firebase Cloud Messaging (FCM) |
 
 ## 🧪 Testing
 
